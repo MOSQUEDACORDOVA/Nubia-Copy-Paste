@@ -8,6 +8,10 @@
 }
     }
 </style>
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
+{{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css"> --}}
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
 
 {{#if msg}}
 <label id="msgs" hidden>{{msg}}</label>
@@ -45,6 +49,14 @@
                   <input class="form-check-input" type="checkbox" id="cliente_nuevo">
                   <label class="form-check-label" for="cliente_nuevo">Solo ver Nuevos</label>
               </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="view-puntosVenta">
+                  <label class="form-check-label" for="view-puntosVenta">Solo ver Puntos de venta</label>
+              </div>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="view-Negocios">
+                  <label class="form-check-label" for="view-Negocios">Solo ver Negocios</label>
+              </div>
               
                 </div>
                                             
@@ -67,7 +79,9 @@
                                               <th>Titulo</th>
                                               <th>Teléfono</th>
                                               <th>Correo</th> 
-                                              <th>Referidos</th>  
+                                              <th>Descuentos Disp.</th>
+                                              <th>Referidos</th>
+                                              <th>Estado</th>     
                                               <th>Nuevo </th>
                                               <th>Opciones</th>
                                           </tr>
@@ -337,6 +351,11 @@
                   <option> Negocio </option>
                   <option> Punto de venta </option>
                 </select></div>
+                <div class="form-group d-none" id="descuento-edit-cliente">
+                  <label for="register-apellido_familiar_2" class="form-label">Monto nuevo</label>
+                  <input type="number" name="descuento_edit_cliente" class="form-control mb-2" id="descuento_edit_cliente1" value="0">
+                </div>
+
               <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
                   cliente?</label>
                 <div class="custom-control custom-checkbox"><input type="checkbox" id="cliente_nuevo_edited"
@@ -385,7 +404,38 @@
 </div>
 </div>
 </div>
+            <!--Modal Observaciones-->
+            <div class="modal fade" id="observacionesH" aria-hidden="true" aria-labelledby="observacionesH"
+                tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                           <input type="hidden" id="clienteID">
+                        </div>
+                        <div class="modal-body">
+                            <div class="accordion accordion-margin" id="accordionMargin" data-toggle-hover="true">
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="exampleFormControlTextarea1">
+                                            Observaciones
+                                        </label>
+                                        <textarea class="form-control observacionesShowAdd" id="addComment" rows="1"
+                                            placeholder="Agregar Comentario aqui, se guardará automáticamente al hacer click fuera de la caja"
+                                            data-id="47"></textarea>
+                                    </div>
+                                </div>
+                    <div class="accordion accordion-margin" id="observaciones" data-toggle-hover="true">
 
+                            </div>
+                            </div>
+                            
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Modal Observaciones-->
 
 
 

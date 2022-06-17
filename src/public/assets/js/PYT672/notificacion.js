@@ -80,6 +80,12 @@ function Toast (notif) {
         toastHeaderText.innerText = 'Usuario Habilitado/Deshabilitado !';
         toastText.innerText = 'El usuario se actualizo satisfactoriamente';
         
+    } else if (notif === "Usuario Actualizado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Usuario Actualizado !';
+        toastText.innerText = 'El usuario se actualizo satisfactoriamente';
+        
     } else if (notif === "Usuario Activado") {
         toastContainer.classList.add('bg-primary', 'text-white');
         toastHeaderText.classList.add('text-primary');
@@ -92,6 +98,11 @@ function Toast (notif) {
         toastHeaderText.innerText = 'Usuario Desactivado !';
         toastText.innerText = 'Estimado usuario, se guardaron sus cambios satisfactoriamente';
 
+    } else if (notif === "Password Diff") {
+        toastContainer.classList.add('bg-danger', 'text-white');
+        toastHeaderText.classList.add('text-danger');
+        toastHeaderText.innerText = 'Estimado Usuario !';
+        toastText.innerText = 'Las contraseñas ingresadas no coinciden';
     }
 
     btnToast.click();

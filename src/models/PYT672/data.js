@@ -11,6 +11,8 @@ const Distritos = require("../../models/PYT672/Distritos");
 const Usuarios = require("../../models/PYT672/Usuarios");
 const Caja = require("../../models/PYT672/Caja");
 const Comentarios = require("../../models/PYT672/Comentarios");
+const bcrypt = require('bcrypt-nodejs');
+
 module.exports = {
     // * REGISTRO DE USUARIOS
     RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono) {
@@ -18,39 +20,72 @@ module.exports = {
       Usuarios.create({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI, password: password,telefono:telefono })
         .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Usuario registrado con éxito');
+            console.log('Usuario registrado con éxito')
+            resolve(data_set);
         })
         .catch((err) => {
             reject(err)
         });
       });
     }, 
-      // * EDIT DE USUARIOS
-      EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono) {
-        return new Promise((resolve, reject) => {
-        Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI,telefono:telefono },{where:{id:id_usuario}})
-          .then((data) => {
-              let data_set = JSON.stringify(data);
-              resolve('Usuario actualizado con éxito');
-          })
-          .catch((err) => {
-              reject(err)
-          });
+    // * CAMBIAR PASSWORD DE USUARIOS
+    async ChangePasswordUser(id, password) {
+      let passHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+      
+      return new Promise((resolve, reject) => {
+      Usuarios.update({ password: passHash },
+        { where: { id: id } })
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Usuario actualizado con éxito');
+        })
+        .catch((err) => {
+            reject(err)
         });
-      }, 
-            // * EDIT ESTADO  DE USUARIOS
-            EditEnabledUser(id_usuario, estado ) {
-              return new Promise((resolve, reject) => {
-              Usuarios.update({enabled:estado},{where:{id:id_usuario}})
-                .then((data) => {
-                    let data_set = JSON.stringify(data);
-                    resolve('Usuario actualizado con éxito');
-                })
-                .catch((err) => {
-                    reject(err)
-                });
-              });
-            }, 
+      });
+    }, 
+    // * EDITAR INFORMACION DE USUARIOS - PERFIL
+    EditInfoUserProfile(nombre, dni, email, pais, fechaN, fechaI, telefono, id_usuario) {
+
+      return new Promise((resolve, reject) => {
+      Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, fecha_nacimiento: fechaN, fecha_inicio: fechaI, telefono:telefono },{where:{id:id_usuario}})
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data);
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    }, 
+    // * EDIT DE USUARIOS
+    EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono, passw) {
+      let passHash = bcrypt.hashSync(passw, bcrypt.genSaltSync(10));
+
+      return new Promise((resolve, reject) => {
+      Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI,telefono:telefono, password: passHash },{where:{id:id_usuario}})
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Usuario actualizado con éxito');
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    }, 
+    // * EDIT ESTADO  DE USUARIOS
+    EditEnabledUser(id_usuario, estado ) {
+      return new Promise((resolve, reject) => {
+      Usuarios.update({enabled:estado},{where:{id:id_usuario}})
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Usuario actualizado con éxito');
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    }, 
     // * DELETE DE USUARIOS
     DeleteUser(id) {
       return new Promise((resolve, reject) => {
@@ -65,9 +100,9 @@ module.exports = {
       });
     },
     // * CREAR GRUPOS ADMIN
-    CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel, profesor) {
+    CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, profesor) {
     return new Promise((resolve, reject) => {
-        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel,usuarioId:profesor, estadosGrupoId: 1 })
+        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: "Principiante", codigo_nivel: 1, usuarioId: profesor, estadosGrupoId: 1 })
           .then((data) => {
             let data_set = JSON.stringify(data);
             
@@ -265,11 +300,9 @@ module.exports = {
           });
       });
     },
-    ActualizarNivelesGrupos(id, identif, fin, nivel, code) {
+    ActualizarNivelesGrupos(id, identif, nivel, code) {
       return new Promise((resolve, reject) => {
         Grupos.update({
-          identificador: identif,
-          fecha_finalizacion: fin,
           nivel: nivel,
           codigo_nivel: code,
         }, { where: {
@@ -286,10 +319,11 @@ module.exports = {
       });
     },
     // ACTUALIZAR GRUPOS
-    ActualizarGrupos(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin,nivel,profesor) {
+    ActualizarGrupos(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel, profesor) {
+      console.log(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel, profesor)
       return new Promise((resolve, reject) => {
         Grupos.update({
-          usuarioId:profesor, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin,nivel:nivel
+          identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel, estadosGrupoId: 1, usuarioId: profesor
         }, { where: {
           id: id
         }})
@@ -320,9 +354,9 @@ module.exports = {
       });
     },
     // * REGISTRAR ESTUDIANTES ADMIN
-    RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor) {
+    RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId,vendedor) {
     return new Promise((resolve, reject) => {
-      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1,usuarioId:vendedor})
+      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton, distrito: distrito, resgistradoPor: idEncargado, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1,usuarioId:vendedor})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve(data_set);
@@ -333,9 +367,9 @@ module.exports = {
       });
     },
     // * REGISTRAR ESTUDIANTES EXCEL
-    RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId, vendedor) {
+    RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, grupoId, vendedor) {
     return new Promise((resolve, reject) => {
-      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, resgistradoPor: idEncargado, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1, usuarioId:vendedor })
+      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, resgistradoPor: idEncargado, tipoEstudianteId: 1, grupoId: grupoId, estadoId: 1, usuarioId:vendedor })
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve(data_set);
@@ -346,32 +380,32 @@ module.exports = {
       });
     },
 
-       // * EDITAR ESTUDIANTES ADMIN
-       EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor) {
-        return new Promise((resolve, reject) => {
-          Matriculas.update({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, estadoId: 1, usuarioId:vendedor}, {where:{id:id_estudiante}})
-              .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve(data_set);
-              })
-              .catch((err) => {
-                reject(err)
-              });
+    // * EDITAR ESTUDIANTES ADMIN
+    EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor) {
+    return new Promise((resolve, reject) => {
+      Matriculas.update({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, estadoId: 1, usuarioId:vendedor}, {where:{id:id_estudiante}})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
           });
-        },
-           // * REASIGNA GRUPO ESTUDIANTES ADMIN
-           ReasignarGrupoEstudiante(grupoId, id_estudiante) {
-            return new Promise((resolve, reject) => {
-              Matriculas.update({grupoId: grupoId}, {where:{id:id_estudiante}})
-                  .then((data) => {
-                    let data_set = JSON.stringify(data);
-                    resolve(data_set);
-                  })
-                  .catch((err) => {
-                    reject(err)
-                  });
-              });
-            },
+      });
+    },
+    // * REASIGNA GRUPO ESTUDIANTES ADMIN
+    ReasignarGrupoEstudiante(grupoId, id_estudiante) {
+    return new Promise((resolve, reject) => {
+      Matriculas.update({grupoId: grupoId}, {where:{id:id_estudiante}})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // * ELIMINAR ESTUDIANTES ADMIN
     BorrarEstudiantes(id){
       return new Promise((resolve, reject) => {
@@ -552,6 +586,22 @@ module.exports = {
           });
       });
     },
+    // * OBTENER USUARIO
+    ObtenerUsuario(id) {
+      return new Promise((resolve, reject) => {
+        Usuarios.findAll({
+          where: {
+            id: id
+          }})
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
     // * OBTENER TODOS LOS USUARIOS
     ObtenerTodosUsuarios() {
       return new Promise((resolve, reject) => {
@@ -584,6 +634,30 @@ module.exports = {
           .catch((err) => {
               reject(err)
           });
+      });
+    },
+    // * OBTENER MATRICULA
+    ObtenerMatricula(id) {
+      return new Promise((resolve, reject) => {   
+        Matriculas.findAll({ where: {
+          id: id,
+        },
+        include:[
+          {association: Matriculas.TipoEstudiante},
+          {association: Matriculas.Grupos},
+          {association: Matriculas.Estado},          
+          {association: Matriculas.Usuarios},
+        ],order: [
+          ["id", "DESC"],
+        ],})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
       });
     },
     // * OBTENER MATRICULA DE GRUPOS
@@ -634,10 +708,10 @@ module.exports = {
         });
       });
     },
-    RegistrarAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+    RegistrarAsistenciaMatriculaAusente(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Asistencia.create({
-          n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+          n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -648,10 +722,10 @@ module.exports = {
         });
       });
     },
-    RegistrarNotas(nota, lecc, grupoId, matriculaId, commentProfForm,  commentAdminForm) {
+    RegistrarNotas(nota, lecc, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm) {
       return new Promise((resolve, reject) => {
         Notas.create({
-          nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId, commentProfForm:commentProfForm,  commentAdminForm:commentAdminForm
+          nota: nota, n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId, commentProfForm:commentProfForm,  commentAdminForm:commentAdminForm
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -663,10 +737,10 @@ module.exports = {
         });
       });
     },
-    RegistrarParticipacion(porcentaje, lecc, grupoId, matriculaId) {
+    RegistrarParticipacion(porcentaje, lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Participacion.create({
-          porcentaje: porcentaje, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+          porcentaje: porcentaje, n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -695,13 +769,15 @@ module.exports = {
         });
       });
     },
-
-    ObtenerNotasMatricula(lecc, grupoId, matriculaId) {
+    ObtenerNotasMatricula(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Notas.findAll({
           where: {
             n_leccion: {
               [Op.eq]: lecc,
+            },
+            nivel: {
+              [Op.eq]: nivel,
             },
             grupoId: {
               [Op.eq]: grupoId,
@@ -721,12 +797,50 @@ module.exports = {
         });
       });
     },
-    BuscarNotasLeccion(lecc, grupoId, matriculaId) {
+    ObtenerTodasNotas() {
+      return new Promise((resolve, reject) => {
+        Notas.findAll()
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarNotasAlumno(grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.findAll({
+          where: {
+            grupoId: {
+              [Op.eq]: grupoId,
+            },
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarNotasLeccion(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Notas.findAll({
           where: {
             n_leccion: {
               [Op.eq]: lecc,
+            },
+            nivel: {
+              [Op.eq]: nivel,
             },
             grupoId: {
               [Op.eq]: grupoId,
@@ -746,11 +860,27 @@ module.exports = {
         });
       });
     },
-    BuscarParticipacionMatricula(lecc, grupoId, matriculaId) {
+    ObtenerTodasParticipacion() {
+      return new Promise((resolve, reject) => {
+        Participacion.findAll()
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+        
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarParticipacionMatricula(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Participacion.findAll({
           where: {
             n_leccion: {
+              [Op.eq]: lecc,
+            },
+            nivel: {
               [Op.eq]: lecc,
             },
             grupoId: {
@@ -825,7 +955,7 @@ module.exports = {
         });
       });
     },
-    ActualizarNotas(nota, lecc, grupoId, matriculaId,commentProfForm,  commentAdminForm ) {
+    ActualizarNotas(nota, lecc, nivel, grupoId, matriculaId,commentProfForm,  commentAdminForm ) {
       return new Promise((resolve, reject) => {
         Notas.update({
           nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId, commentProfForm:commentProfForm,  commentAdminForm:commentAdminForm 
@@ -833,6 +963,9 @@ module.exports = {
           where: {
             n_leccion: {
               [Op.eq]: lecc,
+            },
+            nivel: {
+              [Op.eq]: nivel,
             },
             grupoId: {
               [Op.eq]: grupoId,
@@ -851,14 +984,17 @@ module.exports = {
         });
       });
     },
-    ActualizarParticipacion(porcentaje, lecc, grupoId, matriculaId) {
+    ActualizarParticipacion(porcentaje, lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Participacion.update({
-          porcentaje: porcentaje, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId,  
+          porcentaje: porcentaje  
         }, {
           where: {
             n_leccion: {
               [Op.eq]: lecc,
+            },
+            nivel: {
+              [Op.eq]: nivel,
             },
             grupoId: {
               [Op.eq]: grupoId,
@@ -894,13 +1030,25 @@ module.exports = {
         });
       });
     },
-    ObtenerAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+    ObtenerAsistenciaMatriculaAusente(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Asistencia.findAll({
           where: {
-            n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+            n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
           }
         })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ObtenerAsistenciasAll() {
+      return new Promise((resolve, reject) => {
+        Asistencia.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
           resolve(data_p);
@@ -969,9 +1117,46 @@ module.exports = {
 
 
 /** TODO CAJA */    
-guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion, id_alumno) {
+guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion, id) {
   return new Promise((resolve, reject) => {
-    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion,banco:banco, transaccion:transaccion, matriculaId:id_alumno})
+    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion,banco:banco, transaccion:transaccion, estado: "Pagado", matriculaId : id})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+/** TODO CAJA */    
+guardarCajaPendiente(concepto,monto,mora,observacion,id_alumno) {
+  return new Promise((resolve, reject) => {
+    Caja.create({concepto: concepto,monto: monto,mora: mora,observacion: observacion,estado: "Pendiente",matriculaId:id_alumno})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+actualizarPagoPendiente(idCaja, fecha, banco, transaccion) {
+  return new Promise((resolve, reject) => {
+    Caja.update({fecha_pago:fecha, banco: banco, transaccion:transaccion, estado: "Pagado"},{where:{id:idCaja}})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+historialCompleto() {
+  return new Promise((resolve, reject) => {
+    Caja.findAll()
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);

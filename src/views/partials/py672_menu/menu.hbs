@@ -11,18 +11,18 @@
             </ul>
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-            {{#if roleUser}}{{else}}
+            <!--{{#if roleProf}}{{else}}
             <li class="nav-item dropdown dropdown-notification me-25">
                 <a class="nav-link" href="#" id="modal-reg-alumno">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus ficon"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
                 </a>
             </li>
-            {{/if}}
+            {{/if}}-->
             <li class="nav-item dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
-                        <span class="user-name fw-bolder">{{#if nombre}}{{nombre}}{{else}}Mosqueda Cordova{{/if}}</span>
-                        <span class="user-status">{{#if role}}{{role}}{{else}}Administrador{{/if}}</span>
+                        <span class="user-name fw-bolder">{{nombre}}</span>
+                        <span class="user-status">{{#if roleAdmin}}Administrador{{else}}Profesor{{/if}}</span>
                     </div>
                     <span class="avatar">
                         <img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40">
@@ -30,6 +30,12 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+                    {{#if roleAdmin}}
+                    <a class="dropdown-item" href="/manag-user/PYT-672">
+                        <i class="me-50" data-feather="users"></i> 
+                        Perfil
+                    </a>
+                    {{/if}}
                     <a class="dropdown-item" href="/logout/PYT-672">
                         <i class="me-50" data-feather="power"></i> 
                         Cerrar sesión
@@ -63,14 +69,21 @@
         <ul class="navigation navigation-main mt-3" id="main-menu-navigation" data-menu="menu-navigation">
             <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{#if role}}{{role}}{{else}}Dashboard{{/if}}</span><i
                     data-feather="more-horizontal"></i>
-            {{#if roleUser}}
-            <li class="{{#if board}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/board672/PYT-672">
-                    <i data-feather="home"></i>
-                    <span class="menu-title text-truncate">Tablero</span>
+            {{#if roleProf}}
+            <li class="{{#if asistencias}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/control/PYT-672">
+                    <i data-feather='clipboard'></i>
+                    <span class="menu-title text-truncate">Control</span>
                 </a>
             </li>
-            {{else}}
+            <li class="{{#if historial}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/historial/PYT-672">
+                    <i data-feather='file-text'></i>
+                    <span class="menu-title text-truncate">Historial</span>
+                </a>
+            </li>
+            {{/if}}
+            {{#if roleAdmin}}
             <li class="{{#if grupos}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/verificargrupos/PYT-672">
                     <i data-feather="home"></i>
@@ -81,6 +94,12 @@
                 <a class="d-flex align-items-center" href="/matriculas">
                     <i data-feather='trending-up'></i>
                     <span class="menu-title text-truncate">Alumnos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#registrarAlumno">
+                    <i data-feather='user-plus'></i>
+                    <span class="menu-title text-truncate">Incluir</span>
                 </a>
             </li>
             <li class="{{#if asistencias}}active{{/if}} nav-item">
@@ -105,6 +124,12 @@
                 <a class="d-flex align-items-center" href="/usuarios672/PYT-672">
                     <i data-feather='users'></i>
                     <span class="menu-title text-truncate">Usuarios</span>
+                </a>
+            </li>
+            <li class="{{#if estadisticas}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/estadisticas/PYT-672">
+                    <i data-feather='pie-chart'></i>
+                    <span class="menu-title text-truncate">Estadísticas</span>
                 </a>
             </li>
             {{/if}}
@@ -138,13 +163,8 @@
                                     }
                                 </style>
                                 <div class="position-relative" id="grupoId-reg">
-                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                    <select class="select2 form-select" id="gruposMenu" tabindex="-1" name="grupoId" aria-hidden="true" required>
                                         <option>Seleccione un grupo</option>
-                                        {{#each gruposTodos as |item i|}}
-                                        <option value="{{id}}" data-bs-iden="{{nombre}}">
-                                            {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
-                                        </option>
-                                        {{/each}}
                                     </select>
                                 </div>
                                 
@@ -159,10 +179,10 @@
                         </div>
 
 
-                        <div class="col-12 mb-1">
-                            <div class="flex-grow-1">
+                        <div class="col-12">
+                            <div class="flex-grow-1 d-lg-none">
                                 <label class="form-label" for="">Documento de Identidad</label>
-                                <div class="demo-inline-spacing">
+                                <div class="demo-inline-spacing d-none">
                                     <div class="form-check form-check-inline mt-0">
                                         <input class="form-check-input" type="radio" name="tipo" id="inlineRadio1" value="1" checked="">
                                         <label class="form-check-label" for="inlineRadio1">Nacional</label>
@@ -176,11 +196,13 @@
 
                             <div class="row m-0 p-0">
                                 <div id="nacionalCampos" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1 d-none">
                                         <label class="form-label" for="fp-default">&nbsp</label>
                                     </div>
-                                    <div class="flex-grow-1 d-flex">
-                                        <input type="number" class="form-control" name="dni" id="nacionalDni" value="" placeholder="No. Identificación nacional"/>
+                                    <div class="flex-grow-1">
+                                        <label class="form-label d-none d-lg-block" for="">Documento de Identidad</label>
+
+                                        <input type="number" class="form-control" name="dni" id="nacionalDni" value="" placeholder="No. Identificación"/>
 
                                         {{!-- <input type="number" class="form-control" id="primerCampo" minlength="1" maxlength="1" autocomplete="off">
                                         <input type="number" class="form-control mx-1"id="segundoCampo" min="0" minlength="4" maxlength="4" autocomplete="off">
@@ -218,6 +240,13 @@
 
                         <div class="col-12 col-md-6 col-lg-4 mb-1">
                             <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 1</label>
+                                <input type="text" class="form-control tlfNacional"  name="telefono1" id="inputTlf1" required>
+                            </div>
+                        </div>
+
+                        <!--<div class="col-12 col-md-6 col-lg-4 mb-1">
+                            <div class="flex-grow-1">
                                 <label class="form-label" for="">Teléfono 1 - <span class="nacional1text">Nacional</span><span class="d-none extranjero1text">Extranjero</span></label>
                                 <div class="col-md">
                                     <div class="mb-1">
@@ -232,9 +261,16 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="col-12 col-md-6 col-lg-4 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 2</label>
+                                <input type="text" class="form-control tlfNacional"  name="telefono2" id="inputTlf2">
+                            </div>
+                        </div>
+
+                        <!--<div class="col-12 col-md-6 col-lg-4 mb-1">
                             <div class="flex-grow-1">
                                 <label class="form-label" for="">Teléfono 2 - <span class="nacional2text">Nacional</span><span class="d-none extranjero2text">Extranjero</span></label>
                                 <div class="col-md">
@@ -250,7 +286,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
 
                         <div class="col-12 col-lg-4 mb-1">
@@ -311,6 +347,7 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
@@ -330,16 +367,14 @@
 
     let exp =  /^[0-9]+$/;
 
-$('#modal-reg-alumno').click(()=>{
-$('#formregalumno').removeAttr('action')
-$('#formregalumno').attr('action','/registrarestudiantepy672')
-$('#formregalumno')[0].reset()
-$('#grupos-edit').removeClass('d-none')
-$('#edit-title-modal').text('Registrar Alumno')
-$('#registrarAlumno').modal('show')
-
-
-})
+    $('#modal-reg-alumno').click(() => {
+        $('#formregalumno').removeAttr('action')
+        $('#formregalumno').attr('action','/registrarestudiantepy672')
+        $('#formregalumno')[0].reset()
+        $('#grupos-edit').removeClass('d-none')
+        $('#edit-title-modal').text('Registrar Alumno')
+        $('#registrarAlumno').modal('show')
+    });
 
     radio1.addEventListener('change', e => {
         SetRadio1();
@@ -379,46 +414,12 @@ $('#registrarAlumno').modal('show')
         }
     });
 
-    tlf1Check.addEventListener('change', e => {
-        let text = document.querySelector('.nacional1text'),
-        text2 = document.querySelector('.extranjero1text');
-
-        tlf1.value = '';
-        if(tlf1Check.checked === false) {
-            text.classList.remove('d-none');
-            text2.classList.add('d-none');
-            tlf1.classList.add('tlfNacional')
-        } else {
-            text.classList.add('d-none');
-            text2.classList.remove('d-none');
-            tlf1.classList.remove('tlfNacional')
-        }
-    });
-
-    tlf2Check.addEventListener('change', e => {
-        let text = document.querySelector('.nacional2text'),
-        text2 = document.querySelector('.extranjero2text');
-
-        tlf2.value = '';
-        if(tlf2Check.checked === false) {
-            text.classList.remove('d-none');
-            text2.classList.add('d-none');
-            tlf2.classList.add('tlfNacional')
-        } else {
-            text.classList.add('d-none');
-            text2.classList.remove('d-none');
-            tlf2.classList.remove('tlfNacional')
-        }
-    });
-    
     const SetRadio1 = () => {
         nacionalC.classList.remove('d-none');
         nacionalC.classList.add('d-block');
 
         nacionalDni.classList.remove('d-none');
         nacionalDni.classList.add('d-block');
-
-       
 
         exC.classList.remove('d-block');
         exC.classList.add('d-none');
@@ -447,5 +448,4 @@ $('#registrarAlumno').modal('show')
         nacionalDni.value = exDni.value;
     });
 
-      
 </script>

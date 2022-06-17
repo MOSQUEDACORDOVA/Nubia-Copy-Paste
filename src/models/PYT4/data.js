@@ -19,6 +19,10 @@ const Asig_chofer = require("../../models/PYT4/Asig_chofer");
 const Recargas = require("../../models/PYT4/Recargas");
 const Pagos_deudores = require("../../models/PYT4/Pagos_deudores");
 var moment = require('moment-timezone');
+const CompartirS = require('../../models/PYT4/ShareStatus');
+const logsUse = require('../../models/PYT4/Logs');
+const Historial_observaciones = require('../../models/PYT4/Historial_observaciones');
+const Gastos = require('../../models/PYT4/Gastos');
 
 //**FOR MAQUILA */
 const Clientes_maquila = require("../../models/PYT4/Clientes_maquila");
@@ -182,20 +186,18 @@ module.exports = {
   },
 
   //CLIENTE
-  registrar_cliente(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color) {
+  registrar_cliente(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color,descuento_reg_cliente) {
     return new Promise((resolve, reject) => {
-      Clientes.findOrCreate({
-        where: { ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, },
-        defaults: {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento, etiquetaId: color
-        }
-      }).then((data)=>{
+      Clientes.create({
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento, etiquetaId: color, monto_nuevo:descuento_reg_cliente
+        }).then((data)=>{
         let data_set = JSON.stringify(data);
         console.log(data_set);
-        resolve('Cliente registrado con éxito');
+        resolve(data_set);
         
       })
       .catch((err) => {
+        console.log(err)
         reject(err)
       });
     /*  Clientes.create(
@@ -241,25 +243,22 @@ module.exports = {
   registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, tipo_cliente, sucursal, email,color) {
     return new Promise((resolve, reject) => {
       Clientes.findOne({
-        where: { ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, }
-      }).then((data)=>{
-
+        where: {
+          [Op.or]: [{estado:cp, cpId: asentamiento,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida},{telefono:telefono}],  }}).then((data)=>{
         if (!data) {
-          Clientes.create({firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"s/a"}).then((data_cliente)=>{
-          let data_set = JSON.stringify(data);
+          Clientes.create({firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"s/a", nuevo:"SI"}).then((data_cliente)=>{
+          let data_set = JSON.stringify(data_cliente);
         console.log(data_set);
         resolve(data_set);
-
-          })
-          
+          })          
         }else{
           console.log('ya existe esa dirección')
           resolve('0');
-        }
-        
+        }       
         
       })
       .catch((err) => {
+        console.log(err);
         reject(err)
       });
     /*  Clientes.create(
@@ -276,11 +275,11 @@ module.exports = {
     });
   },
 
-  update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email, color) {
+  update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email, color,descuento_edit_cliente) {
     return new Promise((resolve, reject) => {
       Clientes.update(
         {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio: municipio, fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento, etiquetaId:color},{
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio: municipio, fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento, etiquetaId:color,monto_nuevo: descuento_edit_cliente},{
             where:
             {
               id: id_cliente
@@ -317,6 +316,25 @@ module.exports = {
         });
     });
   },
+  CambiaTituloCliente(id,nTitulo) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          titulo:nTitulo},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   guardaReferidoACliente(id,agrega_cantidad) {
     return new Promise((resolve, reject) => {
       Clientes.update(
@@ -343,6 +361,26 @@ module.exports = {
       Clientes.update(
         {
           etiquetaId:color},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  CambiarEstadoCliente(id,estado) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          enabled:estado},{
             where:
             {
               id: id
@@ -420,7 +458,7 @@ module.exports = {
   },
   ClientesAll(){
     return new Promise((resolve, reject) => {
-      Clientes.findAll({include:[
+      Clientes.findAll({where:{enabled:1},include:[
         {association:Clientes.CoP },
         {association:Clientes.Etiquetas },
       ],order: [
@@ -441,6 +479,49 @@ module.exports = {
   },
   ClientesAllS(id){
     return new Promise((resolve, reject) => {
+      Clientes.findAll({where:{enabled:1,sucursaleId:id},
+        include:[
+        {association:Clientes.CoP },
+        {association:Clientes.Etiquetas },
+      ],order: [
+        // Will escape title and validate DESC against a list of valid direction parameters
+        ["updatedAt", "DESC"],
+      ],
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+
+  ClientesAllT(){
+    return new Promise((resolve, reject) => {
+      Clientes.findAll({include:[
+        {association:Clientes.CoP },
+        {association:Clientes.Etiquetas },
+      ],order: [
+        // Will escape title and validate DESC against a list of valid direction parameters
+        ["updatedAt", "DESC"],
+      ],
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err)
+        });
+    });
+  },
+  ClientesAllST(id){
+    return new Promise((resolve, reject) => {
       Clientes.findAll({where:{sucursaleId:id},
         include:[
         {association:Clientes.CoP },
@@ -460,7 +541,7 @@ module.exports = {
         });
     });
   },
-  
+
   ClientebyId(id){
     return new Promise((resolve, reject) => {
       Clientes.findOne({where:{
@@ -531,29 +612,35 @@ module.exports = {
   },
   Delete_Cliente(id){
     return new Promise((resolve, reject) => {
-      Pedidos.destroy({where:{
-        clienteId: id
-      }
-      },)
-        .then((data) => {
-         Clientes .destroy({where:{
+       Clientes .destroy({where:{
             id: id
           }
-          },)
-            .then((data) => {
+          },).then((data) => {
               let data_p = JSON.stringify(data);
               //console.log(data)
-              resolve('data_p');
+              resolve(data_p);
               ////console.log(id_usuario);
             })
             .catch((err) => {
               reject(err)
             });
-        })
-        .catch((err) => {
-          reject(err)
         });
-    });
+  },
+  Disabled_client(id){
+    return new Promise((resolve, reject) => {
+       Clientes.update({enabled: 0},{where:{
+            id: id
+          }
+          },).then((data) => {
+              let data_p = JSON.stringify(data);
+              //console.log(data)
+              resolve(data_p);
+              ////console.log(id_usuario);
+            })
+            .catch((err) => {
+              reject(err)
+            });
+        });
   },
   ClienteByTlf(id){
     return new Promise((resolve, reject) => {
@@ -608,7 +695,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido,asentamiento) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido,asentamiento,descuento_reg_cliente,modifica_cliente_input) {
     return new Promise(async (resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -620,7 +707,7 @@ module.exports = {
       if (danados =="") {
         danados = 0
       }
-      const Last = await Last_p.findOne().then((las_)=>{
+      const Last = await Last_p.findOne({where:{clienteId:id_cliente}}).then((las_)=>{
         return las_
        })
        console.log(Last)
@@ -633,7 +720,9 @@ module.exports = {
         .then(async (data) => {
           let data_set = JSON.stringify(data);
           console.log('pedidos save')
-                console.log(data.dataValues.id)
+          console.log(data.dataValues.id)
+          let fecha = moment(fecha_pedido,'YYYY-MM-DD').format('DD/MM/YYYY');
+          Historial_observaciones.create({observacion:observacion,fecha:fecha,tipo_origen:'pedido',clienteId:id_cliente,usuarioId:id_usuario,personalId: id_chofer,pedidoId:data.dataValues.id})
           if (!Last) {
             console.log('pedidos cre')
             Last_p.create({chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido, pedidoId:data.dataValues.id,
@@ -648,19 +737,23 @@ module.exports = {
               total_nv_pedido:total_nuevo_cant_pedido,
               total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido,descuento: desc_referido},{where:{clienteId: id_cliente,}})
           }
-
-          Clientes.update(
+if (modifica_cliente_input == "SI") {
+  logsUse.create({id_user:id_usuario,type:'logsUse',tfunction:'PedidosReg',description:'Se modifico el cliente desde registrar pedido'})
+  Clientes.update(
             {
               firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: asentamiento,
-              cpId: asentamiento, coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,sucursaleId:sucursal  },{ where:{
+              cpId: asentamiento, coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,sucursaleId:sucursal,monto_nuevo:descuento_reg_cliente  },{ where:{
                   id: id_cliente
               }}) .then((data_cli) => {
-                resolve("Se creó correctamente el pedido");
-                //console.log(planes);
+                resolve(data_set);
               })          
             .catch((err) => {                      
               reject(err)
             });
+} else {
+  resolve(data_set);
+}
+          
         })
         .catch((err) => {
           reject(err)
@@ -690,6 +783,13 @@ module.exports = {
         .then((data) => {
           let data_set = JSON.stringify(data);
           let hoy =moment().format('YYYY-MM-DD')
+          let fecha = moment(fecha_pedido,'YYYY-MM-DD').format('DD/MM/YYYY');
+          if (observacion == "") {
+            Historial_observaciones.destroy({where:{pedidoId:id_pedido}})
+          }else{
+            Historial_observaciones.update({observacion:observacion,fecha:fecha,tipo_origen:'pedido',usuarioId:id_usuario}, {where:{pedidoId:id_pedido}})
+          }
+          
           Last_p.update({chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido,total_refill_pedido:total_refill_cant_pedido,
             total_canje_pedido:total_canje_cant_pedido,
             total_nv_pedido:total_nuevo_cant_pedido,
@@ -784,6 +884,30 @@ console.log(hoy)
           //console.log(planes);
         })
         .catch((err) => {
+          console.log(err)
+          reject(err)
+        });
+    });
+  },
+  CambiaMPago(id_pedido,mpago) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          metodo_pago: mpago}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          Last_p.update({metodo_pago: mpago},{where:{pedidoId:id_pedido}}).then((pedido_) =>{
+           resolve("Se actualizó el metodo con éxito");
+          }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+        })
+        .catch((err) => {
+          console.log(err)
           reject(err)
         });
     });
@@ -925,7 +1049,8 @@ console.log(hoy)
           Last_p.update({personalId: chofer},{where:{pedidoId:ids_pedido}})
           //console.log(data_set)
           Pedidos.findOne({where: {id: ids_pedido}}).then((pedido_) =>{
-             console.log(pedido_.dataValues.status_pedido)
+            console.log(ids_pedido)
+            console.log(pedido_)
            if (pedido_.dataValues.status_pedido =="Entregado") {
               let hoy =moment(pedido_.dataValues.createdAt).format('MM/DD/YYYY')
 console.log(hoy)
@@ -1078,7 +1203,7 @@ console.log(hoy)
         {association:Pedidos.Clientes, include:[
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
-    ],order: [
+    ], order: [
       // Will escape title and validate DESC against a list of valid direction parameters
       ['fecha_pedido', 'DESC'],]
       },)
@@ -1095,12 +1220,13 @@ console.log(hoy)
   },
   PedidoById(id){
     return new Promise((resolve, reject) => {
-      Pedidos.findAll({where: {
+      Pedidos.findOne({where: {
         id: id
       },include:[
         {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
-        //{ model: Productos_pedidos,as:'Productos_' }
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
     ]
       })
         .then((data) => {
@@ -1110,6 +1236,7 @@ console.log(hoy)
           ////console.log(id_usuario);
         })
         .catch((err) => {
+          console.log(err)
           reject(err)
         });
     });
@@ -1225,6 +1352,7 @@ console.log(hoy)
       Pedidos.findAll({where: {
         clienteId: id,
         status_pago:'Por verificar',
+        status_pedido:'Entregado',
         sucursaleId: id_sucursal
       },include:[
         {association:Pedidos.Clientes },
@@ -1247,6 +1375,7 @@ console.log(hoy)
       Pedidos.findAll({where: {
         clienteId: id,
         status_pago:'Por verificar',
+        status_pedido:'Entregado',
       },include:[
         {association:Pedidos.Clientes },
        // {association:Pedidos.Clientes },
@@ -1283,12 +1412,30 @@ console.log(hoy)
   PedidosbyDay(dia){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
-        createdAt: dia
+        fecha_pedido: dia
       },include:[
         {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
-        //{ model: Productos_pedidos,as:'Productos_' }
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
     ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PedidosbyDaybetween(diaini,diafin){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {
+        fecha_pedido: {[Op.between] : [diaini , diafin ]}
+      }
       })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -1468,6 +1615,26 @@ console.log(hoy)
           });
       });
     },
+    CambiarEstadoPersonal(id,estado) {
+      return new Promise((resolve, reject) => {
+        Personal.update(
+          {
+            enabled:estado},{
+              where:
+              {
+                id: id
+              }
+            })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     updPersonal(id_personal,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso,vehiculo) {
       return new Promise((resolve, reject) => {
         Personal.update(
@@ -1488,6 +1655,20 @@ console.log(hoy)
    
     PersonalAll(){
       return new Promise((resolve, reject) => {
+        Personal.findAll({where: {enabled:1}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    PersonalAllT(){
+      return new Promise((resolve, reject) => {
         Personal.findAll()
           .then((data) => {
             let data_p = JSON.stringify(data);
@@ -1502,7 +1683,7 @@ console.log(hoy)
     },
 PersonalAllS(id){
       return new Promise((resolve, reject) => {
-        Personal.findAll({where: {sucursaleId:id}})
+        Personal.findAll({where: {enabled:1,sucursaleId:id}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1536,7 +1717,7 @@ PersonalAllS(id){
     ChoferesAll(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
-          cargo: 'Chofer' }})
+          cargo: 'Chofer', enabled:1 }})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1568,7 +1749,7 @@ PersonalAllS(id){
     ChoferesAllS(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
-          cargo: 'Chofer', sucursaleId: id }})
+          cargo: 'Chofer', sucursaleId: id, enabled:1}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1725,15 +1906,7 @@ PersonalAllS(id){
     //SUCURSALES
     Sucursales_ALl(){
       return new Promise((resolve, reject) => {
-        Sucursales.findAll(
-         /* {include:[
-          {model: Vehiculos , as:'Vehiculos'},
-           {model: Clientes , as:'Clientes'},
-            {model: GPrestados , as:'GPrestados'},
-           {model: Pedidos , as:'Pedidos'},
-           {model: Personal , as:'Personal'}
-        ]}*/
-        )
+        Sucursales.findAll()
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -2465,6 +2638,7 @@ clienteId:id_cliente
           resolve(data_p);
         })
         .catch((err) => {
+          console.log(err)
           reject(err)
         });
       });
@@ -2700,5 +2874,149 @@ PedidosMaquilaByDay(fecha_pedido) {
   });
 },
 
+SaveStatusCompartir(id_pedido){
+  return new Promise((resolve, reject) => {
+    CompartirS.create({CompartirStatus:1,idPedido:id_pedido}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+findStatusCompartir(id_pedido){
+  return new Promise((resolve, reject) => {
+    CompartirS.findOne({where:{idPedido:id_pedido}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+findStatusCompartirAll(){
+  return new Promise((resolve, reject) => {
+    CompartirS.findAll({}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+findhistorialObservacionesAll(clienteId){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.findAll({where: {clienteId: clienteId}, include:[{association: Historial_observaciones.Personal}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.create({observacion:observacion,fecha:fecha,tipo_origen:tipo_origen,clienteId:clienteID,usuarioId:userId}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+deletehistorialObservacionesAll(id){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.destroy({where:{id:id}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+SaveLogs(id_user,type,tfunction,description){
+  return new Promise((resolve, reject) => {
+    logsUse.create({id_user:id_user,type:type,tfunction:tfunction,description:description}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+
+/**GASTOS */
+
+getGastosALL(){
+  return new Promise((resolve, reject) => {
+    Gastos.findAll({include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+getGastobyId(id){
+  return new Promise((resolve, reject) => {
+    Gastos.findAll({include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+verificaGasto(categoria, fecha,personalId,zona){
+  return new Promise((resolve, reject) => {
+    Gastos.findOne({where:{tipo:categoria, fecha:fecha,personalId:personalId,sucursaleId: zona},include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+createGasto(tipo, monto,fecha,observacion,usuarioId,personalId,zona){
+  return new Promise((resolve, reject) => {
+    Gastos.create({tipo: tipo, monto: monto, fecha: fecha, observacion: observacion,usuarioId:usuarioId,personalId:personalId,sucursaleId: zona}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+deleteGasto(id){
+  return new Promise((resolve, reject) => {
+    Gastos.destroy({where:{id:id}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
 
 /**END OF EXPORT */};

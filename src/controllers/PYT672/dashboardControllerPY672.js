@@ -8,6 +8,9 @@ let moment = require('moment-timezone');
 var pdf = require('html-pdf');
 const { group } = require("console");
 const xlsxFile = require('read-excel-file/node');
+const { toJpeg } = require('html-to-image');
+const bcrypt = require('bcrypt-nodejs');
+
 
 // TODO: AUTH
 // * LOGIN
@@ -23,8 +26,8 @@ exports.sesionstart = (req, res) => {
       return next(err);
     }
     if (!user) {
-      console.log("no existe usuario")
-      return res.redirect("/loginpy672/PYT-672");
+      msg = "Datos incorrectos"
+      return res.redirect("/loginpy672/PYT-672/"+msg);
     }
     req.logIn(user, function (err) {
       if (err) {
@@ -35,7 +38,7 @@ exports.sesionstart = (req, res) => {
       console.log(user.dataValues.enabled);
       if (user.dataValues.enabled == 0) {
         console.log("usuario inactivo")
-      return res.redirect("/loginpy672E/PYT-672/msg");
+        return res.redirect("/loginpy672E/PYT-672/msg");
       } else {
         return res.redirect('/py672/PYT-672')
       }
@@ -57,7 +60,7 @@ exports.controlroles = (req, res) => {
     if (req.user.puesto === 'Administrador') {
       return res.redirect("../grupos/PYT-672");
     } else {
-      return res.redirect("../board672/PYT-672");
+      return res.redirect("../control/PYT-672");
     }
   } else {
     return res.redirect("../loginpy672/PYT-672");
@@ -65,37 +68,23 @@ exports.controlroles = (req, res) => {
 };
 
 // * REGISTRO DE USUARIOS
-/*exports.reguser = (req, res) => {
-  console.log(req.body);
-  const { nombre, dni, email, pais, fechaN, puesto, password } = req.body;
-  let msg = false;
-  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || puesto.trim() === '' || password.trim() === '') {
-    console.log('complete todos los campos')
-    return res.redirect('/registerpy672/PYT-672');
-  } else {
-    DataBase.RegUser(nombre, dni, email, pais, fechaN, puesto, password).then((respuesta) =>{
-      res.redirect('/loginpy672/PYT-672')
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
-    });
-  }
-};*/
 exports.reguser = (req, res) => {
   console.log(req.body);
   let { nombre, apellidos, dni, email, pais, fechaN, fechaI, puesto, password, telefono } = req.body;
   nombre = nombre + " " + apellidos;
   let msg = false;
 
-    DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono).then((respuesta) =>{
-      return res.send({success: 'Usuario Registrado'});
+    DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono).then((respuesta) => {
+      console.log(respuesta)
+
+      return res.send({success: true});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
+      return res.send({err: true});
     });
 };
+
 exports.deleteuser = (req, res) => {
   console.log(req.body);
   let { id_usuario } = req.body;
@@ -111,11 +100,12 @@ exports.deleteuser = (req, res) => {
 };
 exports.editUser = (req, res) => {
   console.log(req.body);
+  console.log("req.body");
   let { nombre, id_usuario, dni, email, pais, fechaN, fechaI, puesto, password, telefono } = req.body;
   let msg = false;
 
-    DataBase.EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono).then((respuesta) =>{
-      return res.send({success: 'Usuario actualizado'});
+    DataBase.EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono, password).then((respuesta) =>{
+      return res.send({success: 'Usuario Actualizado'});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -136,41 +126,53 @@ exports.enabledDisUser = (req, res) => {
     });
 };
 
-exports.cargarExcel = (req, res) => {
-  let { grupoId, fileName, vendedor } = req.params
-  let idEncargado = res.locals.user.id;
+exports.cargarPagosExcel = (req, res) => {
+  let { fileName } = req.params
   console.log(req.params);
   let msg = false;
+
+  let text = ""
   
   try {
     xlsxFile(path.join(__dirname, '../../public/assets/uploads/' + fileName)).then((rows) => {
       console.log(rows);
-      for (let index = 0; index < rows.length; index++) {
-        const element = rows[index];
+      DataBase.GruposYMatriculas().then((resp) =>{
+        let alumnos = JSON.parse(resp)
+        console.log(alumnos)
+        console.log("alumnos")
 
-        let nombre = element[0], 
-        dni = element[1],
-        genero = element[2],
-        nacimiento = moment(element[3]).format('DD/MM/YYYY'),
-        tlf1 = element[4],
-        tlf2 = element[5] != "" ? element[5] : null,
-        email = element[6],
-        provincia = element[7],
-        canton = element[8],
-        distrito = element[9],
-        tipo = element[10],
-        grupo = grupoId;
-        vendedor = vendedor != "" ? vendedor : null;
+        for (let index = 0; index < rows.length; index++) {
+          const element = rows[index];
+  
+          let concepto = "", 
+          banco = element[0],
+          fecha_pago = element[1],
+          transaccion = element[2],
+          monto = element[3],
+          observacion = "-",
+          //alumnoFind = alumnos.filter(alumno => alumno.nro_identificacion == element[6]),
+          mora = "-";
+          //id_alumno = alumnoFind[0].id
 
-        DataBase.RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, tlf1, tlf2, email, provincia, canton, distrito, idEncargado, tipo, grupo, vendedor).then((respuesta) =>{
-          console.log(respuesta);
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      }
-      return res.redirect("/matriculas/PYT-672");    
+          /*console.log(alumnoFind)
+          console.log(id_alumno)
+          console.log("alumno encontrado")*/
+  
+          DataBase.guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion).then((respuesta) =>{
+            console.log(respuesta)
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+      text = "Pagos Registrados"
+      return res.redirect("/caja/PYT-672/");    
     })
 
   } catch (error) {
@@ -179,14 +181,102 @@ exports.cargarExcel = (req, res) => {
   }
 };
 
+exports.cargarExcel = (req, res) => {
+  let { grupoId, fileName, text } = req.params
+  let idEncargado = res.locals.user.id;
+  console.log(req.params);
+  let msg = false;
+  
+  try {
+    xlsxFile(path.join(__dirname, '../../public/assets/uploads/' + fileName)).then((rows) => {
+      console.log(rows);
+      DataBase.ObtenerTodosUsuarios().then((resp) =>{
+        let usuarios = JSON.parse(resp)
+        /*console.log(usuarios)
+        console.log("usuarios")*/
+
+        for (let index = 0; index < rows.length; index++) {
+          const element = rows[index];
+  
+          let nombre = element[0].toUpperCase(), 
+          dni = element[1],
+          genero = element[2],
+          nacimiento = moment(element[3]).format('DD-MM-YYYY'),
+          tlf1 = element[4],
+          tlf2 = element[5] != "" ? element[5] : null,
+          email = element[6],
+          provincia = element[7],
+          canton = element[8],
+          distrito = element[9],
+          grupo = grupoId;
+          vendedor = usuarios.filter(vendedor => vendedor.dni == element[10]);
+          vendedorId = vendedor.length > 0 ? vendedor[0].id : null
+
+          /*console.log(vendedorId)
+          console.log("VENDEDOR")*/
+  
+          DataBase.RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, tlf1, tlf2, email, provincia, canton, distrito, idEncargado, grupo, vendedorId).then((respuesta) =>{
+            console.log(respuesta);
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+      return res.redirect("/matriculas");    
+    })
+
+  } catch (error) {
+    console.log(error);
+    return res.redirect("/error672/PYT-672");    
+  }
+};
+
+// * VISTA COMPROBANTE DE REGISTRO
+exports.generarRegistroPDF = (req, res) => {
+  let msg = false;
+  let idUser = req.params.id  
+
+  DataBase.ObtenerMatricula(idUser).then((response) => {
+    let find = JSON.parse(response)[0];
+    console.log(find)
+    console.log("USUARIO")
+    
+    res.render("PYT-672/docs/registro-pdf", {
+      pageName: "Comprobante",
+      dashboardPage: true,
+      dashboard: true,
+      py672:true,
+      login: true,
+      find
+    })
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+};
+
 // * VISTA LOGIN
 exports.login = (req, res) => {
   let msg = false;
+  
+  let msgErr = ''
   if (req.params.msg) {
     req.flash("error", 'Usuario desactivado por el administrador')
     msg = req.flash();
-
   }
+  if (req.params.err) {
+    msgErr = req.params.err
+  }
+
   let proyecto = req.params.id  
   console.log(msg)
     res.render(proyecto+"/auth/login", {
@@ -195,7 +285,8 @@ exports.login = (req, res) => {
       dashboard: true,
       py672:true,
       login: true,
-      messages: msg
+      messages: msg,
+      msgErr
     })
 };
 
@@ -239,13 +330,53 @@ exports.grupos = (req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = req.params.id  
+  let proyecto = req.params.id 
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
+  let nombre = res.locals.user.nombre
+
+    res.render(proyecto+"/admin/grupos", {
+      pageName: "Academia Americana - Grupos",
+      dashboardPage: true,
+      dashboard: true,
+      py672: true,
+      grupos: true,
+      roleProf, roleAdmin,
+      nombre
+    });
+}
+
+// TODO: ADMINISTRADOR RESPALDO
+exports.safasf = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id 
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   console.log(proyecto)
   
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
-    console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+    /*console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")*/
     
   DataBase.ObtenerGruposDesdeCero().then((response2) => {
     let gruposDesde0 = JSON.parse(response2);
@@ -255,13 +386,13 @@ exports.grupos = (req, res) => {
       if (gruposDesde0.length) {
         gruposDesde0.forEach(obj => {
           let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-          console.log(obj)
-          console.log("EACH")
+          /*console.log(obj)
+          console.log("EACH")*/
   
           DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
             let find = JSON.parse(responseGrupos);
-            console.log(find)
-            console.log("FIND MATRICULA")
+            /*console.log(find)
+            console.log("FIND MATRICULA")*/
             
             find.forEach(item => {
               if(item.estado.id === 1) {
@@ -321,19 +452,19 @@ exports.grupos = (req, res) => {
     
     DataBase.ObtenerGruposIntensivo().then((response3) => {
       let gruposIntensivo = JSON.parse(response3);
-      console.log(gruposIntensivo)
-      console.log("INTENSIVOS INICIADOS")
+      /*console.log(gruposIntensivo)
+      console.log("INTENSIVOS INICIADOS")*/
 
         if (gruposIntensivo.length) {
           gruposIntensivo.forEach(obj => {
             let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-            console.log(obj)
-            console.log("EACH")
+            /*console.log(obj)
+            console.log("EACH")*/
     
             DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
               let find = JSON.parse(responseGrupos);
-              console.log(find)
-              console.log("FIND MATRICULA")
+              /*console.log(find)
+              console.log("FIND MATRICULA")*/
               
               find.forEach(item => {
                 if(item.estado.id === 1) {
@@ -394,19 +525,19 @@ exports.grupos = (req, res) => {
         let gruposApertura, stringAperturas;
         DataBase.ObtenerGruposEnApertura().then((response4) => {
           gruposApertura = JSON.parse(response4);
-          console.log(gruposApertura)
-          console.log("EN APERTURA")
+          /*console.log(gruposApertura)
+          console.log("EN APERTURA")*/
 
           if (gruposApertura.length) {
             gruposApertura.forEach(obj => {
               let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-              console.log(obj)
-              console.log("EACH")
+              /*console.log(obj)
+              console.log("EACH")*/
       
               DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
                 let find = JSON.parse(responseGrupos);
-                console.log(find)
-                console.log("FIND MATRICULA")
+                /*console.log(find)
+                console.log("FIND MATRICULA")*/
                 
                 find.forEach(item => {
                   if(item.estado.id === 1) {
@@ -467,6 +598,7 @@ exports.grupos = (req, res) => {
       dashboard: true,
       py672: true,
       grupos: true,
+      roleProf, roleAdmin,
       gruposTodos,
       gruposDesde0,
       response2,
@@ -497,7 +629,729 @@ exports.grupos = (req, res) => {
   });
 };
 
-// * AJAX
+// * AJAX PRINCIPAL - GENERAR ID GRUPOS
+exports.obtenerGruposAll = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+   
+  let arrIdGrupos = []
+
+  DataBase.ObtenerTodosGrupos().then(async (response) => {
+    let gruposTodos = JSON.parse(response);
+    let gruposGenerados = IdentificadorGrupos(gruposTodos)
+
+    function IdentificadorGrupos(arr) {
+        let grupos = arr
+
+        // * VARIABLES GENERALES
+        for (let i = 0; i < grupos.length; i++) {
+          let identificador, numGrupo = 1, numId = 100, nivelCode, count = 0;
+          const elemento = grupos[i];
+          let result = arrIdGrupos.filter(item => item === elemento.identificador)
+          arrIdGrupos.push(elemento.identificador)
+          count = result ? result.length : 0
+          
+          numGrupo += count;
+          
+          nivelCode = NivelGrupos(elemento.nombre, elemento.fecha_inicio, elemento);
+          numId += numGrupo;
+
+          identificador = `${elemento.identificador}${numId}-${nivelCode}`;
+          let Obj = {
+            identificador: identificador,
+          }
+          Object.assign(elemento, Obj)
+        }
+
+        //console.log(grupos)
+        return grupos;
+    }
+
+    function NivelGrupos(nombre, fecha, grupo) {
+        let inicioGrupo = fecha;
+        let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+        let nivelActual, nivel2, nivel3, nivel4;
+
+        let fechasNiveles = {
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        }
+
+        switch (nombre) {
+          case 'Desde cero':
+            nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+        
+            if (moment().isBefore(nivel2)) {
+                nivelActual = 1
+            
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+                nivelActual = 2
+            
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+                nivelActual = 3
+            
+            } else {
+                nivelActual = 4
+            }
+
+            fechasNiveles = {
+              nivel1: iniciado,
+              nivel2: nivel2,
+              nivel3: nivel3,
+              nivel4: nivel4,
+            }
+            CalcularFechasLecciones(grupo, fechasNiveles)
+          break;
+            
+          case 'Intensivo':
+
+            let diaActualInicioGrupo = moment(grupo.fecha_inicio, 'DD-MM-YYYY').isoWeekday()
+            
+            if (diaActualInicioGrupo === 3 || diaActualInicioGrupo === 4) {
+              nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+  
+            } else {
+              nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+  
+              /*let addWeek = ''
+              let fechaFinal = ''
+              console.log(iniciado)
+              console.log("iniciado el")
+              for (let i = 0; i < 16; i++) {
+                addWeek = moment(iniciado).add(i, 'w').format('YYYY-MM-DD')
+                fechaFinal = moment(addWeek).add(2, 'd').format('YYYY-MM-DD')
+                console.log(addWeek)
+                console.log("addWeek")
+                console.log(fechaFinal)
+                console.log("fechaFinal")
+              }
+              nivel2 = fechaFinal
+              
+              let addWeek2 = ''
+              for (let i = 0; i < 16; i++) {
+                addWeek2 = moment(nivel2).add(i, 'w')
+                fechaFinal = moment(addWeek2).add(2, 'd').format('YYYY-MM-DD')
+                
+                console.log(addWeek2)
+                console.log("addWeek 2")
+                console.log(fechaFinal)
+                console.log("fechaFinal")
+              }
+              nivel3 = fechaFinal
+              
+              let addWeek3 = ''
+              for (let i = 0; i < 16; i++) {
+                addWeek3 = moment(nivel3).add(i, 'w')
+                fechaFinal = moment(addWeek3).add(2, 'd').format('YYYY-MM-DD')
+                
+                console.log(addWeek3)
+                console.log("addWeek 3")
+                console.log(fechaFinal)
+                console.log("fechaFinal")
+              }
+              nivel4 = fechaFinal
+              
+              console.log(nivel2, nivel3, nivel4)
+              console.log("niveles else")*/
+              
+            }
+            
+            if (moment().isBefore(nivel2)) {
+                nivelActual = 1
+            
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+                nivelActual = 2
+            
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+                nivelActual = 3
+            
+            } else {
+                nivelActual = 4
+            }
+
+            fechasNiveles = {
+              nivel1: iniciado,
+              nivel2: nivel2,
+              nivel3: nivel3,
+              nivel4: nivel4,
+            }
+            
+            CalcularFechasLecciones(grupo, fechasNiveles)
+          break;
+                
+          case 'Kids':
+            nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            
+            if (moment().isBefore(nivel2)) {
+                nivelActual = 1
+            
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+                nivelActual = 2
+            
+            } else if(moment().isSameOrAfter(nivel3)) {
+                nivelActual = 3
+            } 
+
+            fechasNiveles = {
+              nivel1: iniciado,
+              nivel2: nivel2,
+              nivel3: nivel3,
+              nivel4: '',
+            }
+            CalcularFechasLecciones(grupo, fechasNiveles)
+          break;
+        }
+        
+        return nivelActual;
+    }
+
+    // * REMOVER ACENTOS
+    function quitarAcentos(cadena){
+      const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+      return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
+    }
+
+    function CalcularFechasLecciones(grupo, fechas) {
+      let countLecc = 0
+      let fechaActualizada = ''
+      let fechaActualizada2 = ''
+      let addWeeksNum = 0
+      let addDaysNum1 = 0
+      let addDaysNum2 = 0
+      let fechaLecciones = []
+      let fechaLeccionActual = ''
+      let fechaLeccionActual2 = ''
+      let day = grupo.dia_horario.includes("Lunes") ? 1 :
+      grupo.dia_horario.includes("Martes") ? 2 :
+      grupo.dia_horario.includes("Miercoles") ? 3 :
+      grupo.dia_horario.includes("Jueves") ? 4 : 6 
+
+      if (grupo.nombre === "Desde cero") {
+
+        for (i = 1; countLecc <= 32; i++) {
+          /*console.log(countLecc)
+          console.log("CONTADOR INICAL BUCLE")*/
+          let fechaleccion = {}
+          fechaActualizada = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(addWeeksNum, 'w')
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")*/
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          /*console.log(day)
+          console.log("DIA HORARIO GRUPO")*/
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 1,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            //console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+          /*console.log(addWeeksNum)
+          console.log("SEMANAS A SUMAR ++")
+          console.log(fechaActualizada)
+          console.log("fechaActualizada")
+          console.log(userInfo.fechaLecciones)
+          console.log("LECCIONES ")*/
+          /*console.log(countLecc)
+          console.log("CONTADOR FINAL BUCLE")*/
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        day = 0
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+        
+        for (i = 1; countLecc <= 32; i++) {
+          /*console.log(countLecc)
+          console.log("CONTADOR INICAL BUCLE")*/
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel2, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")*/
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          /*console.log(day)
+          console.log("DIA HORARIO GRUPO")*/
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 2,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            //console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+          
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        day = 0
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+
+        for (i = 1; countLecc <= 32; i++) {
+          /*console.log(countLecc)
+          console.log("CONTADOR INICAL BUCLE")*/
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel3, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")*/
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          /*console.log(day)
+          console.log("DIA HORARIO GRUPO")*/
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 3,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            //console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+          
+        }
+       
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        day = 0
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+
+        for (i = 1; countLecc <= 32; i++) {
+          /*console.log(countLecc)
+          console.log("CONTADOR INICAL BUCLE")*/
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel4, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")*/
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          /*console.log(day)
+          console.log("DIA HORARIO GRUPO")*/
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 4,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            //console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+
+        }
+
+        // * FECHA DE FINALIZACION - ULTIMA LECCION
+        let fechaF = fechaLecciones[fechaLecciones.length-1]
+        grupo.fecha_finalizacion = fechaF.fecha
+        Object.assign(grupo, {fechaLecciones: fechaLecciones}) 
+        
+      } else if (grupo.nombre === "Intensivo") {
+        
+        day = grupo.dia_horario.includes("Lunes") ? 1 :
+        grupo.dia_horario.includes("Martes") ? 2 : 0
+
+        day2 = quitarAcentos(grupo.dia_horario).includes("Miercoles") ? 3 :
+        grupo.dia_horario.includes("Jueves") ? 4 : 0
+
+        countLecc = 1
+        let fechaFinal = ''
+
+        function Reset(fecha) {
+          countLecc = 1
+          fechaActualizada = ''
+          fechaActualizada2 = ''
+
+          let fechaProcess = moment(fecha).isoWeekday()
+          /*console.log(fechaProcess)
+          console.log("fechaProcess")*/
+          if (fechaProcess === 3 || fechaProcess === 4) {
+            addDaysNum1 = 5
+            addDaysNum2 = 5
+            
+          } else {
+            addDaysNum1 = 2
+            addDaysNum2 = 2
+
+          }
+          /*console.log(addDaysNum1)
+          console.log(addDaysNum2)
+          console.log("contador dias")*/
+          addWeeksNum = 0
+        }
+
+        for (let i = 1; i <= 16; i++) {
+          let num = 2, b = i + 1, c = i > 1 ? i : 0
+          let fechaActualizada = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(c, 'w')
+          let fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+          let diaActual = moment(fechaActualizada).isoWeekday()
+          let fechaActualizada2
+
+          if (diaActual === 3 || diaActual === 4) {
+            fechaActualizada2 = moment(fechaActualizada).add(1, 'w')
+          } else {
+            fechaActualizada2 = moment(fechaActualizada).add(num, 'd')
+          }
+
+          let fechalec = {}
+          fechalec = {
+            leccion: i,
+            nivel: 1,
+            fecha: fechaLeccionActual
+          }
+          fechaLecciones.push(fechalec)
+
+          fechalec = {
+            leccion: b,
+            nivel: 1,
+            fecha: moment(fechaActualizada2).format('DD-MM-YYYY')
+          }
+          fechaLecciones.push(fechalec)
+
+          /*console.log(diaActual)
+          console.log("diaActual")
+          console.log(fechaActualizada)
+          console.log("fechaActualizada")
+          console.log(fechaFinal)
+          console.log("fechaFinal")*/
+          Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        } 
+        
+
+        for (i = 1; countLecc <= 32; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(addDaysNum1, 'd')
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+          
+          let diaActual = fechaActualizada.isoWeekday()
+
+       
+
+
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 1,
+              fecha: fechaLeccionActual
+            }
+          }
+          
+          if (diaActual === 1 || diaActual === 2) {
+            addDaysNum1 += 2
+            addDaysNum2 += 2
+            
+          } else {
+            addDaysNum1 += 5
+            addDaysNum2 += 5
+            
+          }
+
+          if (i === 1) {
+            fechaLeccionActual2 = moment(fechaActualizada).format('DD-MM-YYYY')
+            
+          } else {
+            fechaLeccionActual2 = moment(fechaActualizada2).format('DD-MM-YYYY')
+            
+          }
+
+          fechaActualizada2 = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(addDaysNum2, 'd')
+          
+          let diaActual2 = fechaActualizada2.isoWeekday()
+          if (day2 <= diaActual2 || diaActual2 <= day2) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 1,
+              fecha: fechaLeccionActual2
+            }
+          }
+          
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+   
+          fechaFinal = fechaActualizada2
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        Reset(fechaFinal)
+        
+        // * NIVEL 2
+        /*console.log(fechaFinal)
+        console.log("fechaFinal")*/
+        for (i = 1; countLecc <= 32; i++) {
+          let fechaleccion = {}
+          /*console.log(addDaysNum1)
+          console.log("addDaysNum1")*/
+          fechaActualizada = moment(fechaFinal).add(addDaysNum1, 'd')
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+          
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")
+          console.log("nivel2")*/
+          let diaActual = fechaActualizada.isoWeekday()
+          /*console.log(diaActual)
+          console.log("diaActual")*/
+
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 2,
+              fecha: fechaLeccionActual
+            }
+          }
+          
+          if (diaActual === 1 || diaActual === 2) {
+            addDaysNum1 += 2
+            addDaysNum2 += 2
+            
+          } else {
+            addDaysNum1 += 5
+            addDaysNum2 += 5
+            
+          }
+
+          if (i === 1) {
+            fechaLeccionActual2 = moment(fechaActualizada).format('DD-MM-YYYY')
+            
+          } else {
+            fechaLeccionActual2 = moment(fechaActualizada2).format('DD-MM-YYYY')
+            
+          }
+
+          fechaActualizada2 = moment(fechaFinal).add(addDaysNum2, 'd')
+          
+          let diaActual2 = fechaActualizada2.isoWeekday()
+          if (day2 <= diaActual2 || diaActual2 <= day2) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 2,
+              fecha: fechaLeccionActual2
+            }
+          }
+          
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+   
+          fechaFinal = fechaActualizada2
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        Reset(fechaFinal)
+        
+        // * FECHA DE FINALIZACION - ULTIMA LECCION
+        let fechaF = fechaLecciones[fechaLecciones.length-1]
+        grupo.fecha_finalizacion = fechaF.fecha
+        Object.assign(grupo, {fechaLecciones: fechaLecciones}) 
+        
+      } else if (grupo.nombre === "Kids") {
+        day = 7
+
+        for (i = 1; countLecc <= 16; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(addWeeksNum, 'w')
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 1,
+              fecha: fechaLeccionActual
+            }
+          }
+          
+
+          if (addWeeksNum < 16) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+   
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+        
+        for (i = 1; countLecc <= 16; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel2, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 2,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            //console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 16) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+         
+        }
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+        
+        for (i = 1; countLecc <= 16; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel3, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 3,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            //console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 16) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+         
+        }
+
+        // * FECHA DE FINALIZACION - ULTIMA LECCION
+        let fechaF = fechaLecciones[fechaLecciones.length-1]
+        grupo.fecha_finalizacion = fechaF.fecha
+        Object.assign(grupo, {fechaLecciones: fechaLecciones}) 
+      }
+    }
+    
+    for (let index = 0; index < gruposGenerados.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposGenerados[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {
+          activos: numActivos,
+          incorporados: numIncorporados,
+          inscritos: numInscritos,
+          fusionados: numFusionados,
+          congelados: numCongelados,
+          total: numTotal,
+        }
+  
+        let result = Object.assign(gruposGenerados[index], newObj);
+  
+        return JSON.stringify(gruposGenerados)
+      })
+      let count = gruposGenerados.length - 1
+      if(count === index) {
+        return res.send(gruposGenerados)
+      }
+    }
+  
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+  
+};
+
+/*// * AJAX
 exports.obtenergruposapertura = async (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -841,7 +1695,7 @@ exports.obtenergruposkids = async (req, res) => {
     return res.redirect("/error672/PYT-672");
   });
   
-};
+};*/
 
 // * VERIFICAR GRUPOS
 exports.verificargrupos = (req, res) => {
@@ -861,121 +1715,45 @@ exports.verificargrupos = (req, res) => {
       let inicioGrupo = row.fecha_inicio;
       let actual = moment();
       let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
-      console.log('LINEA 773 VERIFICA FECHA INICIADO')
-      console.log(iniciado)
+
       let iniciar = moment(iniciado).diff(actual, 'days');
 
       let nivelCode, nivel;
-    
-      function EstablecerNivel () {  
-        if (row.nombre === "Desde cero") {
-          switch (row.lecciones_semanales) {
-            case '1':
-              nivel1 = moment(iniciado).add(31, 'w').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(62, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(124, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(248, 'w').format('YYYY-MM-DD')
+
+      let fechaInicio = moment(row.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+      let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+      let rest;
       
-              console.log("NIVELES")
-              console.log(nivel1)
-              console.log(nivel2)
-              console.log(nivel3)
-              console.log(nivel4)
-              console.log("DESDE CERO")
-              break;
-          }
-
-        } else if (row.nombre === "Intensivo") {
-          switch (row.lecciones_semanales) {
-            case '2':
-              nivel1 = moment(iniciado).add(15, 'w').add(2,'d').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(30, 'w').add(2,'d').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(45, 'w').add(2,'d').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(60, 'w').add(2,'d').format('YYYY-MM-DD')
-      
-              console.log("NIVELES")
-              console.log(nivel1)
-              console.log(nivel2)
-              console.log(nivel3)
-              console.log(nivel4)
-              console.log("INTENSIVO")
-            break;
-          }
-          
-        } else {
-          switch (row.lecciones_semanales) {
-            case '1':
-              nivel1 = moment(iniciado).add(15, 'w').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(30, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(45, 'w').format('YYYY-MM-DD')
-      
-              console.log("NIVELES")
-              console.log(nivel1)
-              console.log(nivel2)
-              console.log(nivel3)
-              //console.log(nivel4)
-              console.log("KIDS")
-            break;
-          }
-
-        }
-          
-        if (moment().isBefore(nivel2)) {
-          fechaFin = moment(nivel1, "YYYY-MM-DD").format("DD-MM-YYYY")
-          nivelCode = '-1';
-          nivel = 'Principiante';
-            
-        } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
-          fechaFin = moment(nivel2, "YYYY-MM-DD").format("DD-MM-YYYY")
-          nivelCode = '-2';
-          nivel = 'Básico';
-          
-        } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
-          fechaFin = moment(nivel3, "YYYY-MM-DD").format("DD-MM-YYYY")
-          nivelCode = '-3';
-          nivel = 'Intermedio';
-          
-        } else if(row.nombre !== "Kids") {
-          if(moment().isAfter(nivel3)) {
-            fechaFin = moment(nivel4, "YYYY-MM-DD").format("DD-MM-YYYY")
-            nivelCode = '-4';
-            nivel = 'Avanzado';
-
-          }
-        }
-      }
-
-      if (iniciar >= 1) {
-        EstablecerNivel();
-        console.log("NIVELLLL")
-      } else if (iniciar < 0) {
-        EstablecerNivel();
-        console.log("GRUPO INICIADO CON EXITO ACTUALIZANDO")
-
+      if (iniciar < 0) {
         if(row.estadosGrupoId === 1) {
           DataBase.IniciarGrupos(row.id).then((actualizado) => {
-            console.log("GRUPO INICIADO - RES CONTROLLER")
+            console.log("GRUPO INICIADO")
           }).catch((err) => {
             console.log(err)
             let msg = "Error en sistema";
             return res.redirect("/error672/PYT-672");
           });
         } 
-
-        let identificador = row.identificador.slice(0,-2) + nivelCode;
-        console.log(identificador)
-
-        DataBase.ActualizarNivelesGrupos(row.id, identificador, fechaFin, nivel, nivelCode).then((actualizado) => {
-          console.log(actualizado)
-          console.log("GRUPO ACTUALIZADO")
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      }
+      } 
     });
+
     return res.redirect("/grupos/PYT-672");
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * AJAX PRINCIPAL DE ESTUDIANTES
+exports.obtenerMatriculasAll = async (req, res) => {
+  DataBase.GruposYMatriculas().then(async(response) => {
+    let matriculas = JSON.parse(response);
+    console.log(matriculas)
+    console.log("MATRICULAS ALL")
+
+    return res.send(matriculas)
+
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -985,8 +1763,23 @@ exports.verificargrupos = (req, res) => {
 
 exports.matriculas = async (req, res) => {
   let msg = false;
-  if (req.params.msg) {
-    msg = req.params.msg;
+  if (req.params.item) {
+    msg = req.params.item;
+  }
+
+  let idUser = ''
+  if (req.params.item && parseInt(req.params.item)) {
+    msg = false;
+    idUser = req.params.item;
+  }
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
   }
 
   DataBase.ObtenerTodosGrupos().then(async(response) => {
@@ -996,7 +1789,8 @@ exports.matriculas = async (req, res) => {
 
     DataBase.GruposYMatriculas().then(async(response2) => {
       let arr = JSON.parse(response2);
-      //console.log(arr)
+      console.log(arr)
+      console.log(arr)
 
       let gruposTodosStr = JSON.stringify(gruposTodos)
       let proyecto = req.params.id  
@@ -1007,6 +1801,7 @@ exports.matriculas = async (req, res) => {
       return new Promise ((resolve, reject) => {
         DataBase.ObtenerTodosUsuarios().then((response3) => {
           let usuarios = JSON.parse(response3);
+          usuarios = usuarios.filter(item => item.puesto === "Vendedor")
           resolve(usuarios)
   
         }).catch((err) => {
@@ -1020,16 +1815,21 @@ exports.matriculas = async (req, res) => {
 
     let vendedores = await GetUsers();
 
+    let nombre = res.locals.user.nombre
+
     res.render("PYT-672/admin/matricula", {
       pageName: "Academia Americana - Matriculas",
       dashboardPage: true,
       dashboard: true,
       py672: true,
       matric: true,
+      idUser,
+      roleAdmin, roleProf,
       gruposTodos,
       arr,
       response2,msg,gruposTodosStr,
       vendedores,
+      nombre
     });
 
   }).catch((err) => {
@@ -1052,10 +1852,14 @@ exports.control = (req, res) => {
   }
   let proyecto = req.params.id  
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    /*console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")*/
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
     DataBase.ObtenerMatriculasDistinct().then((response2) => {
       let gruposDist = JSON.parse(response2);
@@ -1095,6 +1899,7 @@ exports.control = (req, res) => {
         });
       });
     
+    let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/control", {
       pageName: "Academia Americana - Control",
@@ -1102,16 +1907,9 @@ exports.control = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
-      gruposTodos,
-      gruposDesde0,
-      gruposIntensivo,
-      gruposKids
+      roleAdmin, roleProf,
+      nombre
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1119,7 +1917,28 @@ exports.control = (req, res) => {
   });
 };
 
-// * ASISTENCIAS DE GRUPO
+// * DISTINC GRUPOS CONTROL
+exports.gruposControl = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+
+    DataBase.ObtenerMatriculasDistinct().then((response2) => {
+      let gruposDist = JSON.parse(response2);
+      /*.log(gruposDist)
+      console.log("GRUPOS DISTINCTS")*/
+      
+      return res.send(gruposDist)
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * CONTROL DE GRUPO
 exports.controlgrupo = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -1128,90 +1947,354 @@ exports.controlgrupo = (req, res) => {
   let proyecto = req.params.id  
   let idGrupo = req.params.grupoid
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    /*console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")*/
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
-    DataBase.ObtenerMatriculasDistinct().then((response2) => {
-      let gruposDist = JSON.parse(response2);
-      /*console.log(gruposDist)
-      console.log("GRUPOS DISTINCTS")*/
-      
-      let gruposDesde0 = [], gruposIntensivo = [], gruposKids=[];
-      
-      gruposDist.forEach(element => {
-        DataBase.BuscarGrupos(element.grupoId).then((response3) => {
-          let gruposFounds = JSON.parse(response3);
-          /*console.log(gruposFounds)
-          console.log("GRUPOS ENCONTRADOS")*/
+    let matri, grupoIdentificador;
 
-          gruposFounds.forEach(found => {
-            if(found.estadosGrupoId === 2) {
-              switch (found.nombre) {
-                case "Desde cero":
-                  gruposDesde0.push(found);
-                  break;
-              case "Intensivo":
-                  gruposIntensivo.push(found);
-                  break;
-                   case "Kids":
-                    gruposKids.push(found);
-                  break;
-                default:
-                  break;
-              }
-            }
-          });
+    DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
+      matri = response2;
+      let grupoId = idGrupo;
+      /*if (matri.length) {
+        grupoIdentificador = matri[0].grupo.identificador
+      } else {
+        grupoIdentificador = "El grupo selecionado no poseé una matrícula";
+      }
+      console.log(grupoIdentificador)*/
+      let editable = true;
 
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      });
-      let matri, grupoIdentificador;
-
-      DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
-        matri = response2;
-        let grupoId = idGrupo;
-        /*if (matri.length) {
-          grupoIdentificador = matri[0].grupo.identificador
-        } else {
-          grupoIdentificador = "El grupo selecionado no poseé una matrícula";
-        }
-        console.log(grupoIdentificador)*/
+      DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
+        let grupo = JSON.parse(respuesta)[0]
+        let numLeccion, nivelActual, 
+        fechaNiveles = {
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        };
+        /*console.log(grupo)
+        console.log("GRUPO ENCONTRADO")*/
         
-        DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
-          let grupo = JSON.parse(respuesta)[0]
-          let numLeccion;
-          /*console.log(grupo)
-          console.log("GRUPO ENCONTRADO")*/
+        let fechaActual = moment().format("DD-MM-YYYY");
+
+        let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+
+        let diff = "";
+
+        let rest; 
+
+        let inicioGrupo = grupo.fecha_inicio;
+        let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+
+        function quitarAcentos(cadena){
+          const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+          return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
+        }
+
+        function EstablecerNivel () {  
+          let nivel2, nivel3, nivel4;
+          switch (grupo.lecciones_semanales) {
+            case '1':
+              if (grupo.nombre === "Desde cero") {
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD');
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD');
+                
+                if (grupo.dia_horario.includes('Lunes')) {
+                  if (moment().isoWeekday() === 1) {
+                    let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+
+                } else if (grupo.dia_horario.includes('Martes')) {
+                  if (moment().isoWeekday() === 2) {
+                    let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else if (grupo.dia_horario.includes('Miercoles')) {
+                  if (moment().isoWeekday() === 3) {
+                    let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else if (grupo.dia_horario.includes('Jueves')) {
+                  if (moment().isoWeekday() === 4) {
+                    let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else {
+                  if (moment().isoWeekday() === 6) {
+                    let fechaInit = moment('8:30am', 'LT'), fechaFinc = moment('11:00am', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+                  
+                }
+                
+              } else {
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD');
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
+                nivel4 = "";
+                if (moment().isoWeekday() === 7) {
+                  let fechaInit = moment('10:40am', 'LT'), fechaFinc = moment('11:00am', 'LT');
+                  if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                } else {
+                  editable = false;
+                }
+              }
+      
+              /*console.log("NIVELES")
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("DESDE CERO")*/
+              break;
+  
+            case '2':
+              nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+
+              let horarioG = quitarAcentos(grupo.dia_horario)
+
+              if (horarioG.includes('Lunes y Miercoles')) {
+                if (moment().isoWeekday() === 1 || moment().isoWeekday() === 3) {
+                  let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('9:00pm', 'LT');
+                  if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                } else {
+                  editable = false
+                }
+                
+              } else if (horarioG.includes('Martes y Jueves de 8')) {
+                if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
+                  let fechaInit = moment('8:30am', 'LT'), fechaFinc = moment('11:00am', 'LT');
+                  if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                } else {
+                  editable = false;
+                }
+                
+              } else {
+                if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
+                  let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('9:00pm', 'LT');
+                  if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                } else {
+                  editable = false;
+                }
+
+              }
+      
+              /*console.log("NIVELES")
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("INTENSIVO")*/
+            break;
+          }
           
-          let fechaActual = moment().format("DD-MM-YYYY");
-
-          let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
-
-          let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-
-          let rest; 
-
-          if(grupo.lecciones_semanales === '1') {
-            if(diff < 0) {
-              rest = (224 - (-diff)) / 7; 
+          fechaNiveles = {
+            nivel1: fechaInicio,
+            nivel2: nivel2,
+            nivel3: nivel3,
+            nivel4: nivel4,
+          };
+          fechaNiveles = JSON.stringify(fechaNiveles)
+                  
+          if (grupo.nombre != "Kids") {
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
+              
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
+              
             } else {
-              rest = (224 - (diff)) / 7; 
+              console.log("Estas en nivel 4")
+              nivelActual = 4
+              diff = moment().diff(moment(nivel4, "DD-MM-YYYY"), 'days')
+              
             }
+            
           } else {
-            if(diff < 0) {
-              rest = (112 - (-diff)) / 3.5; 
-            } else {
-              rest = (112 - (diff)) / 3.5; 
-            }
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
+              
+            } else if(moment().isSameOrAfter(nivel3)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
+              
+            } 
+
           }
 
-          numLeccion = (32 - Math.floor(rest))
+          let numPositivo;
+          if(grupo.lecciones_semanales === '1') {
+            if (grupo.nombre === "Desde cero") {
+              if (diff > 224) {
+                //console.log("positivo")
+                rest = (diff - 224) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+              } 
+              else {
+                if (diff < 0) {
+                  console.log("negativo") 
+                  diff = diff * (-1)
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  //console.log("else")
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+    
+                }
+              }
+              if (numLeccion > 32) {
+                numLeccion = 32
+              }
+              
+            } else {
+              if (diff > 112) {
+                rest = (diff - 112) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
+              } else {
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 16 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 16 - numPositivo
+    
+                }
+                
+              }
+              if (numLeccion > 16) {
+                numLeccion = 16
+              }
+  
+            }
 
+          } else {
+              if (diff > 112) {
+                rest = (diff - 112) / 3.5; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
+              } else {
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 3.5; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+
+                }
+  
+              }
+              if (numLeccion > 32) {
+                numLeccion = 32
+              }
+          }
+
+          /*console.log(numLeccion)
+          console.log("LECCION")
+          console.log(numPositivo)
+          console.log("POSITIVO")
+          console.log("REST",rest)
+          console.log("DIFF",diff)*/
+          
+        }
+        
+        EstablecerNivel(); 
+
+    let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/control", {
       pageName: "Academia Americana - Control",
@@ -1219,10 +2302,8 @@ exports.controlgrupo = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
-      gruposTodos,
-      gruposDesde0,
-      gruposIntensivo,
-      gruposKids,
+      nombre,
+      roleAdmin, roleProf,
       matri,
       grupoId,
       numLeccion,
@@ -1230,17 +2311,10 @@ exports.controlgrupo = (req, res) => {
       fechaInicio,
       diff,
       rest,
+      nivelActual,
+      fechaNiveles,
+      editable
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1261,10 +2335,14 @@ exports.historial = (req, res) => {
   }
   let proyecto = req.params.id  
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    //console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
   DataBase.GruposYMatriculas().then((response2) => {
     let matriculas = JSON.parse(response2);
@@ -1286,147 +2364,255 @@ exports.historial = (req, res) => {
         asistencias: 0,
         ausentes: 0,
         fechaLeccionesAusentes: '',
-        notas: []
+        notas: [],
       };
+
+      let grupoAct = ''
 
       DataBase.BuscarGrupos(element.grupoId).then((respuesta) => {
         let grupo = JSON.parse(respuesta)[0]
+        grupoAct = grupo
         /*console.log(grupo)
         console.log("** GRUPO //")*/
         let inicioGrupo = grupo.fecha_inicio;
-        let fechaActual = moment().format("DD-MM-YYYY");
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
         let iniciar = moment(iniciado).diff(moment(), 'days');
 
-        /*console.log(iniciado)
-        console.log(iniciar)
-        console.log("INCIAR DIAS DIFERENCIA")
-        //console.log(grupo)
-        //console.log("GRUPO ENCONTRADO")*/
+        let numLeccion, nivelActual, 
+        fechaNiveles = {
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        };
+
+        let fechaLecciones = []
         
+        let fechaActual = moment().format("DD-MM-YYYY");
+
         let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
-        let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+
+        let diff = "";
+
         let rest; 
 
         function EstablecerNivel () {  
-          let nivel1, nivel2, nivel3, nivel4;
+          let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
             case '1':
-              nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
+              if (grupo.nombre === "Desde cero") {
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+
+              } else {
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel4 = ""
+              }
       
               /*console.log("NIVELES")
-              console.log(nivel1)
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
               console.log("DESDE CERO")*/
               break;
-  /*OJO*/
+  
             case '2':
-              nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
       
               /*console.log("NIVELES")
-              console.log(nivel1)
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
               console.log("INTENSIVO")*/
             break;
           }
+
+          fechaNiveles = {
+            nivel1: fechaInicio,
+            nivel2: nivel2,
+            nivel3: nivel3,
+            nivel4: nivel4,
+          };
+          fechaNiveles = JSON.stringify(fechaNiveles)
+                  
+          if (grupo.nombre != "Kids") {
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
+              
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
+              
+            } else {
+              console.log("Estas en nivel 4")
+              nivelActual = 4
+              diff = moment().diff(moment(nivel4, "DD-MM-YYYY"), 'days')
+              
+            }
             
-          if (moment().isBefore(nivel2)) {
-            userInfo.nivelActualGrupo = 1
-            
-          } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
-            userInfo.nivelActualGrupo = 2
-            
-          } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
-            userInfo.nivelActualGrupo = 3
-            
-          } else if(moment().isAfter(nivel3)) {
-            userInfo.nivelActualGrupo = 4
+          } else {
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
+              
+            } else if(moment().isSameOrAfter(nivel3)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
+              
+            } 
 
           }
+          
+          userInfo.nivelActualGrupo = nivelActual
+
+          let numPositivo;
 
           if(grupo.lecciones_semanales === '1') {
-            console.log("DESDE CERO")
 
-            if (userInfo.nivelActualGrupo === 1) {
-              if(diff < 0) {
-                rest = (224 - (-diff)) / 7; 
-              } else {
-                rest = (224 - (diff)) / 7; 
+            if (grupo.nombre === "Desde cero") {
+              if (diff > 224) {
+                console.log("positivo")
+                rest = (diff - 224) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+              } 
+              else {
+                if (diff < 0) {
+                  console.log("negativo") 
+                  diff = diff * (-1)
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  console.log("else")
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+    
+                }
               }
-            }
-
-            if (userInfo.nivelActualGrupo === 2) {
-              if(diff < 0) {
-                rest = (448 - (-diff)) / 14; 
-              } else {
-                rest = (448 - (diff)) / 14; 
+              if (numLeccion > 32) {
+                numLeccion = 32
               }
-              console.log(diff)
-              console.log(rest)
-              console.log("NIVEL 2")
-              /*console.log(rest)
-              console.log(userInfo.nivelActualGrupo)
-              console.log("NIVEL 2")*/
-            } else if (userInfo.nivelActualGrupo === 3) {
               
-            } else if (userInfo.nivelActualGrupo === 4) {
-              
+            } else {
+              if (diff > 112) {
+                rest = (diff - 112) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
+              } else {
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 16 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 16 - numPositivo
+    
+                }
+                
+              }
+              if (numLeccion > 16) {
+                numLeccion = 16
+              }
+  
             }
 
           } else {
-            if (userInfo.nivelActualGrupo === 1) {
-              if(diff < 0) {
-                rest = (112 - (-diff)) / 3.5; 
+              if (diff > 112) {
+                rest = (diff - 112) / 3.5; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
               } else {
-                rest = (112 - (diff)) / 3.5; 
-              }
-            }
-           
-            if (userInfo.nivelActualGrupo === 2) {
-              if(diff < 0) {
-                rest = (224 - (-diff)) / 7; 
-              } else {
-                rest = (224 - (diff)) / 7; 
-              }
-  
-            } else if (userInfo.nivelActualGrupo === 3) {
-              
-            } else if (userInfo.nivelActualGrupo === 4) {
-              
-            }
-          }
-          if(rest < 0) {
-            rest = rest * (-1)
-          }
-          let numPositivo = Math.floor(rest);
-          console.log(grupo.identificador)
-          console.log(rest)
-          userInfo.leccActual = (32 - (numPositivo));
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 3.5; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
 
+                }
+  
+              }
+              if (numLeccion > 32) {
+                numLeccion = 32
+              }
+          }
+          userInfo.leccActual = numLeccion ? numLeccion : 0
+
+          /*console.log(numLeccion)
+          console.log("LECCION")
+          console.log(numPositivo)
+          console.log("POSITIVO")
+          
+          console.log("REST",rest)
+          console.log("DIFF",diff)*/
           
         }
-  
-        if (iniciar >= 1 && grupo.estadosGrupoId === 2 || iniciar < 0 && grupo.estadosGrupoId === 2) {
-          EstablecerNivel();
-        } 
+        
+        if (grupo.estadosGrupoId === 1) {
+          userInfo = {
+            leccActual: 0,
+            nivelActualGrupo: 0,
+            leccion9: 0,
+            leccion17: 0,
+            leccion18: 0,
+            leccion25: 0,
+            leccion31: 0,
+            leccion32: 0,
+            participacion: 0,
+            asistencias: 0,
+            ausentes: 0,
+            fechaLeccionesAusentes: '',
+            notas: [],
+          };
+          let final = Object.assign(element, userInfo);
+          return
 
-        let final = Object.assign(element, userInfo);
-
+        } else {
+          EstablecerNivel(); 
+          
+          let final = Object.assign(element, userInfo);
+        }
         /*console.log(fechaActual)
         console.log(fechaInicio)
         console.log(diff)
         console.log(rest)
-
         console.log(userInfo.leccActual)
         console.log(final)
         console.log("OBJETO FINAL")*/
@@ -1492,7 +2678,6 @@ exports.historial = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       });
-      
 
       DataBase.BuscarParticipacionMatricula(32, element.grupoId, element.id).then((part) => {
         let participacion = JSON.parse(part)[0];
@@ -1548,27 +2733,11 @@ exports.historial = (req, res) => {
 
     DataBase.ObtenerMatriculasDistinct().then((response3) => {
       let gruposDist = JSON.parse(response3);
+      let stringGrupos = JSON.stringify(gruposDist)
       //console.log(gruposDist)
       //console.log("GRUPOS DISTINCTS")
       
-      let arrGrupos = [];
-      
-      gruposDist.forEach(element => {
-        DataBase.BuscarGrupos(element.grupoId).then((response4) => {
-          let gruposFounds = JSON.parse(response4);
-          //console.log(gruposFounds)
-          //console.log("GRUPOS ENCONTRADOS")
-
-          gruposFounds.forEach(found => {
-            arrGrupos.push(found);
-          });
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      });
+      let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/historial", {
       pageName: "Academia Americana - Historial",
@@ -1576,15 +2745,11 @@ exports.historial = (req, res) => {
       dashboard: true,
       py672: true,
       historial: true,
-      gruposTodos,
+      nombre,
+      roleAdmin, roleProf,
       arrString,
-      arrGrupos
+      stringGrupos,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1597,14 +2762,336 @@ exports.historial = (req, res) => {
   });
 };
 
+// * DETALLES CONTROL CAJA 
+exports.detallesControl = (req, res) => {
+  let idAlumno = req.params.id, idGrupo = req.params.grupo
+  console.log(req.params)
+
+  let userInfo = {
+    leccActual: 0,
+    nivelActualGrupo: 0,
+    leccion9: 0,
+    leccion17: 0,
+    leccion18: 0,
+    leccion25: 0,
+    leccion31: 0,
+    leccion32: 0,
+    participacion: 0,
+    asistencias: 0,
+    ausentes: 0,
+    fechaLeccionesAusentes: [],
+    notas: []
+  };
+
+  DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
+    let grupo = JSON.parse(respuesta)[0]
+    /*console.log(grupo)
+    console.log("** GRUPO //")*/
+    fechaNiveles = {
+      nivel1: '',
+      nivel2: '',
+      nivel3: '',
+      nivel4: '',
+    };
+    /*console.log(grupo)
+    console.log("GRUPO ENCONTRADO")*/
+    let fechaActual = moment().format("DD-MM-YYYY");
+    
+    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+    
+    let rest; 
+    
+    let inicioGrupo = grupo.fecha_inicio;
+    let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+    let iniciar = moment(iniciado).diff(moment(), 'days');
+
+    function EstablecerNivel () {  
+      let nivel2, nivel3, nivel4;
+      switch (grupo.lecciones_semanales) {
+        case '1':
+          if (grupo.nombre === "Desde cero") {
+            nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+            
+          } else {
+            nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel4 = ""
+          }
+  
+          console.log("NIVELES")
+          console.log(nivel2)
+          console.log(nivel3)
+          console.log(nivel4)
+          console.log("DESDE CERO")
+          break;
+
+        case '2':
+          nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+          nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+          nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+  
+          console.log("NIVELES")
+          console.log(nivel2)
+          console.log(nivel3)
+          console.log(nivel4)
+          console.log("INTENSIVO")
+        break;
+      }
+
+      fechaNiveles = {
+        nivel1: fechaInicio,
+        nivel2: nivel2,
+        nivel3: nivel3,
+        nivel4: nivel4,
+      };
+      fechaNiveles = JSON.stringify(fechaNiveles)
+              
+      let diff = "";
+
+      if (grupo.nombre != "Kids") {
+        if (moment().isBefore(nivel2)) {
+          console.log("Estas en nivel 1")
+          nivelActual = 1
+          diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
+          
+        } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+          console.log("Estas en nivel 2")
+          nivelActual = 2
+          diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
+          
+        } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+          console.log("Estas en nivel 3")
+          nivelActual = 3
+          diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
+          
+        } else {
+          console.log("Estas en nivel 4")
+          nivelActual = 4
+          diff = moment().diff(moment(nivel4, "DD-MM-YYYY"), 'days')
+          
+        }
+        
+      } else {
+        if (moment().isBefore(nivel2)) {
+          console.log("Estas en nivel 1")
+          nivelActual = 1
+          diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
+          
+        } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+          console.log("Estas en nivel 2")
+          nivelActual = 2
+          diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
+          
+        } else if(moment().isSameOrAfter(nivel3)) {
+          console.log("Estas en nivel 3")
+          nivelActual = 3
+          diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
+          
+        } 
+        
+      }
+
+      userInfo.nivelActualGrupo = nivelActual
+
+      let numPositivo;
+      if(grupo.lecciones_semanales === '1') {
+          if (grupo.nombre === "Desde cero") {
+            if (diff > 224) {
+              console.log("positivo")
+              rest = (diff - 224) / 7; 
+              numPositivo = Math.floor(rest)
+              numLeccion = 1 + numPositivo
+            } 
+            else {
+              if (diff < 0) {
+                console.log("negativo") 
+                diff = diff * (-1)
+                rest = (224 - diff) / 7; 
+                if (rest < 0) {
+                  rest = rest * (-1) 
+                }
+                numPositivo = Math.floor(rest)
+                numLeccion = 32 - numPositivo
+                
+              } else {
+                console.log("else")
+                rest = (224 - diff) / 7; 
+                if (rest < 0) {
+                  rest = rest * (-1) 
+                }
+                numPositivo = Math.floor(rest)
+                numLeccion = 32 - numPositivo
+  
+              }
+            }
+            if (numLeccion > 32) {
+              numLeccion = 32
+            }
+            
+          } else {
+            if (diff > 112) {
+              rest = (diff - 112) / 7; 
+              numPositivo = Math.floor(rest)
+              numLeccion = 1 + numPositivo
+              
+            } else {
+              if (diff < 0) {
+                diff = diff * (-1)
+                rest = (112 - diff) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 16 - numPositivo
+                
+              } else {
+                rest = (112 - diff) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 16 - numPositivo
+  
+              }
+              
+            }
+            if (numLeccion > 16) {
+              numLeccion = 16
+            }
+
+          }
+        
+      } else {
+          if (diff > 112) {
+            rest = (diff - 112) / 3.5; 
+            numPositivo = Math.floor(rest)
+            numLeccion = 1 + numPositivo
+            
+          } else {
+            if (diff < 0) {
+              diff = diff * (-1)
+              rest = (112 - diff) / 7; 
+              numPositivo = Math.floor(rest)
+              numLeccion = 32 - numPositivo
+              
+            } else {
+              rest = (112 - diff) / 3.5; 
+              numPositivo = Math.floor(rest)
+              numLeccion = 32 - numPositivo
+
+            }
+
+          }
+          if (numLeccion > 32) {
+            numLeccion = 32
+          }
+      }
+
+      userInfo.leccActual = numLeccion
+      
+    }
+
+    EstablecerNivel();
+    
+    // final = Object.assign(element, userInfo);
+
+    /*console.log(fechaActual)
+    console.log(fechaInicio)
+    console.log(diff)
+    console.log(rest)
+
+    console.log(userInfo.leccActual)
+    console.log(final)
+    console.log("OBJETO FINAL")*/
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+  DataBase.BuscarNotasAlumno(idGrupo, idAlumno).then((leccion) => {
+      let lecc = JSON.parse(leccion);
+      //console.log(lecc)
+      //console.log("LECCION")
+    
+      userInfo.notas = lecc
+      
+      //let final = Object.assign(element, userInfo);
+      /*console.log(userInfo)
+      console.log("FINAL ----- FINAL ---- !!!!!!")*/
+
+      /*console.log(arrString)*/ 
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
+  DataBase.BuscarParticipacionMatricula(32, idGrupo, idAlumno).then((part) => {
+    let participacion = JSON.parse(part)[0];
+    /*console.log(participacion)*/
+
+    if(participacion !== undefined) {
+      userInfo.participacion = parseInt(participacion.porcentaje);
+    } else {
+      userInfo.participacion = 0;
+    }
+
+    // final = Object.assign(element, userInfo);
+    /*console.log(final)*/
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+  DataBase.ObtenerTodasAsistenciaMatricula(idGrupo, idAlumno).then((asist) => {
+    let asistencias = JSON.parse(asist);
+    /*console.log(asistencias)*/
+
+    if(asistencias !== undefined) {
+      // FILTRAR AUSENCIAS CON LA LECCION ACTUAL
+      let result = asistencias.filter((item) => parseInt(item.n_leccion) <= userInfo.leccActual);
+      if(result.length) {
+        userInfo.ausentes = parseInt(result.length);
+        userInfo.fechaLeccionesAusentes = asistencias;
+      } 
+    } else {
+      userInfo.ausentes = 0;
+    }
+
+    userInfo.asistencias += userInfo.leccActual - userInfo.ausentes;
+
+    //let final = Object.assign(element, userInfo);
+    /*console.log(final)*/
+    console.log(userInfo)
+    return res.send(userInfo)
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+          
+}
+
 // * MODULO CAJA
 exports.caja = async(req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = req.params.id  
-  console.log(proyecto)
+
+  let proyecto = req.params.id
+  let alert = req.params.text
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+  //console.log(proyecto)
 var matricula = JSON.parse(await DataBase.GruposYMatriculas())
 console.log(matricula)
   DataBase.ObtenerTodosGrupos().then((response) => {
@@ -1613,12 +3100,18 @@ console.log(matricula)
     console.log("TODOS LOS GRUPOS")
     let matricula_st = JSON.stringify(matricula)
     let gruposTodosStr = JSON.stringify(gruposTodos)
+
+    let nombre = res.locals.user.nombre
+
     res.render(proyecto+"/admin/caja", {
       pageName: "Academia Americana - Caja",
       dashboardPage: true,
       dashboard: true,
       py672:true,
       caja: true,
+      nombre,
+      alert,
+      roleAdmin, roleProf,
       gruposTodos,matricula,matricula_st,gruposTodosStr
     });
   }).catch((err) => {
@@ -1630,16 +3123,42 @@ console.log(matricula)
 
 exports.guarda_pago = async(req, res) => {
   console.log(req.body)
-  var {id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
+  console.log("DATA")
+  var { idCaja, id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
   
-for (let i = 0; i < concepto.length; i++) {
-    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago, monto[i], mora[i], observacion[i],banco,
-      transaccion,id_alumno)
-  console.log(save_pago)
-  
-}
+  for (let i = 0; i < concepto.length; i++) {
+    if (concepto[i] === "Reactivacion") {
+      const save_pago = await DataBase.actualizarPagoPendiente(idCaja, fecha_pago, banco,
+        transaccion)
+      
+        console.log(save_pago)
+    } else {
+      const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago, monto[i], mora[i], observacion[i],banco,
+        transaccion,id_alumno)
+
+        console.log(save_pago)
+    }
+    
+  }
 
   return res.send({response:'Se guardo bien'})
+};
+
+exports.guardarPagoReactivar = async(req, res) => {
+  console.log(req.body)
+  let {id_alumno, concepto, monto, mora, observacion} = req.body
+  
+  const save_pago = await DataBase.guardarCajaPendiente(concepto, monto, mora, observacion,id_alumno)
+    console.log(save_pago)
+  return res.redirect('/caja/PYT-672')
+};
+
+// * OBTENER TODO HISTORIAL 
+exports.historialCompleto = async(req, res) => {
+  
+  const historial = JSON.parse(await DataBase.historialCompleto())
+  console.log(historial)
+  return res.send({historial})
 };
 
 exports.historial_caja = async(req, res) => {
@@ -1649,6 +3168,7 @@ exports.historial_caja = async(req, res) => {
   console.log(obtener_historia)
   return res.send({obtener_historia})
 };
+
 //OBTENER COMENTARIOS POR ALUMNO
 exports.get_comments_alumno = async(req, res) => {
   let id_alumno = req.params.id_alumno
@@ -1658,11 +3178,39 @@ exports.get_comments_alumno = async(req, res) => {
   return res.send({obtener_comentarios})
 };
 
+exports.validacionPassw = async (req, res) => {
+  let { passw } = req.params
+  const userId = res.locals.user.id
+  console.log(passw)
+  
+  const usuario = JSON.parse(await DataBase.ObtenerUsuario(userId));
+  console.log(usuario)
+  
+  let passHash = await bcrypt.hashSync(passw, bcrypt.genSaltSync(10));
+  console.log(passw)
+  console.log(passHash)
+
+  let validation = await bcrypt.compareSync(passw, usuario[0].password)
+  console.log(validation)
+  return res.send({validation})
+};
+
 exports.guardar_comentario = async(req, res) => {
-  var {id_alumno,
-    comentario} = req.body
-const userId = res.locals.user.id
-    const comentario_save = await DataBase.Guarda_comentarios(comentario,id_alumno,userId)
+  let { id_alumno, comentario } = req.body
+  const userId = res.locals.user.id
+  const comentario_save = await DataBase.Guarda_comentarios(comentario, id_alumno, userId)
+  console.log(comentario_save)
+
+  const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
+  console.log(obtener_comentarios) 
+
+  return res.send({obtener_comentarios})
+};
+
+exports.guardar_comentarioCaja = async(req, res) => {
+  let { id_alumno, comentario } = req.params
+  const userId = res.locals.user.id
+  const comentario_save = await DataBase.Guarda_comentarios(comentario, id_alumno, userId)
   console.log(comentario_save)
 
   const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
@@ -1678,7 +3226,6 @@ exports.comentarios_admin_get = async(req, res) => {
   console.log(obtener_comentarios)
   return res.send({obtener_comentarios})
 };
-
 
 /**GENERAL PDF CONSTANCIA */
 exports.genera_pdf_constancia = async (req, res) => {
@@ -1831,34 +3378,142 @@ exports.usuarios = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    //console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
-    DataBase.ObtenerTodosUsuarios().then((stringUsuarios) => {
-      let usuarios = JSON.parse(stringUsuarios);
-    
-    res.render(proyecto+"/admin/usuarios", {
-      pageName: "Usuarios",
-      dashboardPage: true,
-      dashboard: true,
-      py672:true,
-      usuarios: true,
-      gruposTodos,
-      stringUsuarios
-    });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
+  let nombre = res.locals.user.nombre
+
+  res.render(proyecto+"/admin/usuarios", {
+    pageName: "Academia Americana - Usuarios",
+    dashboardPage: true,
+    dashboard: true,
+    py672:true,
+    usuarios: true,
+    nombre,
+    roleAdmin, roleProf,
   });
+};
+
+// * MODULO ESSTADISTICAS
+exports.estadisticas = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
+  let nombre = res.locals.user.nombre
+
+  res.render(proyecto+"/admin/estadisticas", {
+    pageName: "Academia Americana - Estadísticas",
+    dashboardPage: true,
+    dashboard: true,
+    py672:true,
+    estadisticas: true,
+    nombre,
+    roleAdmin, roleProf,
+  });
+};
+
+// * GESTIONAR CONTRASEÑAS DE USUARIOS
+exports.managUsuarios = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
+  let usuario = res.locals.user, nombre = res.locals.user.nombre;
+    
+  res.render(proyecto+"/admin/changeuser-password", {
+    pageName: "Academia Americana - Perfil de Usuario",
+    dashboardPage: true,
+    dashboard: true,
+    py672:true,
+    managUsuarios: true,
+    roleAdmin, roleProf,
+    usuario,
+    nombre
+  });
+};
+
+// * OBTENER CONTRASEÑA DE USUARIOS
+exports.getPasswordUser = (req, res) => {
+  let idUser = req.params.id
+
+  DataBase.ObtenerUsuario(idUser).then((response) => {
+    let usuario = JSON.parse(response);
+    console.log(usuario)
+    return res.send({usuario})
+
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
+    return res.send({error: 'Error al realizar la tarea'});
+  });
+};
+
+// * CAMBIAR CONTRASEÑA DE USUARIO
+exports.changePasswordUser = (req, res) => {
+  let { password } = req.body
+  let idUser = res.locals.user.id
+  console.log(res.locals)
+  console.log(req.body)
+
+  DataBase.ChangePasswordUser(idUser, password).then((response) => {
+    console.log(response)
+
+    return res.redirect('/manag-user/PYT-672')
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.send({error: 'Error al realizar la tarea'});
+  });
+};
+
+// * CAMBIAR INFORMACIÓN DE USUARIO
+exports.changeInfoUser = (req, res) => {
+  let { nombre, dni, email, pais, fechaN, fechaI, telefono } = req.body;
+
+  let idUser = res.locals.user.id
+  console.log(res.locals)
+  console.log(req.body)
+
+  DataBase.EditInfoUserProfile(nombre, dni, email, pais, fechaN, fechaI, telefono, idUser).then((response) => {
+    console.log(response)
+
+    return res.redirect('/manag-user/PYT-672');
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect('error672/PYT-672');
   });
 };
 
@@ -1879,7 +3534,7 @@ exports.obtenerusuarios = (req, res) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.send({error: 'Error al realizar la tarea'});
-  });
+    });
 };
 
 // * OBTENER LECCION ACTUAL DE GRUPO
@@ -1955,18 +3610,159 @@ exports.error = (req, res) => {
 // * CREAR GRUPOS ADMIN
 exports.creargrupos = (req, res) => {
   console.log(req.body);
-  const { nombre, lecciones, horario, fechaInicio,profesor } = req.body;
-  var profesor1 = profesor
+  let { nombre, lecciones, horario, fechaInicio, profesor } = req.body;
+  profesor = profesor ? profesor : null
   let msg = false;
-  console.log(moment(fechaInicio,'DD-MM-YYYY'));
+  let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
+  let identificador, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel;
+
+  inicio = moment(fechaInicio,'DD-MM-YYYY').format('DD-MM-YYYY');
+
+  numAño = moment(fechaInicio,'DD-MM-YYYY').format('YY');
+
+  if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
+    fechaPagos = "01 de cada mes";
+  } else {
+    fechaPagos = "15 de cada mes";
+  }
+  
+  if (nombre.trim() === '' || lecciones.trim() === '' || horario.trim() === '' || fechaInicio.trim() === '') {
+    console.log('complete todos los campos')
+    let error = {
+      msg: 'complete todos los campos'
+    }
+
+    return res.send(error);
+  } else {
+    if (lecciones === '1') {
+      if(nombre === "Desde cero") {
+        DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
+          let grupos = JSON.parse(response);
+          inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
+          count = 0;
+          
+          grupos.forEach(row => {
+            let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+  
+            if (numAño === añoGrupo) {
+              count++;
+            }
+          }); 
+  
+          numGrupo += count;
+  
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(128, 'w').format('DD-MM-YYYY');
+          finNivel = "32 Semanas";      
+
+          numId += numGrupo;
+          identificador = `C${numAño}`;
+
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin,profesor).then((respuesta) => {
+            console.log(respuesta)
+
+            return res.send({success: 'creado'});
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      } else {
+        DataBase.ObtenerTodosGruposKids().then((response) => {
+          let grupos = JSON.parse(response);
+          inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
+          count = 0;
+          
+          grupos.forEach(row => {
+            let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+  
+            if (numAño === añoGrupo) {
+              count++;
+            }
+          }); 
+  
+          numGrupo += count;
+  
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(64, 'w').format('DD-MM-YYYY');
+          finNivel = "16 Semanas";      
+          numId += numGrupo;
+          identificador = `N${numAño}`;
+    
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, profesor).then((respuesta) => {
+            console.log(respuesta)
+  
+            return res.send({success: 'creado'});
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+    } else {
+      DataBase.ObtenerTodosGruposIntensivo().then((response) => {
+        let grupos = JSON.parse(response);
+        inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
+        count = 0;
+        // FILTRAR POR AÑO
+        
+        grupos.forEach(row => {
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+
+          if (numAño === añoGrupo) {
+            count++;
+          }
+        }); 
+
+        numGrupo += count;
+
+        //fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(64, 'w').format('DD-MM-YYYY');
+        finNivel = "16 Semanas";      
+        numId += numGrupo;
+        identificador = `I${numAño}`;
+   
+        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, profesor).then((respuesta) => {
+          console.log(respuesta)
+
+          return res.send({success: 'creado'});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    } 
+  }
+};
+
+// ? CREAR GRUPOS RESPALDO
+/*exports.creargrupos = (req, res) => {
+  console.log(req.body);
+  const { nombre, lecciones, horario, fechaInicio,profesor } = req.body;
+  let profesor1 = profesor
+  let msg = false;
   let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
   let identificador, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
   inicio = moment(fechaInicio,'DD-MM-YYYY').format('DD-MM-YYYY');
 
   numAño = moment(fechaInicio,'DD-MM-YYYY').format('YY');
-  console.log(numAño)
-  console.log("AÑO DE IDENTIFICADOR")
 
   if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
     fechaPagos = "01 de cada mes";
@@ -1988,20 +3784,12 @@ exports.creargrupos = (req, res) => {
           let grupos = JSON.parse(response);
           inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
           count = 0;
-          // FILTRAR POR AÑO
-          console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
           
           grupos.forEach(row => {
             let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-            console.log(numAño)
-            console.log(añoGrupo)
-            console.log("MOMENTO INICIO")
   
             if (numAño === añoGrupo) {
               count++;
-              console.log("CONTIENEN EL MISMO AÑO")
-              console.log(count)
-              console.log("NUMERO DE IDENTIFICADOR")
             }
           }); 
   
@@ -2009,23 +3797,18 @@ exports.creargrupos = (req, res) => {
   
           nivelCode = '-1';
           nivel = 'Principiante';
-                                        // 224
-          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(31, 'w').format('DD-MM-YYYY');
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(128, 'w').format('DD-MM-YYYY');
           finNivel = "32 Semanas";      
-          console.log(fechaFin)
-          console.log("FECHAR FINALIZAR")
+
           numId += numGrupo;
           identificador = `C${numAño}${numId}${nivelCode}`;
-          console.log(identificador)
-          console.log("IDENTIFICADOR GENERADO")
+
           if (profesor1 == 'NULL') {
             profesor1 = null
           }
           DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor1).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
-            console.log(grupoId)
-            console.log("GRUPO CREADO SATISFACTORIAMENTE")
   
             return res.send({success: 'creado'});
   
@@ -2040,25 +3823,16 @@ exports.creargrupos = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        console.log("GRUPOS KIDS")
         DataBase.ObtenerTodosGruposKids().then((response) => {
           let grupos = JSON.parse(response);
           inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
           count = 0;
-          // FILTRAR POR AÑO
-          console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
           
           grupos.forEach(row => {
             let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-            console.log(numAño)
-            console.log(añoGrupo)
-            console.log("MOMENTO INICIO")
   
             if (numAño === añoGrupo) {
               count++;
-              console.log("CONTIENEN EL MISMO AÑO")
-              console.log(count)
-              console.log("NUMERO DE IDENTIFICADOR")
             }
           }); 
   
@@ -2066,23 +3840,16 @@ exports.creargrupos = (req, res) => {
   
           nivelCode = '-1';
           nivel = 'Principiante';
-                                        // 112
-          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').format('DD-MM-YYYY');
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(64, 'w').format('DD-MM-YYYY');
           finNivel = "16 Semanas";      
-          console.log(fechaFin)
-          console.log("FECHAR FINALIZAR")
           numId += numGrupo;
           identificador = `N${numAño}${numId}${nivelCode}`;
-          console.log(identificador)
-          console.log("IDENTIFICADOR GENERADO")
           if (profesor1 == 'NULL') {
             profesor1 = null
           }
           DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
-            console.log(grupoId)
-            console.log("GRUPO CREADO SATISFACTORIAMENTE")
   
             return res.send({success: 'creado'});
   
@@ -2100,24 +3867,15 @@ exports.creargrupos = (req, res) => {
     } else {
       DataBase.ObtenerTodosGruposIntensivo().then((response) => {
         let grupos = JSON.parse(response);
-        console.log("INTENSIVOS")
-        // FILTRAR POR AÑO
         inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
         
         grupos.forEach(row => {
           let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
 
           if (numAño === añoGrupo) {
             count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
           }
         }); 
 
@@ -2125,21 +3883,15 @@ exports.creargrupos = (req, res) => {
 
         nivelCode = '-1';
         nivel = 'Principiante';
-                                        // 112
-        fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+        //fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(64, 'w').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
         numId += numGrupo;
         identificador = `I${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
         if (profesor1 == 'NULL') {
           profesor1 = null
         }
         DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
-          console.log(respuesta)
-          console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
           return res.send(grupoCreado);
 
@@ -2155,21 +3907,22 @@ exports.creargrupos = (req, res) => {
       });
     } 
   }
-};
+};*/
 
 // * ACTUALIZAR GRUPOS ADMIN
 exports.actualizargrupos = (req, res) => {
   console.log(req.body);
-  const { id, nombre, horario1, horario2, fechaInicio,profesor } = req.body;
+  const { id, nombre, horario1, horario2, horario3, fechaInicio, profesor } = req.body;
   let msg = false;
-  let diaActual = moment(fechaInicio,'DD-MM-YYY').format('DD');
+  let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
   let identificador, lecciones, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
-  inicio = moment(fechaInicio,'DD-MM-YYY').format('DD-MM-YYYY');
+  inicio = moment(fechaInicio,'DD-MM-YYYY').format('DD-MM-YYYY');
   
-  numAño = moment(fechaInicio,'DD-MM-YYY').format('YY');
+  numAño = moment(fechaInicio,'DD-MM-YYYY').format('YY');
   console.log(numAño)
   console.log("AÑO DE IDENTIFICADOR")
+  console.log(req.body)
   if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
     fechaPagos = "01 de cada mes";
   } else {
@@ -2181,108 +3934,51 @@ exports.actualizargrupos = (req, res) => {
     return res.send({error: 'Lo sentimos algo ah ocurrido'});
   } else {
     if (nombre === 'Desde cero') {
-      DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
-        let grupos = JSON.parse(response);
-        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
-        count = 0;
-        // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
-        
-        grupos.forEach(row => {
-          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
 
-          if (numAño === añoGrupo) {
-            count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
-          }
-        }); 
+      nivelCode = '1';
+      nivel = 'Principiante';
+      lecciones = 1;
+                                    // 224
+      fechaFin = moment(fechaInicio,'DD-MM-YYY').add(31, 'w').format('DD-MM-YYYY');
+      finNivel = "32 Semanas";      
+      console.log(fechaFin)
+      console.log("FECHAR FINALIZAR")
+      numId += numGrupo;
+      identificador = `C${numAño}`;
 
-        numGrupo += count;
+      DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel, profesor ? parseInt(profesor) : null).then((respuesta) => {
+        console.log(respuesta)
+        console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
 
-        nivelCode = '-1';
-        nivel = 'Principiante';
-        lecciones = 1;
-                                      // 224
-        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(31, 'w').format('DD-MM-YYYY');
-        finNivel = "32 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
-        numId += numGrupo;
-        identificador = `C${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
-        
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
-          console.log(respuesta)
-          console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
-
-          return res.send({success: 'Grupo Actualizado'});
-       
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
+        return res.send({success: 'Grupo Actualizado'});
+     
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
+
     } else if (nombre === "Intensivo") {
-      DataBase.ObtenerTodosGruposIntensivo().then((response) => {
-        let grupos = JSON.parse(response);
-        console.log("INTENSIVOS")
-        // FILTRAR POR AÑO
-        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
-        count = 0;
-        // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
-        
-        grupos.forEach(row => {
-          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
 
-          if (numAño === añoGrupo) {
-            count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
-          }
-        }); 
+      nivelCode = '1';
+      nivel = 'Principiante';
+      lecciones = 2;
+                                      // 112
+      fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+      finNivel = "16 Semanas";      
+      /*console.log(fechaFin)
+      console.log("FECHAR FINALIZAR")*/
+      numId += numGrupo;
+      identificador = `I${numAño}`;
+      /*console.log(identificador)
+      console.log("IDENTIFICADOR GENERADO")*/
+      
+      DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel, profesor ? parseInt(profesor) : null).then((respuesta) => {
+        console.log(respuesta)
+        console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
-        numGrupo += count;
+        return res.send({success: 'Grupo Actualizado'});
 
-        nivelCode = '-1';
-        nivel = 'Principiante';
-        lecciones = 2;
-                                        // 112
-        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
-        finNivel = "16 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
-        numId += numGrupo;
-        identificador = `I${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
-        
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
-          console.log(respuesta)
-          console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
-
-          return res.send({success: 'Grupo Actualizado'});
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
@@ -2290,55 +3986,26 @@ exports.actualizargrupos = (req, res) => {
       });
 
     } else {
-      DataBase.ObtenerTodosGruposKids().then((response) => {
-        let grupos = JSON.parse(response);
-        console.log("KIDS")
-        // FILTRAR POR AÑO
-        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
-        count = 0;
-        // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
-        
-        grupos.forEach(row => {
-          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
 
-          if (numAño === añoGrupo) {
-            count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
-          }
-        }); 
+      nivelCode = '1';
+      nivel = 'Principiante';
+      lecciones = 1;
+                                      // 112
+      fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').format('DD-MM-YYYY');
+      finNivel = "16 Semanas";      
+      /*console.log(fechaFin)
+      console.log("FECHAR FINALIZAR")*/
+      numId += numGrupo;
+      identificador = `N${numAño}`;
+      /*console.log(identificador)
+      console.log("IDENTIFICADOR GENERADO")*/
+      
+      DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario3, fechaPagos, finNivel, inicio, fechaFin, nivel, profesor ? parseInt(profesor) : null).then((respuesta) => {
+        console.log(respuesta)
+        console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
-        numGrupo += count;
+        return res.send({success: 'Grupo Actualizado'});
 
-        nivelCode = '-1';
-        nivel = 'Principiante';
-        lecciones = 1;
-                                        // 112
-        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').format('DD-MM-YYYY');
-        finNivel = "16 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
-        numId += numGrupo;
-        identificador = `N${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
-        
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
-          console.log(respuesta)
-          console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
-
-          return res.send({success: 'Grupo Actualizado'});
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
@@ -2378,20 +4045,20 @@ exports.obtenermatriculagrupo = (req, res) => {
 
 // * REGISTRAR PARTICIPACION
 exports.registrarparticipacion = (req, res) => {
-  const { porcentaje, leccion, grupoId, matriculaId } = req.body;
+  const { porcentaje, leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
-  if (porcentaje.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (porcentaje.trim() === "" || leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos 2052" };
+    let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.BuscarParticipacionMatricula(leccion, grupoId, matriculaId).then((response) => {
+    DataBase.BuscarParticipacionMatricula(leccion, nivel, grupoId, matriculaId).then((response) => {
       let resp = JSON.parse(response);
       
       if(resp.length) {
-        DataBase.ActualizarParticipacion(porcentaje, leccion, grupoId, matriculaId).then((response2) =>{
+        DataBase.ActualizarParticipacion(porcentaje, leccion, nivel, grupoId, matriculaId).then((response2) =>{
           let resp2 = JSON.parse(response2);
           return res.send({resp2});
 
@@ -2401,7 +4068,7 @@ exports.registrarparticipacion = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        DataBase.RegistrarParticipacion(porcentaje, leccion, grupoId, matriculaId).then((response3) =>{
+        DataBase.RegistrarParticipacion(porcentaje, leccion, nivel, grupoId, matriculaId).then((response3) =>{
           let resp3 = JSON.parse(response3);
           return res.send({resp3});
 
@@ -2421,22 +4088,26 @@ exports.registrarparticipacion = (req, res) => {
 
 // * REGISTRAR NOTAS
 exports.registrarnotas = (req, res) => {
-  const { nota, leccion, grupoId, matriculaId,commentProfForm,  commentAdminForm } = req.body;
+  const { nota, leccion, nivel, grupoId, matriculaId, commentProfForm, commentAdminForm } = req.body;
   console.log(req.body);
+  console.log("NOTAS");
   let msg = false;
 const userId = res.locals.user.id
-  if (nota.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (nota.trim() === "" || leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
     let err = { error: "complete todos los campos 2095" };
     res.send({err});
   } else {
-    DataBase.BuscarNotasLeccion(leccion, grupoId, matriculaId).then((response) => {
+    DataBase.BuscarNotasLeccion(leccion, nivel, grupoId, matriculaId).then((response) => {
       let resp = JSON.parse(response);
       
       if(resp.length) {
-        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
+        DataBase.ActualizarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm).then(async(response2) =>{
           let resp2 = JSON.parse(response2);
-          const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+          if (commentProfForm != "") {
+             const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+             console.log(comentario_save)
+          }         
           return res.send(resp2);
 
         }).catch((err) => {
@@ -2445,9 +4116,12 @@ const userId = res.locals.user.id
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response3) =>{
+        DataBase.RegistrarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm).then(async(response3) =>{
           let resp3 = JSON.parse(response3);
-          const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+          if (commentProfForm != "") {
+            const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+            console.log(comentario_save)
+         }   
           return res.send({resp3});
 
         }).catch((err) => {
@@ -2466,16 +4140,16 @@ const userId = res.locals.user.id
 
 // * REGISTRAR MATRICULA AUSENTE
 exports.registrarmatriculausente = (req, res) => {
-  const { leccion, grupoId, matriculaId } = req.body;
+  const { leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
-  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos 2138" };
+    let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.RegistrarAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
+    DataBase.RegistrarAsistenciaMatriculaAusente(leccion, nivel, grupoId, matriculaId).then((response) =>{
       let resp = JSON.parse(response);
       return res.send({resp});
     }).catch((err) => {
@@ -2510,22 +4184,23 @@ exports.eliminarmatriculausente = (req, res) => {
 
 // * OBTENER MATRICULA AUSENTE
 exports.obtenermatriculausente = (req, res) => {
-  const { arr, leccion, grupoId, matriculaId } = req.body;
+  const { arr, leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
+  console.log("BODY");
   let msg = false;
 
-  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos');
-    let err = { error: "complete todos los campos 2182" };
+    let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
     let matricula = JSON.parse(arr);
     matricula.forEach(item => {
-      DataBase.ObtenerNotasMatricula(leccion, grupoId, item.id).then((response) => {
+      DataBase.ObtenerNotasMatricula(leccion, nivel, grupoId, item.id).then((response) => {
         let result = JSON.parse(response)[0];
-        /*console.log(result)*/
+        console.log(result)
         if (result) {
-          /*console.log("CONTIENE NOTAS")*/
+          console.log("CONTIENE NOTAS")
           let notas = {
             notas: parseInt(result.nota)
           }
@@ -2536,8 +4211,8 @@ exports.obtenermatriculausente = (req, res) => {
             commentAdminForm: result.commentAdminForm
           }
           let final = Object.assign(item, notas,commentProfForm, commentAdminForm)
-          /*console.log(notas)
-          console.log(final)*/
+          console.log(notas)
+          console.log(final)
         } else {
           let notas = {
             notas: 0
@@ -2582,7 +4257,7 @@ exports.obtenermatriculausente = (req, res) => {
       });
     });
 
-    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response3) =>{
+    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, nivel, grupoId, matriculaId).then((response3) =>{
       let resp = JSON.parse(response3);
       return res.send({resp, matricula});
     }).catch((err) => {
@@ -2592,6 +4267,54 @@ exports.obtenermatriculausente = (req, res) => {
     });
   }
 };
+
+// * OBTENER TODO MATRICULA AUSENTE 
+exports.obtenerTodaMatriculAusente = (req, res) => {
+
+  DataBase.ObtenerAsistenciasAll().then((response) =>{
+    let asistencia = JSON.parse(response);
+    console.log(asistencia)
+    return res.send({asistencia});
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+}
+
+// * OBTENER TODO MATRICULA AUSENTE 
+exports.obtenerTodasNotas = (req, res) => {
+
+  DataBase.ObtenerTodasNotas().then((response) => {
+    let notas = JSON.parse(response);
+    console.log(notas)
+    return res.send({notas});
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+}
+
+// * OBTENER TODAS PARTICIPACIONES
+exports.obtenerTodasParticipaciones = (req, res) => {
+
+  DataBase.ObtenerTodasParticipacion().then((response) => {
+    let participacion = JSON.parse(response);
+    console.log(participacion)
+    return res.send({participacion});
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+}
 
 // * BORRAR GRUPOS ADMIN
 exports.borrargrupo = (req, res) => {
@@ -2646,8 +4369,10 @@ exports.borrarestudiantes = (req, res) => {
 // * REGISTRAR ESTUDIANTES ADMIN
 exports.registrarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,vendedor } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, vendedor } = req.body;
   let msg = false;
+  let idEncargado = res.locals.user.id;
+  let usuarioId = vendedor ? vendedor : null
 
   if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
@@ -2665,8 +4390,8 @@ exports.registrarmatricula = async(req, res) => {
       msg = `El grupo seleccionado ya cuenta con ${countGroupAlumnos.length} registrados. Superó el limite de alumnos por grupo`
       return res.redirect('/matriculas/'+msg);
     }
-    DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor).then((resp) => {
-    //  console.log(resp)
+    DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId, usuarioId).then((resp) => {
+      //console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
@@ -2676,7 +4401,8 @@ exports.registrarmatricula = async(req, res) => {
         msg = `El grupo seleccionado ya cuenta con ${countNew} registrados`
         return res.redirect('/matriculas/'+msg);
       }
-      return res.redirect('/matriculas');
+
+      return res.redirect('/matriculas/'+idEstudiante);
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -2687,10 +4413,12 @@ exports.registrarmatricula = async(req, res) => {
 // * EDITAR ESTUDIANTES ADMIN
 exports.editarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante,vendedor } = req.body;
+  let { grupoId, nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, id_estudiante,vendedor } = req.body;
+  console.log(req.body)
+  console.log("REQ BODY")
   let msg = false;
 
-  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+  if (grupoId.trim() === "" || nombre.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
     msg="Complete todos los campos"
     return res.redirect('/matriculas/'+msg);
@@ -2699,10 +4427,12 @@ exports.editarmatricula = async(req, res) => {
     if(!telefono2) {
       telefono2 = '-'
     } 
-
-    tipo = parseInt(tipo)
+    let tipo = 1
+    if (vendedor === "") {
+      vendedor = null
+    }
   
-    DataBase.EditMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor).then((resp) => {
+    DataBase.EditMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante, vendedor).then((resp) => {
     console.log(resp)
       console.log("ESTUDIANTE EDITADO")
       msg="Datos del estudiante "+nombre.toUpperCase()+" actualizados con éxito"
@@ -2766,39 +4496,47 @@ for (let i = 0; i < check_newGroup.length; i++) {
 
 // * CONGELAR ESTUDIANTES ADMIN
 exports.congelarestudiante = (req, res) => {
-  let { id_estudiante } = req.body;
+  let { id } = req.body;
   let msg = false;
 
   console.log(req.body);
-    DataBase.CongelarEstudiante(id_estudiante).then((resp) => {
-      console.log(resp)
-  
-      return res.send({congelado:'congelado'});
-  
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
-    });
+
+  DataBase.CongelarEstudiante(id).then((resp) => {
+    console.log(resp)
+    
+    /*let concepto = "Reactivacion", monto = 5000, mora = "-", observacion = "-"
+    DataBase.guardarCajaPendiente(concepto, monto, mora, observacion,id).then((value) => {
+      console.log(value)
+
+      return res.redirect('/matriculas');
+    })*/
+    return res.send({success: true})
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
 };
 
 // * ACTIVAR ESTUDIANTES CONGELADOS ADMIN
 exports.activarestudiantecongelado = (req, res) => {
-  let { id_estudiante } = req.body;
+  let { id } = req.body;
   let msg = false;
 
   console.log(req.body);
 
-    DataBase.ActivarEstudianteCongelado(id_estudiante).then((resp) => {
-      console.log(resp)
-      
-      return res.send({activado:'activado'});
+  DataBase.ActivarEstudianteCongelado(id).then((resp) => {
+    console.log(resp)
+    
+    return res.redirect('/matriculas');
+      //return res.send({activado:'activado'});
   
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
-    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
 };
 
 // * CONGELAR ESTUDIANTES ADMIN
@@ -2809,7 +4547,7 @@ exports.eliminarestudiantegrupo = (req, res) => {
 
   if (id.trim() === "") {
     console.log('complete todos los campos')
-    res.redirect('/matriculas');
+    return res.redirect('/matriculas');
   } else {
    
     DataBase.EliminarGrupoEstudiante(id).then((resp) => {
@@ -2866,6 +4604,16 @@ exports.boardUser = (req, res) => {
   }
   let proyecto = req.params.id  
   let role = req.user.puesto, nombre = req.user.nombre
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleUser = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   console.log(proyecto)
     res.render(proyecto+"/user/board", {
       pageName: "Tablero",
@@ -2873,7 +4621,8 @@ exports.boardUser = (req, res) => {
       dashboard: true,
       py672:true,
       board: true,
-      roleUser: true,
+      roleAdmin,
+      roleProf,
       role, 
       nombre
     })

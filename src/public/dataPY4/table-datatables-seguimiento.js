@@ -41,7 +41,6 @@ function tablanotif1_2(editada) {
           // Avatar image/badge, Name and post
           targets: 0,
           render: function (data, type, full, meta) {
-console.log(full)
 let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full['asentamiento']
 
         //aqui activa el modal info del cliente
@@ -52,8 +51,11 @@ let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full
           // Avatar image/badge, Name and post
           targets: 3,
           render: function (data, type, full, meta) {
-
-            return moment(data).format('DD/MM/YYYY');
+            let fecha = moment(data,'DD/MM/YYYY').format('DD/MM/YYYY');
+            if (fecha == 'Invalid date') {
+              fecha = moment(data,'YYYY-MM-DD').format('DD/MM/YYYY');
+            }
+            return fecha;
           }
         },
       ],

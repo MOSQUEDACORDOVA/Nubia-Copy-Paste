@@ -11,28 +11,19 @@
     
   let valor = $('#carga_').val()
   let valor_pedido = $('#array_pedido').val()
-  let array_resumen_carga = "", array_pedido
-  if (rechar) {
-    
-    array_resumen_carga = JSON.parse(valor)
-    array_pedido = JSON.parse(valor_pedido)
-  }else{
-    array_resumen_carga = JSON.parse(valor.replace(/&quot;/g,'"'))
-    array_pedido = JSON.parse(valor_pedido.replace(/&quot;/g,'"'))
-  }
+  let array_resumen_carga = "";
+   array_resumen_carga = JSON.parse(valor)
   let codigosP = $('#array_cp').val()
  let hoy = moment().format('YYYY-MM-DD')
   let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy || status.status_pedido == "Reprogramado" && status.fecha_pedido == hoy);
   let pedidos_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" && status.fecha_pedido == hoy ); // return implicito
-  // console.log(array_resumen_carga)
-  // console.log(pedidos_resumen)
-  // console.log(pedidos_entregados)
-  var dt_table_resumen = $('.datatables-resumen');
+   var dt_table_resumen = $('#resume-table');
 
   // DataTable with buttons
   // --------------------------------------------------------------------
   var groupColumn = 4;
   if (dt_table_resumen.length) {
+    console.log(array_resumen_carga)
     $('.dt-column-search_resumen thead tr').clone(true).appendTo('.dt-column-search_resumen thead');
     $('.dt-column-search_resumen thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
@@ -126,8 +117,6 @@
           if (suma == 0) {
             resto = 0
           } else {
-            console.log(suma_entregados)
-            console.log(suma)
             resto = suma > suma_entregados ? suma - suma_entregados : suma_entregados - suma;//suma- suma_entregados
           }
           
@@ -199,7 +188,7 @@
  // Advanced Search Functions Ends
  $(function () {
   'use strict';
-  cargaTableResumen()
+  
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
 
@@ -210,7 +199,6 @@ $.contextMenu({
   trigger: 'hover',
   autoHide: true,
   build: function ($trigger, e) {
-    console.log(e)
     var Recargas = e.currentTarget['dataset']["arrayrecarga"];
     var carga_inicial = e.currentTarget['dataset']["cargainicial"];
     var my_object = JSON.parse(decodeURIComponent(Recargas));
@@ -230,22 +218,6 @@ $.contextMenu({
       };
   }
 })
-
-
-
-  // Responsive Table
-  // --------------------------------------------------------------------
-
-
-  // Filter form control to default size for all tables
-  $('.dataTables_filter .form-control').removeClass('form-control-sm');
-  $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
-  // Delete Record
-  
-  $('.odd').addClass('selector');
-  $('.even').addClass('selector'); 
-
- 
 
 
 });

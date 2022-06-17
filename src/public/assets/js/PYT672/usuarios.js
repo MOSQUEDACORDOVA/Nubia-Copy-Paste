@@ -1,22 +1,45 @@
-let usuariosTable = $('#usuarios'), usuarios;
-
-function FetchData () {
-  fetch('/obtenerusuariospy672')
+let usuariosTable = $('#usuarios'), usuarios, gruposTodos;
+function FetchData (num) {
+  fetch('/obtenerGruposAll')
       .then(response => response.json())
       .then(data => {
-          usuarios = data.usuarios
-          cargarTablaUsuarios();
+          gruposTodos = data;
+
+          moment.locale('es');
+          $('#gruposMenu').html('<option value="">Seleccione un grupo</option>');
+          gruposTodos.forEach(item => {
+              let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+              $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+          });
+          $('#gruposMenu').trigger("change");
       });
+
+  if (num === 1) {
+    fetch('/obtenerusuariospy672')
+        .then(response => response.json())
+        .then(data => {
+            usuarios = data.usuarios
+            /*let check = usuarios.filter(usuario => usuario.puesto === "Administrador")
+            if (check.length < 2) {
+              for (let index = 0; index < usuarios.length; index++) {
+                if (usuarios[index].puesto === "Administrador") {
+                  usuarios.splice(index, 1)
+                }
+              }
+            }*/
+            cargarTablaUsuarios();
+    });
+  }
 }
 
-FetchData();
+FetchData(1)
 
 function cargarTablaUsuarios() {
   
   if (usuariosTable.length) {
     console.log(usuarios);
     let tableUsuarios = usuariosTable.DataTable({
-      ordering: false,
+      "orderFixed": [[ 0, "asc" ]],
       paging: false,
       data: usuarios,
       columns: [
@@ -42,7 +65,6 @@ function cargarTablaUsuarios() {
             if (full['puesto'] != "Administrador") {
               options =`
               <div class="d-flex align-items-center">
-                <a href="#" class="btn btn-sm ms-1 text-primary" onclick="deleteUser('${full['id']}')">${feather.icons['trash'].toSvg()}</a>
                 <a href="#" class="btn btn-sm text-primary" onclick="enabledDisUser('${full['id']}','${full['enabled']}')">${enableIcon}</a>
                 <a href="#" class="dropdown-toggle text-center ms-1 text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
                   ${feather.icons['more-vertical'].toSvg()}
@@ -52,10 +74,10 @@ function cargarTablaUsuarios() {
                   <a class="dropdown-item" href="#" onclick="edituser('${full['id']}')">
                     Editar
                   </a>
+                  <a href="#" class="dropdown-item align-items-center" onclick="deleteUser('${full['id']}')">Eliminar</a>
                 </div>
-                
-                
               </div>`
+              //${feather.icons['trash'].toSvg()}
             }
             return options;
           }
@@ -120,15 +142,28 @@ function cargarTablaUsuarios() {
 
 }
 
-let regUserForm = document.getElementById('regUsuarioForm')
+let regUserForm = document.getElementById('regUsuarioForm'),
+inPassw = document.getElementById('password'),
+inConfirmPassw = document.getElementById('confirm-password'),
+labelText = document.getElementById('text-passw');
 
 regUserForm.addEventListener('submit', e => {
   e.preventDefault();
   let data = new FormData(regUserForm);
   if ($('#user-id').length > 0) {    
-    EditarUsuario(data);
+    if (inPassw.value == inConfirmPassw.value) {
+      EditarUsuario(data);
+      
+    } else {
+      labelText.classList.remove('d-none')
+      let timeout = setTimeout(() => {
+        labelText.classList.add('d-none')
+        clearTimeout(timeout)
+      }, 5000);
+      //Toast('Password Diff')
+    }
   } else {
-  RegistrarUsuario(data);
+    RegistrarUsuario(data);
   }
   
 });
@@ -144,6 +179,7 @@ function RegistrarUsuario (data) {
       })
       .then(response => {
           console.log('Success:', response)
+          
           $('#registrarUsuario .resetBtn').click();
           $('#registrarUsuario .btn-close').click();
           Toast("Usuario Registrado");
@@ -161,6 +197,7 @@ function EditarUsuario (data) {
       })
       .then(response => {
           console.log('Success:', response)
+          $("#id-user-edit").empty()
           $('#registrarUsuario .resetBtn').click();
           $('#registrarUsuario .btn-close').click();
           Toast("Usuario Actualizado");
@@ -257,7 +294,7 @@ function UpdateTables() {
   </tr>
                                 </thead>`);
   
-  FetchData();
+  FetchData(1);
 }
 
 $(function () {

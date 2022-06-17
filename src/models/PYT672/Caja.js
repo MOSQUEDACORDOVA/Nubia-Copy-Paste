@@ -37,6 +37,10 @@ const Caja = db672.define('caja', {
 		type: DataTypes.STRING(200),
 		allowNull: true,
 	},
+	estado: {
+		type: DataTypes.STRING(200),
+		allowNull: true,
+	},
 });
 
 Caja.Matriculas = Caja.belongsTo(Matriculas)

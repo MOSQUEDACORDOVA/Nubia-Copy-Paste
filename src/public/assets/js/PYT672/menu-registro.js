@@ -17,17 +17,17 @@ $(function () {
     dist = document.getElementById('select-distrito');
 
     fetch('/obtenerusuariospy672')
-    .then(response => response.json())
-    .then(data => {
-        usuarios = data.usuarios
-        console.log(usuarios)
-        for (let i = 0; i < usuarios.length; i++) {
-            if (usuarios[i]['puesto']=="Vendedor") {
-               $('#vendedor-edit').append(`<option value="${usuarios[i]['id']}">${usuarios[i]['nombre']}</option>`) 
-            }                
-        }
-        
-    });
+        .then(response => response.json())
+        .then(data => {
+            usuarios = data.usuarios
+            //console.log(usuarios)
+            for (let i = 0; i < usuarios.length; i++) {
+                if (usuarios[i]['puesto']=="Vendedor") {
+                $('#vendedor-edit').append(`<option value="${usuarios[i]['id']}">${usuarios[i]['nombre']}</option>`) 
+                }                
+            }
+            
+        });
     $('#select-provincia').on('change', function () {
         let current = parseInt(prov.options[prov.selectedIndex].getAttribute('data-id'));
         $('#select-canton').html('<option value="">Seleccione un Canton</option>');
@@ -38,7 +38,7 @@ $(function () {
         });
         $('#select-canton').val("");
         $('#select-canton').trigger('change');
-
+        
         cant.disabled = false;
     });
 

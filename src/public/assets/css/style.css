@@ -1372,7 +1372,7 @@ table tr td {
     font-family: 'Conthrax Sb';
     color: #04246d !important;
     font-weight: 700;
-    transition: rgb(186, 223, 253)e all;
+    transition: rgb(186, 223, 253) ease all;
 }
 
 .py27.es .main-menu.menu-light .navigation>li.active>a {
@@ -1988,7 +1988,7 @@ table tr td {
 
 .py672 .auth-img {
     object-fit: contain;
-    max-width: 500px;
+    max-width: 400px;
 }
 
 .py672 .auth-wrapper .brand-logo .brand-text {
@@ -2427,6 +2427,26 @@ table tr td {
     background-color: rgb(40, 199, 111, 0.12);
     border-color: #28c76f;
 }
+.py672 .edit-btn-alumno > * {
+    pointer-events: none !important;
+}
+
+.py672 .changePasswordUser > * {
+    pointer-events: none !important;
+}
+.py672 #table-pagos tr.disabled td:nth-child(1) span, .py672 #table-pagos tr.disabled td:nth-child(1) p, .py672 #table-pagos tr.disabled .monto {
+    text-decoration-line: line-through !important;
+}
+
+.py672 .card.card-disabled {
+    opacity: 0.8;
+}
+.py672 .card.card-disabled textarea, .py672 .card.card-disabled input {
+    pointer-events: none !important;
+}
+.py672 .card.card-disabled .btnAsistencia, .py672 .card.card-disabled button {
+    pointer-events: none !important;
+}
 
 .tablaAlum {
     margin-left: 12px !important;
@@ -2484,6 +2504,11 @@ table tr td {
 .BCR:checked {
     background-color: blue;
     border: blue;
+}
+
+.EFE:checked {
+    background-color: rgb(153, 53, 53);
+    border: rgb(153, 53, 53);
 }
 
 .BAC:checked {

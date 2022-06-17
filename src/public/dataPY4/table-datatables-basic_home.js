@@ -6,13 +6,48 @@
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
- var zonas;
+ var zonas, copyReady,array_pedido, pedidosReprogramados;
+ var status_pedido;
+var status_pedido2 ;
+async function cargaPedidos() {
+    array_pedido = await fetch('/array_pedidoPy4')
+    .then(response => response.json())
+    .then(data => {
 
- // Custom filtering function which will search data in column four between two values
+        return JSON.parse(data.array_pedido)
+    });
+    zonas =await  fetch('/obtenerzonaspy4')
+.then(response => response.json())
+.then(data => {
+    return data.zonas
+});
+     cargaTablas();
+     cargaTableResumen();
+}
+async function cargaPedidosReprogramados(dia) {
+console.log(dia)
+  pedidosReprogramados = await fetch('/obtenerPedidosReprogramados/'+moment(dia, 'DD/MM/YYYY').format('YYYY-MM-DD'))
+  .then(response => response.json())
+  .then(data => {
+      return data.reprogramados
+  });
+ console.log(pedidosReprogramados);
+ if (pedidosReprogramados.length == 0) {
+  console.log(status_pedido);
+  $(`.datatables-basic`).DataTable().clear();
+  $(`.datatables-basic`).DataTable().rows.add( status_pedido ).draw();
+  return
+ }
+ for (let i = 0; i < pedidosReprogramados.length; i++) {
+   $(`.datatables-basic`).DataTable().row.add(pedidosReprogramados[i]).draw();
+ }
+
+}
+//  ///Custom filtering function which will search data in column four between two values
 //  $.fn.dataTable.ext.search.push(
 //      function( settings, data, dataIndex ) {
-//          var min = minDate.val();
-//          var max = maxDate.val();
+//          var min = minDate2.val();
+//          var max = maxDate2.val();
        
 
 //      let f = data[9]
@@ -71,29 +106,34 @@
  // Advance filter function
  // We pass the column location, the start date, and the end date
  var filterByDate = function (column, startDate, endDate) {
-   // Custom filter syntax requires pushing the new filter to the global filter array
-   $.fn.dataTableExt.afnFiltering.push(function (oSettings, aData, iDataIndex) {
-     var rowDate = normalizeDate(aData[column]),
-       start = normalizeDate(startDate),
-       end = normalizeDate(endDate);
-       var  min2 = minDate2.val();
-       var max2 = maxDate2.val();
-       let f = aData[9]       
-       let fechaN = f.split('-')       
-       var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
-       var date = new Date(date1);
-     // If our date from the row is between the start and end
-     if (
-      ( min2 === null && max2 === null ) ||
-      ( min2 === null && date <= max2 ) ||
-      ( min2 <= date   && max2 === null ) ||
-      ( min2 <= date   && date <= max2 ) 
-  ) {
-      return true;
-  }
-  return false;
-   });
+ console.log(column)
+
  };
+
+//  var filterByDate = function (column, startDate, endDate) {
+//   // Custom filter syntax requires pushing the new filter to the global filter array
+//   $.fn.dataTable.ext.search.push(function (oSettings, aData, iDataIndex) {
+//     var rowDate = normalizeDate(aData[column]),
+//       start = normalizeDate(startDate),
+//       end = normalizeDate(endDate);
+//       var  min2 = minDate2.val();
+//       var max2 = maxDate2.val();
+//       let f = aData[10] 
+//       let fechaN = f.split('-')       
+//       var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
+//       var date = new Date(date1);
+//     // If our date from the row is between the start and end
+//     if (
+//      ( min2 === null && max2 === null ) ||
+//      ( min2 === null && date <= max2 ) ||
+//      ( min2 <= date   && max2 === null ) ||
+//      ( min2 <= date   && date <= max2 ) 
+//  ) {
+//      return true;
+//  }
+//  return false;
+//   });
+// };
  
  // converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
  var normalizeDate = function (dateString) {
@@ -102,36 +142,15 @@
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
- async function cargaTablas(rechar) {
-zonas =await  fetch('/obtenerzonaspy4')
-.then(response => response.json())
-.then(data => {
-    return data.zonas
-});
-  console.log(zonas)
-  let valor = $('#array_pedido').val()
-  let array2 = ""
-  if (rechar) {    
-    array2 = JSON.parse(valor)
-  }else{
-    array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
-  }
+ async function cargaTablas(rechar) {  
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
-  let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
-  let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
+  status_pedido = array_pedido.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
+  status_pedido2 = array_pedido.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
+  console.log(status_pedido)
   var dt_basic_table = $('.datatables-basic'),
-    dt_date_table = $('.dt-date'),
-    dt_basic_table2 = $('.datatables-basic2'),
-    dt_adv_filter_table = $('.datatables-basic'),
-    dt_row_grouping_table = $('.dt-row-grouping'),
-    dt_multilingual_table = $('.dt-multilingual'),
-    assetPath = '../../dataPY4/';
-
-  if ($('body').attr('data-framework') === 'laravel') {
-    assetPath = $('body').attr('data-asset-path');
-  }
+    dt_basic_table2 = $('.datatables-basic2');
   minDate = new DateTime($('#min'), {
     format: 'DD/MM/YYYY'
 });
@@ -147,8 +166,7 @@ maxDate2 = new DateTime($('#max1'), {
 });
   // DataTable with buttons
   // --------------------------------------------------------------------
-  let groupColumn = 11;
-  console.log(status_pedido)
+  let groupColumn = 12;
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
@@ -169,17 +187,24 @@ $('#filterValue').val(this.value)
     });
     $('.select_chofer_pedidos').on('change', function(){
 
-      dt_basic.column(11).search(this.value).draw();   
+      dt_basic.column(12).search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
     dt_basic.search(this.value).draw();   
  });
+
+ copyReady= await fetch("/shareStatusPY4/")
+   .then((response) => response.json())
+   .then((data) => {
+     return data.findStatusCompartir;
+   });
 
     var dt_basic = dt_basic_table.DataTable({
       data: status_pedido,
       columns: [
         { data: 'id' },
         { data: 'id' },
+        { data: 'sucursaleId' },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
         { data: 'monto_total'}, // used for sorting so will hide this column
@@ -193,6 +218,7 @@ $('#filterValue').val(this.value)
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
+            
             let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
             let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
             let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
@@ -206,23 +232,28 @@ for (let i = 0; i < codigosP_arr.length; i++) {
 if ($('#otro_rol').length>0) {
 let Hoy = moment().format('DD/MM/YYYY'); 
 let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
-    var fecha_final= moment(Hoy).isAfter(fecha); // true
-        
+    var fecha_final= moment(Hoy).isAfter(fecha); // true        
 } 
-let modif = ""
-
+let modif = "";
 if (fecha_final == true) {
-  modif = "d-none"
+  modif = "d-none";
 }
+let styleCopy = "";
+ for (let i = 0; i < copyReady.length; i++) {
+   if (full['id'] == copyReady[i]['idPedido'] && moment().isSame(moment(copyReady[i]['createdAt']),'d')) {
+     styleCopy = "style='background-color: #001871; color: white;'";
+   }
+  
+ }
             return (
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'","'+meta.row+'","datatables-basic")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
+              '<a href="javascript:;" '+styleCopy+' class="'+full['id']+' dropdown-item share_record'+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
              `<p id="CopyPedido${full['id']}" class="d-none">
@@ -235,7 +266,7 @@ Rf:${rf}.
 CJ: ${CJ}.
 Env: ${Env}.
 Tipo Pago:${full['metodo_pago']}
-Dueda anterior: ${full['deuda_anterior']}
+Deuda anterior: ${full['deuda_anterior']}
 Garrafones prestados: ${full['garrafones_prestamos']}
 Observaciones:${full['observacion']}
 </p>`  
@@ -267,7 +298,7 @@ Observaciones:${full['observacion']}
               '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
           }
         },
-        { visible: false, targets: 12,
+        { visible: false, targets: 13,
           render: function (data, type, full) {
             let asentamiento = ""
             for (let i = 0; i < codigosP_arr.length; i++) {
@@ -285,7 +316,8 @@ Observaciones:${full['observacion']}
           targets: 1,
           render: function (data, type, full, meta) {
             var color_tag ="", color_text="", nombre;
-            if (full['cliente']['etiqueta'] ==null) {
+            console.log(full)
+            if (!full['cliente']['etiqueta']) {
               color_tag =0
               color_text="black"
               nombre=""
@@ -300,6 +332,19 @@ Observaciones:${full['observacion']}
         {
           // Label
           targets: 2,
+          render: function (data, type, full, meta) { 
+                   var zona_arr ;   
+            for (let i = 0; i < zonas.length; i++) {
+              if (zonas[i].id == full['cliente']['sucursaleId']) {
+                zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+              }                     
+            }
+            return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${full['cliente']['sucursaleId']}</span>`);
+          }
+        },
+        {
+          // Label
+          targets: 3,
           render: function (data, type, full, meta) {
             let asentamiento = ""
             for (let i = 0; i < codigosP_arr.length; i++) {
@@ -329,13 +374,13 @@ Observaciones:${full['observacion']}
         }
         //aqui activa el modal info del cliente
             return (
-              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
             );
           }
         },
          {
           // Label
-          targets: 3,className:'to_garra',
+          targets: 4,className:'to_garra',
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
@@ -349,12 +394,19 @@ Observaciones:${full['observacion']}
         },
         {
           // Label
-          targets: 4,
+          targets: 5,
           render: function (data, type, full, meta) {
-            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0
-            detailRefill = parseFloat(full['total_refill_pedido'])*35
-            detailCanje = parseFloat(full['total_canje_pedido'])*55
-            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0;
+            let montoRefill= 38, montoCanje= 65,monto_nuevo= 115;
+            if (moment(full['fecha_pedido'], 'YYYY-MM-DD').isSameOrBefore(moment('2022-05-15','YYYY-MM-DD'))) {
+              montoRefill= 35, montoCanje= 55,monto_nuevo= 105;
+            }
+            detailRefill = parseFloat(full['total_refill_pedido'])*montoRefill;
+            if (full['cliente']['tipo']=="Negocio" || full['cliente']['tipo'] =="Punto de venta") {
+              detailRefill = parseFloat(full['total_refill_pedido'])*parseFloat(full['cliente']['monto_nuevo'])              
+            }
+            detailCanje = parseFloat(full['total_canje_pedido'])*montoCanje;
+            detailNuevo = parseFloat(full['total_nv_pedido'])*monto_nuevo;
             adeudo = full['deuda_anterior']
             desc = full['descuento']
             sindesc = data
@@ -368,7 +420,7 @@ Observaciones:${full['observacion']}
       },
       {
         // Label
-        targets: 5,
+        targets: 6,
         render: function (data, type, full, meta) {
          return (
           '<span class="badge rounded-pill badge-light-danger " >$' +
@@ -379,7 +431,7 @@ Observaciones:${full['observacion']}
     },
         {
           // Label
-          targets: 6,
+          targets: 7,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
@@ -392,18 +444,13 @@ Observaciones:${full['observacion']}
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
-            return (
-              '<span class="badge rounded-pill ' +
-              $status[$status_number].class +
-              '" style="cursor:pointer"   onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\' data-status="'+full['status_pedido'] +'" data-id="'+full['id']+'">' +
-              $status[$status_number].title +
-              '</span>'
-            );
+            return (`<span class="badge rounded-pill CSP${full['id']} ${$status[$status_number].class}" style="cursor:pointer"   onclick=\'cambioSP("${full['id']}","${full['status_pedido']}","datatables-basic")\' data-status="${full['status_pedido']}" data-id="${full['id']}">${$status[$status_number].title}</span>
+            `);
           }
         },
         {
           // Label
-          targets: 7,
+          targets: 8,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -413,17 +460,20 @@ Observaciones:${full['observacion']}
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
-            return (
-              '<span class="badge rounded-pill ' +
-              $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['fecha_pedido'] +'","'+full['monto_total'] +'")\'>' +
-              $status[$status_number].title +
-              '</span>'
-            );
+            let span = `<span id="sPago${full['id']}" class="badge rounded-pill ${$status[$status_number].class}" style="cursor:pointer" onclick=\'cambioPago("${full['id']}","${full['status_pago']}","${full['fecha_pedido']}","${full['monto_total']}","${meta.row}","datatables-basic")\'>${$status[$status_number].title}</span>`
+            return span;
           }
         },
         {
-          targets: 9,className:'fecha_pedido',
+          // Label
+          targets: 9,
+          render: function (data, type, full, meta) {
+            let span = `<span id="mPago${full['id']}" class="badge rounded-pill badge-light-info" style="cursor:pointer" onclick=\'cambioMetodoPago("${full['id']}","${data}","${meta.row}","datatables-basic")\'>${data}</span>`;
+            return span;
+          }
+        },
+        {
+          targets: 10,className:'fecha_pedido',
           render:function(data, type, full){
             let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}-</span>${moment(data).format('DD/MM/YYYY')}`
             return fecha;
@@ -433,11 +483,18 @@ Observaciones:${full['observacion']}
       ],
      
      
-      order: [[9,'desc'],[11,'asc'],[2,'asc']],
+      order: [[10,'desc'],[12,'asc'],[3,'asc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
+      initComplete: function(settings, json) {
+        var api = this.api();
+      if ($('#otro_rol').length>0) {
+        api.column(2).visible( false );
+      }
+        
+      },
       drawCallback: function (settings) {
         let sumaG = 0
 $('.datatables-basic').dataTable().$('.cantidad').each(function(){
@@ -460,13 +517,13 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="11"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+                .before('<tr class="group"><td colspan="12"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
 
               last = group;
             }
           });
 
-          api.column(3, { page: 'current' }).data().each(function(group, i){
+          api.column(4, { page: 'current' }).data().each(function(group, i){
             sumaT +=parseInt(group)
            
         });
@@ -499,13 +556,14 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     
 
     // Refilter the table
-    $('#min1, #max1').on('change', function () {
-      filterByDate(9); // We call our filter function
-      dt_basic.draw();
-      });
+    // $('#min1, #max1').on('change', function () {
+    //   console.log($(this).val())
+    //   filterByDate($(this).val()); // We call our filter function
+    //   dt_basic.draw();
+    //   });
   }
   if (dt_basic_table2.length) {
-  let groupColumn2 = 9
+  let groupColumn2 = 10
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
     $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
@@ -521,7 +579,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     });
     $('.select_chofer_ventas').on('change', function(){
       
-      dt_basic2.column(9).search(this.value).draw();   
+      dt_basic2.column(10).search(this.value).draw();   
    });  
     $('.select_etiqueta_ventas').on('change', function(){
       
@@ -531,6 +589,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       data: status_pedido2,
       columns: [
         { data: 'id' },
+        { data: 'sucursaleId' },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
         { data: 'monto_total'}, // used for sorting so will hide this column
@@ -563,7 +622,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic2")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'", "'+meta.row+'","datatables-basic2")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'              
             );
@@ -574,7 +633,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
           { visible: false, targets: groupColumn2,
            
           },
-          { visible: false, targets: 10,
+          { visible: false, targets: 11,
             render: function (data, type, full) {
               let asentamiento = ""
               for (let i = 0; i < codigosP_arr.length; i++) {
@@ -614,6 +673,18 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             // Label
             targets: 1,
             render: function (data, type, full, meta) {
+              for (let i = 0; i < zonas.length; i++) {
+                if (zonas[i].id == data) {
+                  var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+                }                     
+              }
+              return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${data}</span>`);
+            }
+          },
+          {
+            // Label
+            targets: 2,
+            render: function (data, type, full, meta) {
               let asentamiento = ""
               for (let i = 0; i < codigosP_arr.length; i++) {
                 if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
@@ -640,13 +711,13 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             color_text="white"
           }
           return (
-            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
           );
             }
           },
         {
           // Label
-          targets: 2,className:'to_garra2',
+          targets: 3,className:'to_garra2',
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
@@ -660,13 +731,17 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         },
         {
           // Label
-          targets: 3,
+          targets: 4,
           render: function (data, type, full, meta) {
             
             let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
-            detailRefill = parseFloat(full['total_refill_pedido'])*35
-            detailCanje = parseFloat(full['total_canje_pedido'])*55
-            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            let montoRefill= 38, montoCanje= 65,monto_nuevo= 115;
+            if (moment(full['fecha_pedido'], 'YYYY-MM-DD').isSameOrBefore(moment('2022-05-15','YYYY-MM-DD'))) {
+              montoRefill= 35, montoCanje= 55,monto_nuevo= 105;
+            }
+            detailRefill = parseFloat(full['total_refill_pedido'])*montoRefill;
+            detailCanje = parseFloat(full['total_canje_pedido'])*montoCanje;
+            detailNuevo = parseFloat(full['total_nv_pedido'])*monto_nuevo;
             desc = full['descuento']
             sindesc = data
             condesc =parseFloat(data)- parseFloat(desc) 
@@ -679,7 +754,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       },
         {
           // Label
-          targets: 4,
+          targets: 5,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
@@ -701,7 +776,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         },
         {
           // Label
-          targets: 5,
+          targets: 6,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -711,16 +786,20 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
-            return (
-              '<span class="badge rounded-pill ' +
-              $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['fecha_pedido'] +'","'+full['monto_total'] +'")\'>' +
-              $status[$status_number].title +
-              '</span>'
-            );
+            let span = `<span id="sPago${full['id']}" class="badge rounded-pill ${$status[$status_number].class}" style="cursor:pointer" onclick=\'cambioPago("${full['id']}","${full['status_pago']}","${full['fecha_pedido']}","${full['monto_total']}","${meta.row}","datatables-basic2")\'>${$status[$status_number].title}</span>`
+            return span;
           }
-        },{
+        },
+        {
+          // Label
           targets: 7,
+          render: function (data, type, full, meta) {
+            let span = `<span id="mPago${full['id']}" class="badge rounded-pill badge-light-info" style="cursor:pointer" onclick=\'cambioMetodoPago("${full['id']}","${data}","${meta.row}","datatables-basic2")\'>${data}</span>`;
+            return span;
+          }
+        },
+        {
+          targets: 8,
           render:function(data){
             let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
             return fecha;
@@ -728,11 +807,17 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         },
       ],
      
-      order: [[7,'desc'],[9,'asc'],[1,'asc']],
+      order: [[8,'desc'],[10,'asc'],[2,'asc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
-      lengthMenu: [7, 10, 25, 50, 75, 100],
+      lengthMenu: [7, 10, 25, 50, 75, 100], initComplete: function(settings, json) {
+        var api = this.api();
+      if ($('#otro_rol').length>0) {
+        api.column(1).visible( false );
+      }
+        
+      },
       drawCallback: function (settings) {
         let sumaG = 0;
         $('.datatables-basic2').dataTable().$('.cantidad').each(function(){
@@ -742,7 +827,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
           sumaG += parseFloat($(this).text());
     }    
   });
-  $('#DataTables_Table_0_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+  $('#ventas-table_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
 
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();
@@ -763,7 +848,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
               last = group;
             }
           });
-          api.column(2, { page: 'current' }).data().each(function(group, i){
+          api.column(3, { page: 'current' }).data().each(function(group, i){
             sumaT +=parseInt(group)
            
         });
@@ -803,7 +888,8 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
  // Advanced Search Functions Ends
  $(function () {
   'use strict';
-  cargaTablas()
+  cargaPedidos();
+  
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
 
@@ -835,14 +921,15 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       url: `/change_chofer_pedido`,
       type: 'POST',
       data: $('#change_chofer_form').serialize(),
-      success: function (data, textStatus, jqXHR) {
-        $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+      success: async function (data, textStatus, jqXHR) {
+        // $('#array_pedido').val(JSON.stringify(data.pedidos_let))
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
         <tr>                                                
             <th></th>
             <th>#Pedido</th>
+            <th></th>
             <th class="cliente">Cliente</th>
             <th>To. garr.</th>
             <th>Monto Total</th>
@@ -857,24 +944,26 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         </tr>
     </thead>
     <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
         <tr>
             <th>Nº Pedido</th>
+            <th></th>
             <th>Cliente</th>
             <th>Total garrafones</th>
             <th>Monto Total</th>
@@ -883,14 +972,31 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             <th>Metodo de Pago</th>
             <th>Fecha</th>
             <th>Opciones</th>
-            
-        
-        <th>oculto choferes </th> 
+            <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
         </tr>
-    </thead>`);
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
         
-        cargaTablas('si')
+      await  cargaTablas('si').then(()=>{
+          if ($('#filterPosition').val() != "") {
+            console.log($('#filterValue').val()) 
+             $(`#${$('#filterPosition').val()}`).val(`${$('#filterValue').val()}`).trigger('keyup');
+            }
+        });     
+        
   $('.modal').modal('hide');
   Swal.fire('Se cambió con éxito el(los) choferes')
       },
@@ -946,7 +1052,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       url: `/reg_pedido_modal`,
       type: 'POST',
       data: $('#reg_pedido_modal1').serialize(),
-      success: function (data, textStatus, jqXHR) {
+      success: async function (data, textStatus, jqXHR) {
         console.log(data)
                if (data.fail) {
           Swal.fire(data.msg)
@@ -954,74 +1060,22 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
           
         }
         if ($('#carga_').length>0) {
-          $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-        $('.datatables-basic').dataTable().fnDestroy();
-         $('.datatables-basic').empty();
-        $('.datatables-basic').html(`<thead>
-        <tr>                                                
-            <th></th>
-            <th>#Pedido</th>
-            <th class="cliente">Cliente</th>
-            <th>To. garr.</th>
-            <th>Monto Total</th>
-            <th>Adeudo</th>
-            <th>Status del Pedido</th>
-            <th>Status de Pago</th>
-            <th>Forma de Pago</th>
-            <th>Fecha</th>
-            <th>Opciones</th>
-            <th>oculto choferes </th> 
-            <th>oculto asentamiento </th> 
-        </tr>
-    </thead>
-    <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</tfoot>`);
-        $('.datatables-basic2').dataTable().fnDestroy();
-        $('.datatables-basic2').empty();
-        $('.datatables-basic2').html(`<thead>
-        <tr>
-            <th>Nº Pedido</th>
-            <th>Cliente</th>
-            <th>Total garrafones</th>
-            <th>Monto Total</th>
-            <th>Status del Pedido</th>
-            <th>Status de Pago</th>
-            <th>Metodo de Pago</th>
-            <th>Fecha</th>
-            <th>Opciones</th>
-            
-        
-        <th>oculto choferes </th> 
-        <th>oculto asentamiento </th> 
-        </tr>
-    </thead>`);
-        
-        cargaTablas('si')
-        $('.datatables-resumen').dataTable().fnDestroy();
-        $('.datatables-resumen').empty();
-        $('.datatables-resumen').html(`<thead>
-        <tr>
-            <th>Carga Inicial</th>
-            <th>Pedidos</th>
-            <th>Entregados</th>
-            <th>Pendientes</th>                                                
-        
-        <th>oculto choferes </th>  
-        </tr>
-    </thead>`);
-        cargaTableResumen('si')
+
+        //   $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+        $(`.datatables-basic`).DataTable().row.add(data.pedido).draw();
+$('#resume-table').dataTable().fnDestroy();
+$('#resume-table').empty();
+$('#resume-table').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
+</thead>`);
+
         Swal.fire('Se creó con éxito el pedido')
   $('.modal').modal('hide');
   $('#reg_pedido_modal1').trigger("reset");
@@ -1035,8 +1089,15 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
    $('#deuda_box').attr('style','display:none')
    $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
    $("#id_cliente_reg_pedido").val('default').trigger('change');
-
-  
+   if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+   }
+   array_pedido = await fetch('/array_pedidoPy4')
+   .then(response => response.json())
+   .then(data => {
+       return JSON.parse(data.array_pedido)
+   });
+cargaTableResumen();
         } else {
           Swal.fire('Se creó con éxito el pedido')
   $('.modal').modal('hide');
@@ -1051,6 +1112,9 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
    $("#id_cliente_reg_pedido").val('default').trigger('change');
    let hoy= moment().format('YYYY-MM-DD')
 $('#fecha_pedido').val(hoy)
+if ($('#filterPosition').val() != "") {
+  $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+ }
         }
         
   
@@ -1166,6 +1230,26 @@ $.contextMenu({
       };
   }
 });
+
+$.contextMenu({
+  selector: '.zona',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    var Array = e.currentTarget['dataset']["arrzona"];
+     var zona = JSON.parse(decodeURIComponent(Array));
+   console.log(zona)
+   
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+          },
+          items: {
+              "Zona": { name: `Zona: ${zona.nombre}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
+  }
+});
  
 
   // Filter form control to default size for all tables
@@ -1179,69 +1263,41 @@ $.contextMenu({
  
 
   $('#form_edit_pedido').submit((e)=>{
+    if ($('#gerente').length) {
+      e.preventDefault();
+      Swal.fire('No esta autorizado para modificar pedidos');
+      return
+    }
+      let rowNum = $('#edit_pedido_row').val();
+      let table = $('#table_edit_pedido').val();
     e.preventDefault()
     $.ajax({
       url: `/editar_pedido_save`,
       type: 'POST',
       data:$("#form_edit_pedido").serialize(),
-      success: function (data, textStatus, jqXHR) {
-  $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-  
-  $('.datatables-basic').dataTable().fnDestroy();
-   $('.datatables-basic').empty();
-   $('.datatables-basic').html(`<thead>
-   <tr>                                                
-       <th></th>
-       <th>#Pedido</th>
-       <th class="cliente">Cliente</th>
-       <th>To. garr.</th>
-       <th>Monto Total</th>
-       <th>Adeudo</th>
-       <th>Status del Pedido</th>
-       <th>Status de Pago</th>
-       <th>Forma de Pago</th>
-       <th>Fecha</th>
-       <th>Opciones</th>
-       <th>oculto choferes </th> 
-       <th>oculto asentamiento </th> 
-   </tr>
-</thead>
-<tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</tfoot>`);
-   
-   $('.datatables-basic2').dataTable().fnDestroy();
-   $('.datatables-basic2').empty();
-   $('.datatables-basic2').html(`<thead>
-   <tr>
-       <th>Nº Pedido</th>
-       <th>Cliente</th>
-       <th>Total garrafones</th>
-       <th>Monto Total</th>
-       <th>Status del Pedido</th>
-       <th>Status de Pago</th>
-       <th>Metodo de Pago</th>
-       <th>Fecha</th>
-       <th>Opciones</th>
-       
-   
-   <th>oculto choferes </th> 
-   <th>oculto asentamiento </th> 
-   </tr>
+      success: async function (data, textStatus, jqXHR) {
+        console.log(data)
+//   $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+$(`.${table}`).DataTable().row(rowNum).data(data.pedido).draw();
+$('#resume-table').dataTable().fnDestroy();
+$('#resume-table').empty();
+$('#resume-table').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
 </thead>`);
-   
-   cargaTablas('si')
+array_pedido = await fetch('/array_pedidoPy4')
+    .then(response => response.json())
+    .then(data => {
+
+        return JSON.parse(data.array_pedido)
+    });
+ cargaTableResumen();
 
 if ($('.select_chofer_pedidos').val() != "") {
   $(".select_chofer_pedidos").val(`${$('.select_chofer_pedidos').val()}`).trigger('change');
@@ -1249,22 +1305,8 @@ if ($('.select_chofer_pedidos').val() != "") {
 if ($('.select_etiqueta_pedidos').val() != "") {
   $(".select_etiqueta_pedidos").val(`${$('.select_etiqueta_pedidos').val()}`).trigger('change');
 }
-   $('.datatables-resumen').dataTable().fnDestroy();
-   $('.datatables-resumen').empty();
-   $('.datatables-resumen').html(`<thead>
-   <tr>
-       <th>Carga Inicial</th>
-       <th>Pedidos</th>
-       <th>Entregados</th>
-       <th>Pendientes</th>                                                
-   
-   <th>oculto choferes </th>  
-   </tr>
-   </thead>`);
-   
-   cargaTableResumen('si')
    if ($('#filterPosition').val() != "") {
-    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
   }
   $('#edit_pedido').modal('hide')
       },
@@ -1278,7 +1320,7 @@ if ($('.select_etiqueta_pedidos').val() != "") {
     if (typeof id_edit =="undefined") {
       return console.log(id_edit)
     }
-    copyToClipboard(`#CopyPedido${id_edit}`)
+    copyToClipboard(`#CopyPedido${id_edit}`,id_edit)
 
   });
 
@@ -1313,18 +1355,26 @@ function filterColumn(i, val) {
     $('.datatables-basic').DataTable().column(i).search(val, false, true).draw();
   }
 }
-function copyToClipboard(elemento) {
+async function copyToClipboard(elemento,id_edit) {
   var $temp = $("<textarea>")
   var brRegex = /<br\s*[\/]?>/gi;
   $("body").append($temp);
   $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
   document.execCommand("copy");
   $temp.remove();
+  await fetch("/ChangeshareStatusPY4/" + id_edit)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    $(`.share_record${id_edit}`).attr('style','background-color: #001871; color: white;');
+    //return data.obtener_historia;
+  });
+
   Swal.fire('Pedido copiado en el portapapeles')
+
   }
   function copyToClipboardVarios(elemento) {
     if ($("#checkboxSelectAll").is(':checked')) {
-      console.log('borra el primero')
       var new_elemento = elemento.shift()
     }
     var $temp = $("<textarea>")
@@ -1361,7 +1411,7 @@ function filterColumn2(i, val) {
   }
 }
 // cambiar estados
- async function cambioSP(id, status) {
+ async function cambioSP(id, status, dt_basic) {
  const { value: estado } = await Swal.fire({
   title: 'Seleccione un nuevo Status',
   input: 'select',
@@ -1456,16 +1506,40 @@ if (estado) {
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data, textStatus, jqXHR) {
+    success: async function (data, textStatus, jqXHR) {
       console.log(data)
-$('#array_pedido').val(JSON.stringify(data.pedidos_let))
+// $('#array_pedido').val(JSON.stringify(data.pedidos_let));
 $('#carga_').val(JSON.stringify(data.carga_let))
+if (estado == "Entregado" && dt_basic == 'datatables-basic' || estado == "Cancelado" && dt_basic == 'datatables-basic') {
+    $(`.${dt_basic}`).DataTable().row($(`.${dt_basic} tbody .CSP${id}`).parents('tr')).remove().draw();
+    $(`.${dt_basic}2`).DataTable().row.add(data.pedido).draw();
+    $('#resume-table').dataTable().fnDestroy();
+$('#resume-table').empty();
+$('#resume-table').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
+</thead>`);
+array_pedido = await fetch('/array_pedidoPy4')
+    .then(response => response.json())
+    .then(data => {
+
+        return JSON.parse(data.array_pedido)
+    });
+ cargaTableResumen();
+}else{
 $('.datatables-basic').dataTable().fnDestroy();
  $('.datatables-basic').empty();
 $('.datatables-basic').html(`<thead>
 <tr>                                                
     <th></th>
     <th>#Pedido</th>
+    <th></th>
     <th class="cliente">Cliente</th>
     <th>To. garr.</th>
     <th>Monto Total</th>
@@ -1480,18 +1554,19 @@ $('.datatables-basic').html(`<thead>
 </tr>
 </thead>
 <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
 
 $('.datatables-basic2').dataTable().fnDestroy();
@@ -1499,6 +1574,7 @@ $('.datatables-basic2').empty();
 $('.datatables-basic2').html(`<thead>
 <tr>
     <th>Nº Pedido</th>
+    <th></th>
     <th>Cliente</th>
     <th>Total garrafones</th>
     <th>Monto Total</th>
@@ -1507,17 +1583,26 @@ $('.datatables-basic2').html(`<thead>
     <th>Metodo de Pago</th>
     <th>Fecha</th>
     <th>Opciones</th>
-    
-
-<th>oculto choferes </th> 
+    <th>oculto choferes </th> 
 <th>oculto asentamiento </th> 
 </tr>
-</thead>`);
-
-cargaTablas('si')
-$('.datatables-resumen').dataTable().fnDestroy();
-$('.datatables-resumen').empty();
-$('.datatables-resumen').html(`<thead>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+$('#resume-table').dataTable().fnDestroy();
+$('#resume-table').empty();
+$('#resume-table').html(`<thead>
 <tr>
     <th>Carga Inicial</th>
     <th>Pedidos</th>
@@ -1528,9 +1613,17 @@ $('.datatables-resumen').html(`<thead>
 </tr>
 </thead>`);
 
-cargaTableResumen('si')
+await cargaPedidos().then(()=>{
+  if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+   }
+ });
+}
+
+
+
 if ($('#filterPosition').val() != "") {
- $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
 }
     },
     error: function (jqXHR, textStatus) {
@@ -1543,10 +1636,9 @@ if ($('#filterPosition').val() != "") {
 }
  }
 
-async function cambioPago(id, status, fecha_pedido, monto) {
-  console.log(fecha_pedido)
-  
-
+async function cambioPago(id, status, fecha_pedido, monto, rowNum,dtTable) {
+  var cell = $(`#sPago${id}`).closest("td");
+  console.log(rowNum)
   if (moment().isSame(fecha_pedido, 'day')) {
     const { value: estado } = await Swal.fire({
       title: 'Seleccione un nuevo Status',
@@ -1580,66 +1672,31 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         cache: false,
         contentType: false,
         processData: false,
-        success: function (data, textStatus, jqXHR) {
-    $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-    
-    $('.datatables-basic').dataTable().fnDestroy();
-    $('.datatables-basic').empty();
-    $('.datatables-basic').html(`<thead>
-    <tr>                                                
-        <th></th>
-        <th>#Pedido</th>
-        <th class="cliente">Cliente</th>
-        <th>To. garr.</th>
-        <th>Monto Total</th>
-        <th>Adeudo</th>
-        <th>Status del Pedido</th>
-        <th>Status de Pago</th>
-        <th>Forma de Pago</th>
-        <th>Fecha</th>
-        <th>Opciones</th>
-        <th>oculto choferes </th> 
-        <th>oculto asentamiento </th> 
-    </tr>
-  </thead>
-  <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</tfoot>`);
-    $('.datatables-basic2').dataTable().fnDestroy();
-    $('.datatables-basic2').empty();
-    $('.datatables-basic2').html(`<thead>
-    <tr>
-        <th>Nº Pedido</th>
-        <th>Cliente</th>
-        <th>Total garrafones</th>
-        <th>Monto Total</th>
-        <th>Status del Pedido</th>
-        <th>Status de Pago</th>
-        <th>Metodo de Pago</th>
-        <th>Fecha</th>
-        <th>Opciones</th>
-        
-    
-    <th>oculto choferes </th> 
-    <th>oculto asentamiento </th> 
-    </tr>
-  </thead>`);
-    
-    cargaTablas('si')
-    if ($('#filterPosition').val() != "") {
-     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
-   }
+        success: async function (data, textStatus, jqXHR) {
+    // $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+    $('.'+dtTable).DataTable().row(rowNum).cell(cell).data(`${estado}`).draw();
+    $('#resume-table').dataTable().fnDestroy();
+$('#resume-table').empty();
+$('#resume-table').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
+</thead>`);
+array_pedido = await fetch('/array_pedidoPy4')
+    .then(response => response.json())
+    .then(data => {
+
+        return JSON.parse(data.array_pedido)
+    });
+ cargaTableResumen();
+   if ($('#filterPosition').val() != "") {
+        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+       }
         },
         error: function (jqXHR, textStatus) {
           console.log('error:' + jqXHR)
@@ -1648,12 +1705,8 @@ async function cambioPago(id, status, fecha_pedido, monto) {
     
     }
   } else {
-    console.log(moment().isSame(fecha_pedido, 'day'))
-    console.log('otro cambio')
-    let chof = $('#choferes').val()
-    console.log(chof)
-    let choferes  = JSON.parse(chof.replace(/&quot;/g,'"'))
-    console.log(choferes)
+    let chof = $('#choferes').val();
+    let choferes  = JSON.parse(chof.replace(/&quot;/g,'"'));
     let arr=[]
   for (let i = 0; i < choferes.length; i++) {
     arr.push({id:choferes[i]['id'],name: choferes[i]['name']+ " "+ choferes[i]['lastName']})  
@@ -1663,7 +1716,6 @@ async function cambioPago(id, status, fecha_pedido, monto) {
       function(o) {
           options[o.id] = o.name;
       });
-    console.log(options) 
     const { value: status_ } = await Swal.fire({
       title: 'Seleccione un nuevo Status',
       input: 'select',
@@ -1684,8 +1736,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
       }
     })
     
-    if (status_) {
-      console.log(status_)   
+    if (status_) {  
     var tipo_p, fecha_pago, chofer_r
     if (status_ == "Pagado") {
       const { value: tipo } = await Swal.fire({
@@ -1700,7 +1751,6 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         showCancelButton: true,
         inputValidator: (value) => {
           return new Promise((resolve) => {
-            console.log(value)
             if (!value) {
               resolve('Debe colocar un tipo')
             } else {
@@ -1786,11 +1836,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
       }
       chofer_r = 'Null'
       fecha_pago =fecha_re
-    }
-    console.log("id pedido: "+id)
-      console.log(tipo_p)
-      console.log(chofer_r)
-      console.log(fecha_pago)         
+    }         
       const data_C = new FormData();
       data_C.append("id", id);
       data_C.append("status", status_);
@@ -1805,67 +1851,31 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         cache: false,
         contentType: false,
         processData: false,
-        success: function (data, textStatus, jqXHR) {
+        success:async function (data, textStatus, jqXHR) {
     console.log(data)
-       $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-    
-    $('.datatables-basic').dataTable().fnDestroy();
-    $('.datatables-basic').empty();
-    $('.datatables-basic').html(`<thead>
-    <tr>                                                
-        <th></th>
-        <th>#Pedido</th>
-        <th class="cliente">Cliente</th>
-        <th>To. garr.</th>
-        <th>Monto Total</th>
-        <th>Adeudo</th>
-        <th>Status del Pedido</th>
-        <th>Status de Pago</th>
-        <th>Forma de Pago</th>
-        <th>Fecha</th>
-        <th>Opciones</th>
-        <th>oculto choferes </th> 
-        <th>oculto asentamiento </th> 
-    </tr>
-  </thead>
-  <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</tfoot>`);
-    $('.datatables-basic2').dataTable().fnDestroy();
-    $('.datatables-basic2').empty();
-    $('.datatables-basic2').html(`<thead>
-    <tr>
-        <th>Nº Pedido</th>
-        <th>Cliente</th>
-        <th>Total garrafones</th>
-        <th>Monto Total</th>
-        <th>Status del Pedido</th>
-        <th>Status de Pago</th>
-        <th>Metodo de Pago</th>
-        <th>Fecha</th>
-        <th>Opciones</th>
-        
-    
-    <th>oculto choferes </th> 
-    <th>oculto asentamiento </th> 
-    </tr>
-  </thead>`);
-    
-    cargaTablas('si')
-    if ($('#filterPosition').val() != "") {
-     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
-   }
+    $('.'+dtTable).DataTable().row(rowNum).cell(cell).data(`${status_}`).draw();
+    $('#resume-table').dataTable().fnDestroy();
+$('#resume-table').empty();
+$('#resume-table').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
+</thead>`);
+array_pedido = await fetch('/array_pedidoPy4')
+    .then(response => response.json())
+    .then(data => {
+
+        return JSON.parse(data.array_pedido)
+    });
+ cargaTableResumen();
+ if ($('#filterPosition').val() != "") {
+  $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+ }
         },
         error: function (jqXHR, textStatus) {
           console.log('error:' + jqXHR)
@@ -1876,7 +1886,76 @@ async function cambioPago(id, status, fecha_pedido, monto) {
   }
 
 }
-function edit_pedido(id_edit) {
+async function cambioMetodoPago (id, metodoActual, rowNum,dtTable) {
+  var cell = $(`#mPago${id}`).closest("td");
+  console.log(rowNum)
+    const { value: mPago } = await Swal.fire({
+      title: 'Seleccione un nuevo método de pago',
+      input: 'select',
+      inputOptions: {
+        'Efectivo': 'Efectivo',
+        'Tarjeta': 'Tarjeta',
+        'Transferencia': 'Transferencia'
+      },
+      inputPlaceholder: 'Seleccione un nuevo método de pago',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === metodoActual) {
+            resolve('Debe seleccionar un método de pago diferente')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    
+    if (mPago) {
+        
+      const data_C = new FormData();
+      data_C.append("id", id);
+      data_C.append("mpago", mPago);
+      $.ajax({
+        url: `/cambia_M_pago`,
+        type: 'POST',
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: async function (data, textStatus, jqXHR) {
+    // $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+    $('.'+dtTable).DataTable().row(rowNum).cell(cell).data(`${mPago}`).draw();
+    $('#resume-table').dataTable().fnDestroy();
+$('#resume-table').empty();
+$('#resume-table').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
+</thead>`);
+array_pedido = await fetch('/array_pedidoPy4')
+    .then(response => response.json())
+    .then(data => {
+
+        return JSON.parse(data.array_pedido)
+    });
+ cargaTableResumen();
+   if ($('#filterPosition').val() != "") {
+        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+       }
+        },
+        error: function (jqXHR, textStatus) {
+          console.log('error:' + jqXHR)
+        }
+      });
+    
+    }
+}
+function edit_pedido(id_edit, row_edit, dataTableEdit) {
   if (typeof id_edit =="undefined") {
     return console.log(id_edit)
   }
@@ -1898,7 +1977,9 @@ if ( $(".chofer option[value='" + data['personalId'] + "']").length == 0 ){
   //$('.chofer').find('option:selected').remove().end();
   $(".chofer option[value='" + data['personalId'] + "']").attr("selected", true);
 }
-
+console.log(row_edit)
+$('#edit_pedido_row').val(row_edit);
+$('#table_edit_pedido').val(dataTableEdit);
 $('#id_chofer_edit').val(data['personalId'])
 $('#edit_pedido_id').val(data['id'])
 $('#edit_pedido_id_cliente').val(data['clienteId'])
@@ -1963,6 +2044,13 @@ $('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] 
 //  $('#metodo_pago_edit').find('option:selected').remove().end();
   $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").attr("selected", true);
 }
+
+if (data['cliente']['tipo']=="Negocio" || data['cliente']['tipo'] =="Punto de venta") {
+  console.log(data)
+  $('#descuento_upd_cliente2').val(data['cliente']['monto_nuevo']);
+  console.log($('#descuento_upd_cliente2').val())
+}
+
 $('.status_pago').val(data['status_pago'])
 $('#status_pedido_edit').val(data['status_pedido'])
 $('#edit_fecha_pedido').val(data['fecha_pedido'])
@@ -2020,7 +2108,7 @@ function delete_pedido(id_, tabla) {
         title: `Pedido ${id} borrado con éxito`,
       })
       if ($('#filterPosition').val() != "") {
-       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
      }
     }
   })
@@ -2033,5 +2121,5 @@ function share_record(id_) {
     }
     /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
     $('#p1').text(direction_copy)*/
-    copyToClipboard(`#CopyPedido${id_edit}`)
+    copyToClipboard(`#CopyPedido${id_edit}`,id_edit)
 }

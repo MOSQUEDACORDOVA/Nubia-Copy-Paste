@@ -42,24 +42,26 @@
       <section>
         <div class="row match-height">
           <!-- Basic table -->
+          <input class="d-none" value="{{idUser}}" id="idUser" />
           <input class="d-none" value="{{response2}}" id="arrayEstudiantes" />
           <input class="d-none" value="{{gruposTodosStr}}" id="arrayGrupos" />
+
+          <input type="text" class="d-none" id="provinciasAll">
+          <input type="text" class="d-none" id="cantonAll">
+          <input type="text" class="d-none" id="distritosAll">
+
           <section id="basic-datatable">
-            <div class="row">
-              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
+            <div class="row align-items-end">
+              <div class="col-md-6 mb-1 mb-md-2">
+                <label for="" class="form-label">Carga Masiva de Alumnos</label>
                   <select class="select2 form-select" id="grupoIdCargarArchivo">
                     <option value="" selected>
                       Seleccione un Grupo
                     </option>   
-                    {{#each gruposTodos as |item i|}}
-                    <option value="{{id}}" data-bs-iden="{{nombre}}">
-                        {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
-                    </option>
-                    {{/each}}                   
                   </select>
               </div>
 
-              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
+              <!--<div class="col-md-6 col-lg-4 mb-1 mb-md-2">
                 <select name="" id="vendedorIdSelect" class="form-control select2">
                   <option value="" selected>Seleccione un Vendedor</option>
                   {{#each vendedores as |item i|}}
@@ -68,9 +70,9 @@
                   </option>
                   {{/each}}                   
                 </select>
-              </div>
+              </div>-->
 
-              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
+              <div class="col-md-6 mb-1 mb-md-2">
                 <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
                   <input class="form-control d-none grupoId" type="text" name="grupoId">
                   <input class="form-control d-none vendedorId" type="text" name="vendedor">
@@ -358,7 +360,7 @@
                             <span class="fw-bolder">
                               Leccion Actual:
                             </span>
-                            <span id="leccionActual0">10</span>
+                            <span id="leccionActual">10</span>
                           </p>
                         </div>
                         <!--/ Leccion Actual-->
@@ -631,7 +633,136 @@
         </div>
       </div>
       <!--/ Modal Comentarios-->
+      
+      <!--/ Modal EDITAR ALUMNO -->
+      <div class="modal fade py672" id="editarAlumno" tabindex="-1" aria-modal="true" role="dialog">
+          <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                  <div class="modal-header bg-transparent">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body pb-5 px-sm-4 mx-50">
+                      <h1 class="address-title text-center mb-1" id="edit-title-modal">Editar Alumno</h1>
 
+                      <form class="form" action="/edit-estudiantepy627" method="POST" id="formEditAlumno">
+                          <input type="text" class="d-none" name="grupoId" id="edit-grupoId">
+                          <input type="text" class="d-none" name="id_estudiante" id="edit-userId">
+                          <div class="row">
+                              <div class="d-none" id="id-alumno-edit"></div>
+                              
+                              
+                              <div class="col-12 col-xl-6 mb-1">
+                                  <div class="list-item-body flex-grow-1">
+                                      <label class="form-label">Apellidos y Nombres</label>
+                                      <input type="text" class="form-control" placeholder="Apellidos y Nombres" name="nombre" id="name-edit" required="">
+                                  </div>
+                              </div>
+
+
+                              <div class="col-12">
+                                  <div class="flex-grow-1 d-lg-none">
+                                      <label class="form-label" for="">Documento de Identidad</label>
+                                  </div>
+
+                                  <div class="row m-0 p-0">
+                                      <div id="nacionalCampos" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1 d-block">
+                                          <div class="flex-grow-1">
+                                              <label class="form-label d-none d-lg-block" for="">Documento de Identidad</label>
+
+                                              <input type="number" class="form-control d-block" name="dni" id="dni-edit" value="" placeholder="No. Identificación">
+
+                                          </div>
+                                      </div>
+
+                                      <div class="col-12 col-md-6 col-xl-3 mb-1 p-0 ps-md-0 pe-md-1 ps-xl-1 pe-xl-0">
+                                          <div class="flex-grow-1">
+                                                <label class="form-label" for="fp-default">Fecha de nacimiento</label>
+                                                <input type="text" id="date-edit" name="nacimiento" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD">
+                                          </div>
+                                      </div>
+
+                                      <div class="col-12 col-md-6 col-xl-3 mb-1 p-0 pe-md-0 ps-md-1">
+                                          <div class="flex-grow-1">
+                                              <label class="form-label" for="fp-default">Sexo</label>
+                                              <div class="position-relative"><div class="position-relative"><select class="form-select select2" name="genero" id="gen-edit" required>
+                                                  <option value="">Seleccionar Género</option>
+                                                  <option value="Femenino">Femenino</option>
+                                                  <option value="Masculino">Masculino</option>
+                                              </select></div></div>                                    
+                                          </div>
+                                      </div>
+
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-md-6 col-lg-4 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="">Teléfono 1</label>
+                                      <input type="text" class="form-control tlfNacional" name="telefono1" id="tlf1-edit" required="">
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-md-6 col-lg-4 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="">Teléfono 2</label>
+                                      <input type="text" class="form-control" name="telefono2" id="tlf2-edit">
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-4 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="fp-default">Email</label>
+                                      <input type="text" class="form-control" name="email" id="mail-edit" required>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="">Vendedor</label>
+                                      <select type="text" class="form-select select2" name="vendedor" id="vendedor2-edit" tabindex="0" aria-hidden="false">
+                                        <option value="">Seleccione un Vendedor</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="f">Provincia</label>
+                                      <select class="select2 form-select" tabindex="-1" name="provincia" aria-hidden="false" id="select2-provincia" required>
+                                          <option value="">Seleccione una Provincia</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="fp-default">Cantón</label>
+                                      <select class="select2 form-select" id="select2-canton" tabindex="-1" name="canton" aria-hidden="false" required>
+                                          <option value="">Seleccione un Canton</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="fp-default">Distrito</label>
+                                      <select class="select2 form-select" id="select2-distrito" tabindex="-1" name="distrito" aria-hidden="false" required>
+                                          <option value="">Seleccione un Distrito</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                              <div class="col-12">
+                                  <input type="submit" class="btn btn-primary" value="Actualizar" id="btnSubmitEdit">
+                              </div>
+
+                          </div>
+
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
 
     </div>
   </div>
@@ -647,67 +778,3 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-  let linkExcel = "", file;
-  $('#archivoExcel').on('change', (event)=>{
-    subirImagen(event)
-  })
-  
-  $('#grupoIdCargarArchivo').on('change', (event)=>{
-    EnviarDatos()
-  })
-  
-  $('#vendedorIdSelect').on('change', (event)=>{
-    EnviarDatos()
-  })
-
-  const subirImagen = (event) => {
-    //$(`#loading3`).addClass("display");
-    console.log('aqui')
-      const archivos = event.target.files;
-      const data = new FormData();
-      let imagenX = event.target.id;
-      data.append("archivo", archivos[0]);
-      $.ajax({
-        url: '/subirExcel',
-        type: 'POST',
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data, textStatus, jqXHR)
-        {       
-          console.log(data)     
-          file = data.fileName
-          linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
-
-          EnviarDatos()
-          
-          /*$(`#progressBar1`).text('Se cargó correctamente la imágen - 100%');
-          setTimeout(() => {
-            $(`#progressBar1`).addClass("d-none");
-            $(`#loading3`).removeClass("display");
-          }, 1000)*/
-        },
-        error: function (jqXHR, textStatus) { 
-          /*$("#progressBar1").text('100% - Error al cargar el archivo');
-          $("#progressBar1").removeClass("progress-bar-success");
-          $("#progressBar1").addClass("progress-bar-danger");*/
-        }
-      });
-    };
-
-  function EnviarDatos() {
-   /* if(linkExcel != "" && file != "") {
-      if($('#grupoIdCargarArchivo').val() === "" || $('#vendedorIdSelect').val() === "") {
-        alert("Complete todos los campos")
-        return
-      }
-      linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
-      window.location.href = linkExcel
-    }*/
-    linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
-    window.location.href = linkExcel
-  }
-</script>

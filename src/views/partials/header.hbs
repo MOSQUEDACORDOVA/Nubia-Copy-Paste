@@ -17,15 +17,23 @@
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet">
-        <link rel="shortcut icon" type="image/x-icon" href="
-        {{#if py4AppHome}}
-../../../dataPY4/images/pyt_4_logo.png
+        {{#if py672}}
+        <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/py672/logo.png">
         {{/if}}
+
+        {{#if py4}}
+        <link rel="shortcut icon" type="image/x-icon" href="
         {{#if py4}}
 ../../../dataPY4/images/pyt_4_logo.png
 {{/if}}{{#if login}}
 ../../../dataPY4/images/pyt_4_logo.png
 {{/if}}">
+{{/if}}
+        {{#if py4AppHome}}
+        <link rel="shortcut icon" type="image/x-icon" href="../../../dataPY4/images/pyt_4_logo.png
+        {{#if login}}../../../dataPY4/images/pyt_4_logo.png{{/if}}">
+        {{/if}}
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"  /> 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
@@ -43,7 +51,15 @@
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/authentication.css">
     {{/if}}
-
+{{#if py4Cup}}
+ <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/dashboard-ecommerce.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+    <!-- END: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    {{/if}}
     {{#if py4}}
      <!-- BEGIN: Custom CSS-->
      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
@@ -63,6 +79,7 @@
     <!-- BEGIN: Page CSS-->
     {{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css"> --}}
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/authentication.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css">
     <!-- END: Page CSS-->
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
@@ -71,12 +88,9 @@
     <!-- END: Vendor CSS-->
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
-    {{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice.css"> --}}
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/responsive.bootstrap5.min.css">
      <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.min.css">
-     {{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/maps/leaflet.min.css"> --}}
-     {{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/maps/map-leaflet.css"> --}}
     <!-- END: Page CSS-->
     
     {{#if disabled_chofer}}      
@@ -84,7 +98,8 @@
     {{/if}}
 
     {{#if py4App}}
-
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/ui-feather.min.css">
+    
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     <!-- END: Custom CSS-->
@@ -620,7 +635,7 @@
 {{/if}}
 
 {{#if py4}}
-
+    
 {{>py4_menu/menu}}
 {{/if}}
 

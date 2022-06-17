@@ -1,12 +1,81 @@
+
 var historial;
 var grupos = JSON.parse($("#arrayGrupos").val());
 var matricula = JSON.parse($("#matricula_st").val());
+let idAlumno, idGrupo, gruposTodos, usuarios, asistenciasAll, notasAll, participacionAll;
+
 $(function () {
+  async function FetchData (num) {
+    gruposTodos = fetch('/obtenerGruposAll')
+        .then(response => response.json())
+        .then(data => {
+            gruposTodos = data;
+
+            moment.locale('es');
+            $('#gruposMenu').html('<option value="">Seleccione un grupo</option>');
+            gruposTodos.forEach(item => {
+                let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+                $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+            });
+            $('#gruposMenu').trigger("change");
+            return data
+        });
+
+    if (num === 1) {
+      usuarios = await fetch('/obtenerusuariospy672')
+          .then(response => response.json())
+          .then(data => {
+              usuarios = data.usuarios
+              
+              return data.usuarios
+          });
+    } else if (num === 3) {
+      asistenciasAll = await fetch('/obtenerTodaMatriculaAusente')
+            .then(response => response.json())
+            .then(data => {
+                asistenciasAll = data.asistencia
+                //console.log(asistenciasAll)
+                return asistenciasAll
+            });
+            
+    } else if (num === 4) {
+      notasAll = await fetch('/obtenerTodasNotas')
+            .then(response => response.json())
+            .then(data => {
+                notasAll = data.notas
+                //console.log(notasAll)
+                return notasAll
+            });
+            
+    } else if (num === 5) {
+      participacionAll = await fetch('/obtenerTodasParticipacion')
+            .then(response => response.json())
+            .then(data => {
+              participacionAll = data.participacion
+                //console.log(participacionAll)
+                return participacionAll
+            });
+            
+    }
+  }
+
+  FetchData()
+  FetchData(1)
+  FetchData(3) // * ASISTENCIAS
+  FetchData(4) // * NOTAS
+  FetchData(5) // * PARTICIPACION
+
   var today_day = moment().format("D"),
     hoy = moment();
 
   /**FUNCIONES AL SELECCIONAR EL ALUMNO */
   $(".alumno-select").change(async (e) => {
+    $('#totalMonto').text(0)
+
+    $("#btnComentarios").removeAttr("disabled");
+    $("#btnControl").removeAttr("disabled");
+    $("#btnTrasladar").removeAttr("disabled");
+
     $("#btn-add-commnet").removeAttr("disabled");
     $("#btn-trasladar-alumno").removeAttr("disabled");
     $("#btn-congelar-alumno").removeAttr("disabled");
@@ -18,14 +87,34 @@ $(function () {
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
+    ////console.log(filter)
+    let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
+
     $("#nombre-alumno").text(filter[0]["nombre"]);
-    $("#nivel-grupo-alumno").text(filter[0]["grupo"]["codigo_nivel"]);
-    $("#grupo-alumno").text(filter[0]["grupo"]["identificador"]);
+    $("#nivel-grupo-alumno").text(filter[0]["grupo"] ? filter[0]["grupo"]["codigo_nivel"] : "");
+
+    $("#grupo-alumno").text(grupoIdentif[0].identificador);
+
     $("#horario-alumno").text(filter[0]["grupo"]["dia_horario"]);
-    $("#profesor-alumno").text("Isaac");
+
+    let prof = filter[0].grupo.usuarioId ? filter[0].grupo.usuario.nombre : 'No asignado'
+
+    $("#profesor-alumno").text(prof);
+
+    $('#estado-alumno').addClass('d-none')
+    $('#estado-congelado-alumno').addClass('d-none')
+    if (filter[0]["estadoId"] === 1) {
+      $('#estado-alumno').text(filter[0]["estado"]["estado"])
+      $('#estado-alumno').removeClass('d-none')
+    } else {
+      $('#estado-congelado-alumno').text(filter[0]["estado"]["estado"])
+      $('#estado-congelado-alumno').removeClass('d-none')
+    }
+
     $("#telefonos-alumno").text(
       filter[0]["telefono1"] + " - " + filter[0]["telefono2"]
     );
+
     $("#fecha-pago-alumno").text(filter[0]["grupo"]["dia_pagos"]);
     let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
 
@@ -35,7 +124,8 @@ $(function () {
       .then((data) => {
         return data.obtener_historia;
       });
-    if (filter[0]["estadoId"] == "5") {
+    //console.log(filter[0])
+    if (filter[0]["estadoId"] === 5) {
       $("#form-reg-pago").append(
         `<input type="text" name="id_alumno" id="id-alumno-form" value="${filter[0]["id"]}">`
       );
@@ -46,8 +136,15 @@ $(function () {
       $("#btn-congelar-alumno").addClass("d-none");
       $("#btn-activar-alumno").removeClass("d-none");
       updateHistorial(e.target.value);
-      Swal.fire("Alumno congelado");
+      Swal.fire({
+        title: 'Alumno congelado!',
+        icon: 'info',
+      })
+      reactivacion();
       return;
+    } else {
+      $("#btn-congelar-alumno").removeClass("d-none");
+      $("#btn-activar-alumno").addClass("d-none");
     }
     let fecha_pago_historial,
       pago_mensualidad = [];
@@ -81,6 +178,7 @@ $(function () {
           hoy.locale("es").format("MMMM") +
           "-" +
           hoy.locale("es").format("YYYY");
+          mes_a_pagarView =hoy.locale("es").format("MMMM") + "" +hoy.locale("es").format("YYYY");
       } else {
         var meses = [
           "enero",
@@ -96,7 +194,7 @@ $(function () {
           "noviembre",
           "diciembre",
         ];
-        var mes_a_pagar;
+        var mes_a_pagar,mes_a_pagarView;
         let mes_pagado;
         mes_pagado = filter_mensualidad[0]["observacion"].split("-");
         for (let i = 0; i < meses.length; i++) {
@@ -115,6 +213,7 @@ $(function () {
             hoy.locale("es").format("MMMM") +
             "-" +
             hoy.locale("es").format("YYYY");
+            mes_a_pagarView =hoy.locale("es").format("MMMM") + "" +hoy.locale("es").format("YYYY");
         }
       }
 
@@ -123,43 +222,47 @@ $(function () {
         .append(`<input type="text" name="id_alumno" id="id-alumno-form" value="${
         filter[0]["id"]
       }">
-<div id="mensualidad-${mes_a_pagar}" class="mensualidad-${mes_a_pagar}"><input type="text" name="concepto[]" id="concepto-form" value="Mensualidad">
-<!--<input type="text" name="fecha_pago[]" id="fecha_pago-form" value="${moment().format(
-        "YYYY-MM-DD"
-      )}">-->
-<input type="text" name="monto[]" id="monto-form" value="${mensualidad_coste}">
-<input type="text" name="mora[]" id="mora-form" value="-">
-<input type="text" name="observacion[]" id="observacion-form" class="mensualidad" value="${mes_a_pagar}">
-</div>`);
-      /**FIN FORM */
+      <div id="mensualidad-${mes_a_pagar}" class="mensualidad-${mes_a_pagar}"><input type="text" name="concepto[]" id="concepto-form" value="Mensualidad">
+      <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form" value="${moment().format(
+              "YYYY-MM-DD"
+            )}">-->
+      <input type="text" name="monto[]" id="monto-form" value="${mensualidad_coste}">
+      <input type="text" name="mora[]" id="mora-form" value="-">
+      <input type="text" name="observacion[]" id="observacion-form" class="mensualidad" value="${mes_a_pagar}">
+      </div>`);
+            /**FIN FORM */
 
-      $("#mensualidad-alumno").text(mensualidad_coste);
-      /**LLENAR TABLA */
-      $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
-<td>
-    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">/${mes_a_pagar}</span>
-</td>
+            $("#mensualidad-alumno").text(mensualidad_coste);
+            /**LLENAR TABLA */
+            $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
+      <td>
+        <div class="d-flex align-items-center">
+          <span class="fw-bold">Mensualidad</span><p class="text-capitalize mb-0">${mes_a_pagarView}</p>
+        </div>
+      </td>
 
-<td>${mensualidad_coste}</td>
-<td>
-    <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" class="feather feather-trash me-50">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path
-                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-            </path>
-        </svg>
-        <span>Eliminar</span>
-    </a>
-</td>
-</tr>`);
+      <td class="monto">${mensualidad_coste}</td>
+      <td>
+          <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="deshabilitarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" class="feather feather-trash me-50">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path
+                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                  </path>
+              </svg>
+              <span>Eliminar</span>
+          </a>
+      </td>
+      </tr>`);
       updateHistorial(e.target.value);
       verificareposicion(e.target.value);
       titulo('a');
       incripcion();
     }
+    
+    reactivacion();
 
     /**FIN DEL SELECT ALUMNO */
   });
@@ -195,7 +298,7 @@ $(function () {
       case "Titulo":
         if ($("#concepto-form-titulo").length > 0) {
           swal.fire(
-            "Ya ha seleccionado un titulo para este alumno, guarde los cambios"
+            "Ya ha seleccionado un título para este alumno, guarde los cambios"
           );
           return;
         }
@@ -226,6 +329,7 @@ $(function () {
   $("#select-servicio").change((e) => {
     let id_alumno = $("#id-alumno-form").val();
     $("#nivelAdd").addClass(`d-none`);
+    $("#select-servicio option[value='inscripcion']").remove();
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para procesar un pago");
       return;
@@ -295,6 +399,107 @@ $(function () {
     // document.getElementById("transct").classList.replace("col-4", "col-6");
     $(".mensualidadAdd").addClass("d-none");
   }
+
+  const TotalAPagar = ()=> {
+    let total = 0
+    let montos = document.querySelectorAll('#body-table-pago .monto')
+
+    montos.forEach(monto => {
+      //console.log(monto.parentElement)
+      if (!monto.parentElement.classList.contains('disabled')) {
+        total += parseInt(monto.innerText);
+      }
+    });
+    $('#totalMonto').text(total)
+    
+  }
+
+  /**INICIO REACTIVACION */
+  const addReactivacion = async () => {
+    let id_alumno = $("#id-alumno-form").val();
+    if (!id_alumno) {
+      swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+
+    $("#form-pago-pendiente").append(`
+    <div id="reactivacion" class="reactivacion">
+      <input type="text" name="id_alumno" value="${id_alumno}">
+      <input type="text" name="concepto" id="concepto-form" value="Reactivacion">
+      <input type="text" name="monto" id="monto-form" value="5000">
+      <input type="text" name="mora" id="mora-form" value="-">
+      <input type="text" name="observacion" id="observacion-form" value="-">
+    </div>`);
+
+    $("#form-pago-pendiente").submit()
+    
+  }; /**FIN REACTIVACION */
+
+  /**INICIO REACTIVACION */
+  const reactivacion = async () => {
+    let id_alumno = $("#id-alumno-form").val();
+    if (!id_alumno) {
+      swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+
+    historial = await fetch("/historia-caja-academy/" + id_alumno)
+      .then((response) => response.json())
+      .then((data) => {
+        return data.obtener_historia;
+      });
+
+    let filter = historial.filter(item => item.concepto === "Reactivacion" && item.estado === "Pendiente")
+    //console.log(historial)
+    //console.log(filter)
+    //console.log("HISTORIAL")
+    if (filter.length && filter[0].estado === "Pendiente") {
+      $("#btn-activar-alumno").attr("disabled", true);
+      $("#btn-guardar-pago").attr("disabled", false);
+      /**FORM */
+      $("#form-reg-pago").append(`
+      <div id="reactivacion" class="reactivacion">
+      <input type="text" name="idCaja" id="concepto-form" value="${filter[0].id}">
+      <input type="text" name="concepto[]" id="concepto-form" value="Reactivacion">
+      <input type="text" name="monto[]" id="monto-form" value="5000">
+      <input type="text" name="mora[]" id="mora-form" value="-">
+      <input type="text" name="observacion[]" id="observacion-form" value="-">
+      </div>`);
+      /**FIN FORM */
+      
+      $("#pago-mensual-detail").text(5000);
+    /**LLENAR TABLA */
+      $("#body-table-pago").append(`<tr id="tr-reactivacion">
+      <td>
+      <span class="fw-bold">Reactivación</span>
+      </td>
+      <td class="monto">5000</td>
+      <td>
+      <a class="item borrar reactivacion" onclick="borrarFila('tr-reactivacion','total')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="feather feather-trash me-50">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path
+                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+              </path>
+          </svg>
+          <span>Eliminar</span>
+      </a>
+      </td>
+      </tr>`);
+      TotalAPagar();
+      return
+    }
+
+    let alumno = matricula.filter(item => item.id == id_alumno)
+    //console.log(alumno)
+    if (alumno[0].estadoId === 5) {
+      $("#btn-activar-alumno").attr("disabled", false);
+      $("#btn-guardar-pago").attr("disabled", true);
+    }
+  }; /**FIN REACTIVACION */
+
   /**INICIO HABILITAR MENSUALIDAD */
   const recargo = async () => {
     let id_alumno = $("#id-alumno-form").val();
@@ -320,7 +525,7 @@ $(function () {
 <td>
 <span class="fw-bold">Recargo</span>
 </td>
-<td>${$("#itemPrice").val()}</td>
+<td class="monto">${$("#itemPrice").val()}</td>
 <td>
 <a class="item borrar recargo" onclick="borrarFila('tr-recargo','recargo')">
    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -335,6 +540,7 @@ $(function () {
 </a>
 </td>
 </tr>`);
+TotalAPagar();
   }; /**FIN BNT RECARGO */
 
   /**INICIO HABILITAR MENSUALIDAD */
@@ -440,9 +646,9 @@ $(function () {
     /**LLENAR TABLA */
     $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
     <td>
-    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">/${mes_a_pagar}</span>
+    <span class="fw-bold">Mensualidad</span><span class="text-capitalize"> ${mes_a_pagar}</span>
 </td>
-<td>${$("#itemPrice").val()}</td>
+<td class="monto">${$("#itemPrice").val()}</td>
 <td>
  <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -457,6 +663,7 @@ $(function () {
  </a>
 </td>
 </tr>`);
+TotalAPagar();
   }; /**FIN BNT MENSUALIDAD */
   /**INICIO HABILITAR MENSUALIDAD */
   const incripcion = async () => {
@@ -476,7 +683,7 @@ $(function () {
       (element) =>
         element.concepto == "Inscripción"
     );
-    console.log(filter_inscripcion)
+    //console.log(filter_inscripcion)
     $("#select-servicio option[value='inscripcion']").remove();
     if (filter_inscripcion.length == 0) {
       
@@ -494,11 +701,11 @@ $(function () {
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-inscripcion">
       <td>
-      <span class="fw-bold">Inscripción</span><span class="text-capitalize">.</span>
+      <span class="fw-bold">Inscripción</span>
   </td>
-  <td>5000</td>
+  <td class="monto">5000</td>
   <td>
-   <a class="item borrar inscripcion"  onclick="borrarFila('tr-inscripcion','inscripcion')">
+   <a class="item borrar inscripcion" onclick="deshabilitarFila('tr-inscripcion','inscripcion')">
        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
            stroke-linejoin="round" class="feather feather-trash me-50">
@@ -511,7 +718,8 @@ $(function () {
    </a>
   </td>
   </tr>`);
-  $("#select-servicio").append(`<option value="inscripcion">Inscripción</option>`);
+  $("#select-servicio").prepend(`<option value="inscripcion">Inscripción</option>`);
+  TotalAPagar();
     }
   
   }; /**FIN BNT INSCRIPCION */
@@ -524,7 +732,7 @@ $(function () {
       return;
     }
     var filter = historial.filter((element) => element.concepto == 'Traslado' && moment(element.createdAt).isSame(moment(),'d') );
-  console.log(filter)
+  //console.log(filter)
   if (filter.length > 0) {
     swal.fire("Actualmente tiene un traslado activo para su uso");
       return;
@@ -541,7 +749,7 @@ $(function () {
 <td>
     <span class="fw-bold">Traslado</span>
 </td>
-<td>5000</td>
+<td class="monto">5000</td>
 <td>
     <a class="item borrar traslado" onclick="borrarFila('tr-traslado','traslado')">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -562,6 +770,7 @@ $(function () {
 </li>`);
     $("#total-servicios").text("5000");
     $("#itemPrice").val("5000");
+    TotalAPagar();
   }; /**FIN BNT TRASLADO */
 
   /**HABILITAR CONSTANCIA */
@@ -595,7 +804,7 @@ $(function () {
 <td>
 <span class="fw-bold">Constancia</span>
 </td>
-<td>5000</td>
+<td class="monto">5000</td>
 <td>
 <a class="item borrar Constancia" onclick="borrarFila('tr-Constancia','Constancia')">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -616,12 +825,13 @@ $(function () {
 </li>`);
     $("#total-servicios").text("5000");
     $("#itemPrice").val("5000");
+    TotalAPagar();
   }; /**FIN BNT TRASLADO */
 
   /**BTN HABILITAR TITULO */
   const titulo = async (a) => {
     let id_alumno = $("#id-alumno-form").val();
-    console.log('aqui')
+    //console.log('aqui')
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
       return;
@@ -657,7 +867,7 @@ $(function () {
       });
     if (nota_participacion.length == 0) {
       if (a) {
-        console.log('aqui')
+        //console.log('aqui')
         return
       }
       swal.fire("El Alumno no ha aprobado el nivel del curso");
@@ -665,7 +875,7 @@ $(function () {
     }
     if (notas.length < 6) {
       if (a) {
-        console.log('aqui2')
+        //console.log('aqui2')
         return
       }
       swal.fire("Le falta al menos 1 o mas notas para obtar al Titulo");
@@ -719,9 +929,9 @@ $(function () {
 
     $("#body-table-pago").append(`<tr id="tr-Titulo">
 <td>
-<span class="fw-bold">Titulo/N${nivel_grupo}</span>
+<span class="fw-bold">Título N${nivel_grupo}</span>
 </td>
-<td>20000</td>
+<td class="monto">20000</td>
 <td>
 <a class="item borrar Titulo" onclick="borrarFila('tr-Titulo','Titulo')">
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -742,6 +952,7 @@ $(function () {
 </li>`);
     $("#total-servicios").text("20000");
     $("#itemPrice").val("20000");
+    TotalAPagar();
   }; /**FIN BNT TITULO */
 
   /**BTN HABILITAR REPOSICION */
@@ -762,8 +973,11 @@ $(function () {
     if ($(`#select-reposicion`).val() =="Seleccione") {
       return;
     }
+     
       $("#form-reg-pago")
-        .append(`<div id="reposicion${leccion}"><input type="text" name="concepto[]" id="concepto-form-reposicion${leccion}" value="Reposicion,L-${leccion}">
+        .append(`<div id="reposicion${leccion}">
+
+        <input type="text" name="concepto[]" id="concepto-form-reposicion${leccion}" value="Reposicion,L-${leccion}">
 <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form-reposicion${leccion}" value="">-->
 <input type="text" name="monto[]" id="monto-form-reposicion${leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${leccion}" value="-">
@@ -771,11 +985,11 @@ $(function () {
 
       $("#body-table-pago").append(`<tr id="tr-reposicion${leccion}">
 <td>
-  <span class="fw-bold">Reposicion,L-${leccion}</span>
+  <span class="fw-bold">Reposición L${leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
-  <a class="item borrar reposicion${leccion}" onclick="borrarFila('tr-reposicion${leccion}','reposicion${leccion}')">
+  <a class="item borrar reposicion${leccion}" onclick="deshabilitarFila('tr-reposicion${leccion}','reposicion${leccion}')">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="feather feather-trash me-50">
@@ -794,7 +1008,7 @@ $(function () {
 </li>`);
       $("#total-servicios").text("10000");
       $("#itemPrice").val("10000");
-    
+      TotalAPagar();
   }; /**FIN BNT REPOSICION */
 
   /**BTN GENERAR CONSTANCIA */
@@ -891,14 +1105,12 @@ $(function () {
     }
     Swal.fire({
       title: "Datos adicionales",
-      html: `<div class="mb-1">
-      <label class="form-label" for="itemcost">Fecha</label>
-      <input type="date" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
-      </div>
+      html: `
       <div class="mb-1">
       <label class="form-label" for="itemquantity">Banco</label>
       
       <div class="demo-inline-spacing justify-content-around">
+   
         <div class="form-check form-check-inline">
           <input class="form-check-input BNA" type="radio" name="bank-serv" id="BNA" value="BNA" />
           <label class="form-check-label" for="BNA">BNA</label>
@@ -915,16 +1127,26 @@ $(function () {
           <input class="form-check-input BPO" type="radio" name="bank-serv" id="BPO" value="BPO" />
           <label class="form-check-label" for="BPO">BPO</label>
         </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input EFE" type="radio" name="bank-serv" id="EFE" value="EFE" />
+          <label class="form-check-label" for="EFE">EFE</label>
+        </div>
         
       </div>
 
     </div> 
     <div id="transct" class="col">
-    <div class="mb-1">
-      <label class="form-label" for="itemquantity">Transaccion #:</label>
-      <input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
+      <div class="mb-1">
+        <label class="form-label" for="itemquantity">N° Transacción</label>
+        <input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
+      </div>
     </div>
-  </div>`,
+
+    <div class="mb-1">
+      <label class="form-label" for="itemcost">Fecha</label>
+      <input type="date" id="fecha-servicio" class="form-control flatpickr-basic flatpickr-input" placeholder="DD-MM-YYYY" name="fecha" required>
+    </div>
+  `,
       confirmButtonText: "Continuar",
       focusConfirm: false,
       preConfirm: () => {
@@ -987,6 +1209,25 @@ $(function () {
   });
 
   /** CARGAR COMENTARIOS DEL ALUMNO AL PRESIONAR CLICK EN EL BOTON COMENTARIOS */
+  $('#btnComentarios').on('click', function () {
+    $("#btn-add-commnet").click();
+  });
+  $('#btnTrasladar').on('click', function () {
+    $("#btn-trasladar-alumno").click();
+  });
+  $('#btnCongelar').on('click', function () {
+    $("#btn-congelar-alumno").click();
+  });
+  $('#btnControl').on('click', function () {
+
+    idAlumno = $('.alumno-select').val()
+    let result = matricula.filter(item => item.id === parseInt(idAlumno))
+    idGrupo = result[0].grupoId
+    ControlDetalles(idAlumno, idGrupo)
+
+  });
+
+
   $("#btn-add-commnet").click(async () => {
     $("#commentAdmin").empty();
     let id_alumno = $("#id-alumno-form").val();
@@ -1096,9 +1337,15 @@ $(function () {
     $("#nombre_reaginador").val(filter[0]["nombre"]);
     $("#grupoId_actual").val(filter[0]["grupo"]["id"]);
 
-    $(`#grupoReag`).text(`${filter[0]["grupo"]["identificador"]}`);
+    let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
+
+    $(`#grupoReag`).text(grupoIdentif[0].identificador);
     $(`.horarioreag`).text(`${filter[0]["grupo"]["dia_horario"]} `);
-    $(`#profesorreag`).text(`${filter[0]["grupo"]["usuario"]["nombre"]} `);
+    
+    let prof = filter[0].grupo.usuarioId ? filter[0].grupo.usuario.nombre : 'No asignado'
+
+    $(`#profesorreag`).text(prof);
+
     $(`#tipogrupoReag`).text(
       `${filter[0]["grupo"]["nombre"]}- ${filter[0]["grupo"]["identificador"]}`
     );
@@ -1252,67 +1499,287 @@ $(function () {
     });
   });
 
-  $("#btn-congelar-alumno").click(() => {
-    let id_estudiante = $("#id-alumno-form").val();
-    let data = new FormData();
-    data.append("id_estudiante", id_estudiante);
-    $.ajax({
-      url: `/congelarestudiantepy672`,
-      type: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-        
-        $("#createAppModal").modal("hide");
-        Swal.fire("Se congelo el alumno con éxito").then((resp) => {
-          if (resp.isDismissed || resp.isConfirmed) {
-            window.location.reload();
+  $("#btn-congelar-alumno").click(async () => {
+    Swal.fire({
+      title: 'Atención!',
+      text: 'Desea congelar el alumno seleccionado?',
+      icon: 'info',
+      showDenyButton: true,
+      confirmButtonText: `Si`,
+      denyButtonText: `No`,
+      showClass: { backdrop: 'swal2-noanimation' },
+      hideClass: { backdrop: 'swal2-noanimation' },
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        Swal.fire({
+          title: 'Añadir motivo!',
+          icon: 'info',
+          html: '<label for="input-comment" class="swal2-input-label mb-1">Comentario</label><input minlength="20" autocapitalize="off" autocorrect="off" class="form-control swal2-input m-0 d-block w-100" id="input-comment" placeholder="Ingresa un comentario" type="text">',
+          preConfirm: () => {
+            const input = document.querySelector('#input-comment').value
+            //console.log(input)
+            if (input.length < 20) {
+              Swal.showValidationMessage(`Agregue mas descripción al comentario`)
+            }
           }
-        });
-      },
-      error: function (jqXHR, textStatus) {
-      },
-    });
-  });
-  $("#btn-activar-alumno").click(() => {
-    let id_estudiante = $("#id-alumno-form").val();
-    let data = new FormData();
-    data.append("id_estudiante", id_estudiante);
-    $.ajax({
-      url: `/activarestudiantecongeladopy672`,
-      type: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-        
-        $("#createAppModal").modal("hide");
-        Swal.fire("Se reactivo el alumno con éxito").then((resp) => {
-          if (resp.isDismissed || resp.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      },
-      error: function (jqXHR, textStatus) {
-      },
-    });
+        }).then((result2) => {
+          let comentario = result2.value,
+          id = $('.alumno-select').val()
+          let save = new Promise((resolve, reject) => {
+            resolve(GuardarComment(id, comentario))
+
+          }).then((response) => {
+            ////console.log(response)
+            if(response === 200) {
+              Swal.fire({
+                title: 'Verifique la solicitud',
+                icon: 'info',
+                input: 'password',
+                inputLabel: 'Ingrese su contraseña',
+                inputPlaceholder: 'Contraseña',
+                inputAttributes: {
+                  autocapitalize: 'off',
+                  autocorrect: 'off'
+                },
+              }).then((result3) => {
+                ////console.log(result3.value)
+                if(result3.isConfirmed) {
+                  let comprobarPassw = new Promise ((resolve, reject) => {
+                    resolve(ValidatePassw(result3.value))
+                  }).then((check) => {
+                    
+                    if(check.validation) {
+                      let id_estudiante = $("#id-alumno-form").val();
+                      let data = new FormData();
+                      data.append("id", id_estudiante);
+                      $.ajax({
+                        url: `/congelarestudiantepy672`,
+                        type: "POST",
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, textStatus, jqXHR) {
+                          ////console.log(data)
+                          $("#createAppModal").modal("hide");
+                          Swal.fire({
+                            title: 'Alumno congelado!',
+                            icon: 'success',
+                          }).then((resp) => {
+                            if (resp.isDismissed || resp.isConfirmed) {
+                              addReactivacion()
+                              //window.location.reload();
+                            }
+                          });
+                        },
+                        error: function (jqXHR, textStatus) {
+                        },
+                      });
+                      
+                    } else {
+                      Swal.fire({
+                        title: 'Estimano Usuario!',
+                        text: 'La contraseña es incorrecta.',
+                        icon: 'error',
+                        // optional classes to avoid backdrop blinking between steps
+                        showClass: { backdrop: 'swal2-noanimation' },
+                        hideClass: { backdrop: 'swal2-noanimation' },
+                      })
+                    }
+                  });
+
+                }
+              })
+             
+            } else {
+              Swal.fire({
+                title: 'Lo sentimos!',
+                text: 'Hubo un error al realizar la tarea.',
+                icon: 'error',
+                // optional classes to avoid backdrop blinking between steps
+                showClass: { backdrop: 'swal2-noanimation' },
+                hideClass: { backdrop: 'swal2-noanimation' },
+              })
+  
+            }
+
+          })
+          .catch((err) => {
+            reject(err)
+          })
+         
+        })
+
+      }
+    })
+
   });
 
-  /**FIN DOCUMENT READY */
+  async function ValidatePassw (passw) {
+    let validate = await fetch('/validacionPassw/'+passw)
+    let response = await validate.json()
+
+    return response
+  }
+
+  async function GuardarComment (id, comentario) {
+    let init = await fetch('/guardar_comentario_admin_academy/'+id+"/"+comentario)
+    let response = await init.json()
+    
+    return init.status
+  }
+
+  $("#btn-activar-alumno").click(() => {
+    
+    Swal.fire({
+      title: 'Atención!',
+      text: 'Desea activar el alumno seleccionado?',
+      icon: 'info',
+      showDenyButton: true,
+      confirmButtonText: `Si`,
+      denyButtonText: `No`,
+      showClass: { backdrop: 'swal2-noanimation' },
+      hideClass: { backdrop: 'swal2-noanimation' },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Verifique la solicitud',
+          icon: 'info',
+          input: 'password',
+          inputLabel: 'Ingrese su contraseña',
+          inputPlaceholder: 'Contraseña',
+          inputAttributes: {
+            autocapitalize: 'off',
+            autocorrect: 'off'
+          }
+        }).then((result2) => {
+          //console.log(result2)
+          let comprobarPassw = new Promise ((resolve, reject) => {
+            resolve(ValidatePassw(result2.value))
+          }).then((check) => {
+            //console.log(check)
+            
+            if(check.validation) {
+              let id_estudiante = $("#id-alumno-form").val();
+              let data = new FormData();
+              data.append("id", id_estudiante);
+              $.ajax({
+                url: `/activarestudiantecongeladopy672`,
+                type: "POST",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, jqXHR) {
+                  
+                  $("#createAppModal").modal("hide");
+                  Swal.fire({
+                    title: 'Alumno activado!',
+                    icon: 'success',
+                  }).then((resp) => {
+                    if (resp.isDismissed || resp.isConfirmed) {
+                      window.location.reload();
+                    }
+                  });
+                },
+                error: function (jqXHR, textStatus) {
+                },
+              });
+              
+              
+            } else {
+              Swal.fire({
+                title: 'Estimano Usuario!',
+                text: 'La contraseña es incorrecta.',
+                icon: 'error',
+                // optional classes to avoid backdrop blinking between steps
+                showClass: { backdrop: 'swal2-noanimation' },
+                hideClass: { backdrop: 'swal2-noanimation' },
+              })
+            }
+          });
+          
+        })
+
+      }
+    })
+
+  });
+
 });
 
 function borrarFila(t, identificador) {
-  
+  if (identificador === "total") {
+    $(`#${t}`).remove();
+    let total = 0
+    let montos = document.querySelectorAll('#body-table-pago .monto')
+
+    montos.forEach(monto => {
+      //console.log(monto.innerText)
+      total += parseInt(monto.innerText);
+    });
+    $('#totalMonto').text(total)
+    
+    return
+  }
   $(`#${t}`).remove();
   $(`#${identificador}`).remove();
+  let total = 0
+  let montos = document.querySelectorAll('#body-table-pago .monto')
+
+  montos.forEach(monto => {
+    //console.log(monto.innerText)
+    total += parseInt(monto.innerText);
+  });
+  $('#totalMonto').text(total)
 }
+
+function TotalAPagar () {
+  let total = 0
+  let montos = document.querySelectorAll('#body-table-pago .monto')
+
+  montos.forEach(monto => {
+    //console.log(monto.parentElement)
+    if (!monto.parentElement.classList.contains('disabled')) {
+      total += parseInt(monto.innerText);
+    }
+  });
+  $('#totalMonto').text(total)
+  
+}
+
+function deshabilitarFila(row, item) {
+  let fila = $('#'+row)
+  fila.addClass('disabled')
+  $('#'+row+' td').last().html(`<a class="item restaurar" onclick="restaurarFila('${row}','${row}')">
+    ${feather.icons['refresh-cw'].toSvg()}
+    <span>Restaurar</span>
+  </a>`)
+  //console.log(row)
+  //console.log(item)
+  TotalAPagar()
+}
+
+function restaurarFila(row, item) {
+  let fila = $('#'+row)
+  fila.removeClass('disabled')
+  //console.log(row)
+  
+  $('#'+row+' td').last().html(`<a class="item restaurar" onclick="deshabilitarFila('${row}','${row}')">
+    ${feather.icons['trash'].toSvg()}
+    <span>Eliminar</span>
+  </a>`)
+  
+  TotalAPagar()
+}
+
 async function updateHistorial(id_estudiante) {
   $("#historial-list").empty();
   var matricula = JSON.parse($("#matricula_st").val());
   var filter = matricula.filter((element) => element.id == id_estudiante);
+  //console.log(filter)
+  //console.log("HISTORIAL LIST")
   /**OBTENER HISTORIAL DE CAJA */
   historial = await fetch("/historia-caja-academy/" + id_estudiante)
     .then((response) => response.json())
@@ -1331,18 +1798,87 @@ async function updateHistorial(id_estudiante) {
   $("#btn-descarga-titulo").removeClass("btn-primary");
   $("#btn-descarga-titulo").attr("disabled", true);
 
+  ////console.log(gruposTodos)
+  let grupoFind = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
+  ////console.log(grupoFind)
+
   for (let i = 0; i < historial.length; i++) {
-    fecha_pago_historial = moment(historial[i]["observacion"]).format(
-      "DD-MM-YYYY" );
+    ////console.log(historial)
+    let mes = moment(historial[i].fecha_pago).locale("es").format("MMM")
+    let text = mes.slice(0, -1) + "" +moment(historial[i].fecha_pago).locale("es").format("YYYY");
+    fecha_pago_historial = moment(historial[i]["observacion"]).format("DD-MM-YYYY" );
     let lista = `<li class="timeline-item">
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Recargo</h6>
+      </div>
+      
       <p class="mb-tl">${fecha_pago_historial}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${filter[0]["grupo"]["identificador"]}</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
+      <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY" )}</h6>
+    </div>
+    </div>
+    </li>`;
+    let reactivacion = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Reactivación</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
+      <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY")}</h6>
+    </div>
+    </div>
+    </li>`;
+    let lista_inscrip = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Inscripción</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
+      <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY" )}</h6>
+    </div>
+    </div>
+    </li>`;
+    let lista_constancia = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Constancia</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1355,15 +1891,34 @@ async function updateHistorial(id_estudiante) {
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
-      <p class="mb-tl">${moment(historial[i]["createdAt"]).format(
-        "DD-MM-YYYY"
-      )}</p>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Recargo</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${
-        filter[0]["grupo"]["identificador"]
-      }</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
+      <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY" )}</h6>
+    </div>
+    </div>
+    </li>`;
+    let listaReposicion = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Reposición-L${historial[i].observacion}</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1376,11 +1931,14 @@ async function updateHistorial(id_estudiante) {
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
-      <p class="mb-tl">${historial[i]["observacion"]}</p>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Cuota</h6><p class="text-capitalize mb-0">${text}</p>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY")}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${filter[0]["grupo"]["identificador"]}</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1390,15 +1948,20 @@ async function updateHistorial(id_estudiante) {
     </div>
     </li>`;
     let reposicionS = historial[i]["concepto"].split(",");
-    if (reposicionS[0] == "Reposicion") {
-      $("#historial-list").append(lista_mensualidad);
+    if (reposicionS[0] == "Reposicion" && historial[i]["observacion"] != "-") {
+      $("#historial-list").append(listaReposicion);
+      continue
     }
-    if (
+    if (reposicionS[0] == "Inscripción" && historial[i]["observacion"] == "-") {
+      $("#historial-list").append(lista_inscrip);
+      continue
+    }
+    /*if (
       historial[i]["concepto"] != "Mensualidad" &&
       historial[i]["observacion"] != "-"
     ) {
       $("#historial-list").append(lista);
-    }
+    }*/
     if (
       historial[i]["concepto"] == "Recargo" &&
       historial[i]["observacion"] == "-"
@@ -1406,8 +1969,20 @@ async function updateHistorial(id_estudiante) {
       $("#historial-list").append(lista_recargo);
     }
 
+    // * 
+    if (
+      historial[i]["concepto"] == "Constancia" &&
+      historial[i]["observacion"] != "-"
+    ) {
+      $("#historial-list").append(lista_constancia);
+    }
+
     if (historial[i]["concepto"] == "Mensualidad") {
       $("#historial-list").append(lista_mensualidad);
+    }
+
+    if (historial[i]["concepto"] == "Reactivacion" && historial[i]["estado"] === "Pagado") {
+      $("#historial-list").append(reactivacion);
     }
 
     var hora_registro_pago = moment(historial[i]["createdAt"]);
@@ -1454,20 +2029,20 @@ async function verificareposicion(id_estudiante) {
     });
     
   var repos
-  console.log(historial)
-  console.log(notas)
+  //console.log(historial)
+  //console.log(notas)
   let observacion ="";
   let filter_historial;
   if (notas.length > 0) {    
     for (let i = 0; i < notas.length; i++) {
       
       if (notas[i].nota == 0) {            
-          console.log(historial) 
-           console.log(notas[i].n_leccion) 
+          //console.log(historial) 
+           //console.log(notas[i].n_leccion) 
        let nhistorial = historial.filter(function(reposs) {
           return reposs.observacion == notas[i].n_leccion; 
       });
-      console.log(nhistorial)
+      //console.log(nhistorial)
       if (nhistorial.length > 0) {        
         continue
       }
@@ -1480,18 +2055,20 @@ async function verificareposicion(id_estudiante) {
           }
           $("#select-reposicion").append(`<option>${notas[i].n_leccion}</option>`);
           $("#form-reg-pago").append(`<div id="reposicion${notas[i].n_leccion}">
+          
           <input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,${notas[i].n_leccion}">
 <input type="text" name="monto[]" id="monto-form-reposicion${notas[i].n_leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${notas[i].n_leccion}" value="-">
 <input type="text" name="observacion[]" id="observacion-form-reposicion${notas[i].n_leccion}" value="${notas[i].n_leccion}">`);
+
           $("#body-table-pago")
             .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-<span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
+<span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
-<a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
+<a class="item borrar reposicion${notas[i].n_leccion}" onclick="deshabilitarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
       stroke-linejoin="round" class="feather feather-trash me-50">
@@ -1509,6 +2086,8 @@ async function verificareposicion(id_estudiante) {
 </li>`);
           $("#total-servicios").text("10000");
           
+          TotalAPagar();
+
         }
       }
         for (let j = 0; j < historial.length; j++) {      
@@ -1533,11 +2112,11 @@ async function verificareposicion(id_estudiante) {
               $("#body-table-pago")
                 .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-  <span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
+  <span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
-  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
+  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="deshabilitarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="feather feather-trash me-50">
@@ -1555,7 +2134,9 @@ async function verificareposicion(id_estudiante) {
 </li>`);
               $("#total-servicios").text("10000");
             }
+            TotalAPagar()
             }
+            TotalAPagar()
             
           }else{
             if ($(`#reposicion${notas[i].n_leccion}`).length == 1) {
@@ -1573,11 +2154,11 @@ async function verificareposicion(id_estudiante) {
               $("#body-table-pago")
                 .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-  <span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
+  <span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
-  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
+  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="deshabilitarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="feather feather-trash me-50">
@@ -1596,6 +2177,7 @@ async function verificareposicion(id_estudiante) {
               $("#total-servicios").text("10000");
               
             }
+            TotalAPagar()
 
             }
           
@@ -1657,6 +2239,11 @@ const leccionActualGrupos = async () => {
     }
 
     numLeccion = 32 - Math.floor(rest);
+
+    let prof = grupos[i].usuarioId ? grupos[i].usuario.nombre : 'No asignado'
+
+    let grupoIdentif = gruposTodos.filter(grupo => grupo.id === grupos[i].id)
+
     if (numLeccion) {
       jjaa = numLeccion;
     } else {
@@ -1676,7 +2263,8 @@ const leccionActualGrupos = async () => {
         ).length;
         gruposAct.push(grupos[i]);
         let fstChar2 = grupos[i]["identificador"].charAt(0);
-        
+
+
         if (
           (fstChar == "C" && fstChar2 == "I") ||
           (fstChar == "I" && fstChar2 == "C") ||
@@ -1685,12 +2273,12 @@ const leccionActualGrupos = async () => {
         ) {
           $(`#gruposAct`).append(`<tr>
     <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
-    <td>${grupos[i]["identificador"]}</td>
+    <td>${grupoIdentif[0].identificador}</td>
     <td>${jjaa}</td>
     <td>${grupos[i]["dia_horario"]}</td>
     <td>${grupos[i]["dia_pagos"]}</td>
     <td>${filter_group_alumnos}</td>
-    <td>${grupos[i]["usuario"]["nombre"]}</td>
+    <td>${prof}</td>
 </tr>`);
 count++
         }
@@ -1698,7 +2286,7 @@ count++
         if (fstChar == "N" && fstChar2 == "N") {
           $(`#gruposAct`).append(`<tr>
     <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
-    <td>${grupos[i]["identificador"]}</td>
+    <td>${grupoIdentif[0].identificador}</td>
     <td>${jjaa}</td>
     <td>${grupos[i]["dia_horario"]}</td>
     <td>${grupos[i]["dia_pagos"]}</td>
@@ -1722,8 +2310,617 @@ count++
     bInfo: false,
     order: [[2, "desc"]],
   });
+  $('#grupos_table_wrapper').removeClass('dataTables_wrapper')
+  $('#grupos_table').removeClass('dataTable')
 };
 function grupoSelected(valor) {
   $("#grupoId").val(valor);
   $("#guarda-grupoNew").removeAttr("disabled");
 }
+
+function SetGrap (item, total, color) {
+  //console.log(item, total, color) 
+  let options = {
+    chart: {
+      width: 100,
+      height: 100,
+      type: "radialBar"
+    },
+    
+    series: [total],
+    colors: [`${color}`],
+    
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          margin: 0,
+          size: "40%"
+        },
+        
+        dataLabels: {
+          showOn: "always",
+          name: {
+            offsetY: -10,
+            show: false,
+            color: "#888",
+            fontSize: "13px"
+          },
+          value: {
+            color: "#111",
+            fontSize: "16px",
+            show: false,
+          },
+        }
+      }
+    },
+  
+    stroke: {
+      lineCap: "round",
+    },
+    labels: ["Total"]
+  };
+
+  let chart = new ApexCharts(item, options);
+  if(chart !== null) {
+    chart.render();
+  }
+}
+
+let nivelSelect, nivelMax, leccMax, grupoSelect, alumnoSelect;
+
+async function ControlDetalles(id1, id2) {
+  let url = `/controlMatricula/${id1}/${id2}`;
+
+  let response = await fetch(url),
+  status = await response.status,
+  alumnoJson = await response.json();
+  idAlumno = parseInt($('.alumno-select').val())
+
+  let filterAlumno = matricula.filter(alumno => alumno.id == idAlumno), filterGrupo = filterAlumno.length ? gruposTodos.filter(grupo => grupo.id == filterAlumno[0].grupoId) : "";
+
+  alumnoSelect = filterAlumno.length ? filterAlumno[0] : ""
+  grupoSelect = filterGrupo.length ? filterGrupo[0] : ""
+  /*//console.log(filterAlumno)
+  //console.log(alumnoJson)
+  //console.log(grupoSelect)
+  //console.log("HERE")*/
+
+  for (let index = 0; index <= 3; index++) {
+    $("#grupoNivel")[0].options[index].disabled = true;
+  }
+  
+  $('#controlTitle').text($('#nombre-alumno').text());
+  
+  leccMax = alumnoJson.leccActual
+  nivelMax = alumnoJson.nivelActualGrupo
+  
+  for (let index = 0; index < nivelMax; index++) {
+    $("#grupoNivel")[0].options[index].disabled = false;
+  }
+  $('#grupoNivel').val(alumnoJson.nivelActualGrupo);
+  $('#grupoNivel').trigger('change');
+
+  nivelSelect = parseInt($('#grupoNivel').val())
+
+  let filterAistencias = asistenciasAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect)
+  let valorAsistencia = 3.125
+  let leccionesAusentes = parseFloat(filterAistencias.length * valorAsistencia).toFixed(2);
+  let totalAsis = parseFloat(100 - leccionesAusentes);
+  let filterNotas = notasAll.filter((nota => nota.nivel == nivelSelect && nota.matriculaId == idAlumno))
+  let filterParticipacion = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect)
+  let totalNotas = 0;
+
+  if (filterNotas.length) {
+    filterNotas.forEach(nota => {
+      totalNotas += parseInt(nota.nota);
+    });
+  }
+
+  totalNotas += filterParticipacion.length ? parseInt(filterParticipacion[0].porcentaje) : 0
+
+  let color1, color2;
+
+  if (totalAsis >= 80) {
+    color1 = "#28c76f"
+  } else {
+    color1 = "#82868b"
+  } 
+  
+  if (totalNotas >= 70) {
+    color2 = "#28c76f"
+  } else {
+    color2 = "#82868b"
+  } 
+
+  let asistenciaHtml = `
+  <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center flex-column justify-content-center">
+      <h6 class="m-0 fw-bolder">Asistencias</h6>
+      <h6 class="m-0 card-text">${totalAsis}%</h6>
+    </div>
+    <div id="chartAsistencia${id1}"></div>
+  </div>`;
+  $('#col-asis').html(asistenciaHtml)
+
+  let item1 = document.querySelector(`#chartAsistencia${id1}`);
+  if(item1) {
+    SetGrap(item1, totalAsis, color1);
+  }
+
+  let notasHtml = `
+  <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center flex-column justify-content-center">
+      <h6 class="m-0 fw-bolder">Calificación</h6>
+      <h6 class="m-0 card-text">${totalNotas}%</h6>
+    </div>
+    <div id="chartNota${id1}"></div>
+  </div>`;
+  $('#col-notas').html(notasHtml)
+
+  let item2 = document.querySelector(`#chartNota${id1}`);
+  if(item2) {
+    SetGrap(item2, totalNotas, color2);
+  }
+  $('#tablaControl').html('');
+
+  let arrayLeccionesAusentes = alumnoJson.fechaLeccionesAusentes, leccion = alumnoJson.leccActual
+  
+  if(status === 200) {
+    let content = new DocumentFragment();
+
+    let filterFechasLecc = grupoSelect.fechaLecciones.filter(leccion => leccion.nivel == nivelSelect)
+
+    for (let num = 1; num <= leccion; num++) {
+      let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="", setLeccion = "", fechaLecc = "";
+
+      setLeccion = filterFechasLecc.filter(item => item.leccion == num) 
+      fechaLecc = setLeccion[0].fecha
+      
+      if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
+        let filterPart = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect && item.n_leccion == num) 
+        let porcentaje = filterPart.length ? filterPart[0].porcentaje : 0
+        if (porcentaje > 7) {
+          color = 'badge-light-success'
+        } else {
+          color = 'badge-light-danger'
+        }
+        
+        /*if (grupoSelect.nombre === "Kids") {
+          let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+          notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+        
+          if (notaLeccion > 7) {
+            color = 'badge-light-success'
+          } else {
+            color = 'badge-light-danger'
+          }
+
+          calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+        }*/
+
+        participacion += `
+            <div class="mt-50"></div>
+            <span class="emp_post fw-bolder">Participación</span><br>
+            <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
+        ` 
+      } 
+
+      if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+        let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+        notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+       
+        /*//console.log(notaLeccion);
+        //console.log("NOTA LECCION");*/
+      
+        if (notaLeccion > 7) {
+          color = 'badge-light-success'
+        } else {
+          color = 'badge-light-danger'
+        }
+
+        calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+
+      } else {
+        calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
+      }
+      
+      if(asistenciasAll.length) {
+        let result = asistenciasAll.filter(lecc => lecc.n_leccion == num && lecc.nivel == nivelSelect && lecc.matriculaId == idAlumno);
+
+        if(result.length && result[0].n_leccion == num) {
+          /*//console.log(result)*/
+          td += 
+          `
+            <div class="d-flex flex-column pb-0">
+
+
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+                </div>
+
+                <div class="me-1 me-lg-2">
+                  
+                    <span class="emp_post fw-bolder">Fecha</span><br>
+                    <span class="emp_post text-nowrap">${fechaLecc}</span>
+
+                </div>
+                <div class="me-1 me-lg-2 text-center">
+                
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                    <span class="badge rounded-pill badge-light-danger">
+                      Ausente
+                    </span>
+                    
+                </div>
+
+                <div class="text-center">
+                    
+                    <span class="emp_post fw-bolder">Calificación</span><br>
+                    ${calif}
+                    ${participacion}
+                </div>
+              </div>
+              <hr class="mb-0">
+            </div>
+          `;
+        } else {
+          td += 
+          `
+            <div class="d-flex flex-column pb-0">
+
+            
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+                </div>
+
+                <div class="me-1 me-lg-2">
+                  
+                    <span class="emp_post fw-bolder">Fecha</span><br>
+                    <span class="emp_post text-nowrap">${fechaLecc}</span>
+
+                </div>
+                <div class="me-1 me-lg-2 text-center">
+                
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                    <span class="badge rounded-pill badge-light-success">
+                      Presente
+                    </span>
+                    
+                </div>
+
+                <div class="text-center">
+                    
+                    <span class="emp_post fw-bolder">Calificación</span><br>
+                    ${calif}
+                    ${participacion}
+
+                </div>
+              </div>
+              <hr class="mb-0">
+            </div>
+          `;
+        }
+
+      } else {
+        td += 
+          `
+            <div class="d-flex flex-column pb-0">
+
+            
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+                </div>
+
+                <div class="me-1 me-lg-2">
+                  
+                    <span class="emp_post fw-bolder">Fecha</span><br>
+                    <span class="emp_post text-nowrap">${fechaLecc}</span>
+
+                </div>
+                <div class="me-1 me-lg-2 text-center">
+                
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                    <span class="badge rounded-pill badge-light-success">
+                      Presente
+                    </span>
+                    
+                </div>
+
+                <div class="text-center">
+                    
+                    <span class="emp_post fw-bolder">Calificación</span><br>
+                    ${calif}
+                    ${participacion}
+
+                </div>
+              </div>
+              <hr class="mb-0">
+            </div>
+          `;
+      }
+      row.innerHTML = td;
+      content.appendChild(row);
+    }
+
+    $('#tablaControl').html(content);
+
+    $("#btn-control").click();
+
+  }
+}
+
+$("#grupoNivel").on("select2:select", function (e) {
+  $('#tablaControl').html('');
+  let content = new DocumentFragment(), leccion = leccMax;
+
+  nivelSelect = parseInt($('#grupoNivel').val())
+  if (grupoSelect.nombre === "Desde cero" || grupoSelect.nombre === "Intensivo") {
+    if (nivelSelect != nivelMax) {
+      leccion = 32
+      
+    } 
+  } else {
+    if (nivelSelect != nivelMax) {
+      leccion = 16
+      
+    } 
+  }
+
+  //console.log(leccion)
+  //console.log("leccion")
+  //console.log(nivelSelect)
+  //console.log("nivelSelect")
+  
+  let filterFechasLecc = grupoSelect.fechaLecciones.filter(leccion => leccion.nivel == nivelSelect)
+  
+  for (let num = 1; num <= leccion; num++) {
+    let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="", setLeccion = "", fechaLecc = "";
+
+    setLeccion = filterFechasLecc.filter(item => item.leccion == num);
+    fechaLecc = setLeccion[0].fecha;
+    
+    if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
+      let filterPart = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect && item.n_leccion == num)
+
+
+      let porcentaje = filterPart.length ? filterPart[0].porcentaje : 0
+      if (porcentaje > 7) {
+        color = 'badge-light-success'
+      } else {
+        color = 'badge-light-danger'
+      }
+      
+      /*if (grupoSelect.nombre === "Kids") {
+        let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+        notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+      
+        if (notaLeccion > 7) {
+          color = 'badge-light-success'
+        } else {
+          color = 'badge-light-danger'
+        }
+
+        calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+      }*/
+
+      participacion += `
+          <div class="mt-50"></div>
+          <span class="emp_post fw-bolder">Participación</span><br>
+          <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
+      ` 
+    } 
+
+    if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+      let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+      notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+     
+      /*//console.log(notaLeccion);
+      //console.log("NOTA LECCION");*/
+    
+      if (notaLeccion > 7) {
+        color = 'badge-light-success'
+      } else {
+        color = 'badge-light-danger'
+      }
+
+      calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+
+    } else {
+      calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
+    }
+    
+    if(asistenciasAll.length) {
+      let result = asistenciasAll.filter(lecc => lecc.n_leccion == num && lecc.nivel == nivelSelect && lecc.matriculaId == idAlumno);
+
+      if(result.length && result[0].n_leccion == num) {
+        /*//console.log(result)*/
+        td += 
+        `
+          <div class="d-flex flex-column pb-0">
+
+
+          <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center me-1 me-lg-2">
+                <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+              </div>
+
+              <div class="me-1 me-lg-2">
+                
+                  <span class="emp_post fw-bolder">Fecha</span><br>
+                  <span class="emp_post text-nowrap">${fechaLecc}</span>
+
+              </div>
+              <div class="me-1 me-lg-2 text-center">
+              
+                  <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                  <span class="badge rounded-pill badge-light-danger">
+                    Ausente
+                  </span>
+                  
+              </div>
+
+              <div class="text-center">
+                  
+                  <span class="emp_post fw-bolder">Calificación</span><br>
+                  ${calif}
+                  ${participacion}
+              </div>
+            </div>
+            <hr class="mb-0">
+          </div>
+        `;
+      } else {
+        td += 
+        `
+          <div class="d-flex flex-column pb-0">
+
+          
+          <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center me-1 me-lg-2">
+                <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+              </div>
+
+              <div class="me-1 me-lg-2">
+                
+                  <span class="emp_post fw-bolder">Fecha</span><br>
+                  <span class="emp_post text-nowrap">${fechaLecc}</span>
+
+              </div>
+              <div class="me-1 me-lg-2 text-center">
+              
+                  <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                  <span class="badge rounded-pill badge-light-success">
+                    Presente
+                  </span>
+                  
+              </div>
+
+              <div class="text-center">
+                  
+                  <span class="emp_post fw-bolder">Calificación</span><br>
+                  ${calif}
+                  ${participacion}
+
+              </div>
+            </div>
+            <hr class="mb-0">
+          </div>
+        `;
+      }
+
+    } else {
+      td += 
+        `
+          <div class="d-flex flex-column pb-0">
+
+          
+          <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center me-1 me-lg-2">
+                <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+              </div>
+
+              <div class="me-1 me-lg-2">
+                
+                  <span class="emp_post fw-bolder">Fecha</span><br>
+                  <span class="emp_post text-nowrap">${fechaLecc}</span>
+
+              </div>
+              <div class="me-1 me-lg-2 text-center">
+              
+                  <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                  <span class="badge rounded-pill badge-light-success">
+                    Presente
+                  </span>
+                  
+              </div>
+
+              <div class="text-center">
+                  
+                  <span class="emp_post fw-bolder">Calificación</span><br>
+                  ${calif}
+                  ${participacion}
+
+              </div>
+            </div>
+            <hr class="mb-0">
+          </div>
+        `;
+    }
+    row.innerHTML = td;
+    content.appendChild(row);
+  }
+
+  $('#tablaControl').append(content);
+});
+
+
+// * FUNCION CARGAR ARCHIVOS EXCEL
+let linkExcel = "", file;
+  $('#archivoExcel').on('change', (event)=>{
+    subirImagen(event)
+  })
+
+  const subirImagen = (event) => {
+    //$(`#loading3`).addClass("display");
+      const archivos = event.target.files;
+      const data = new FormData();
+      let imagenX = event.target.id;
+      data.append("archivo", archivos[0]);
+      $.ajax({
+        url: '/subirExcel',
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR)
+        {       
+          ////console.log(data)     
+          file = data.fileName
+          linkExcel = "/cargarExcelPagos/"+file
+
+          EnviarDatos("Pagos guardados", "succ")
+          
+          /*$(`#progressBar1`).text('Se cargó correctamente la imágen - 100%');
+          setTimeout(() => {
+            $(`#progressBar1`).addClass("d-none");
+            $(`#loading3`).removeClass("display");
+          }, 1000)*/
+        },
+        error: function (jqXHR, textStatus) { 
+          EnviarDatos("Lo sentimos, algo ah ocurrido al realizar la acción", "err")
+          /*$("#progressBar1").text('100% - Error al cargar el archivo');
+          $("#progressBar1").removeClass("progress-bar-success");
+          $("#progressBar1").addClass("progress-bar-danger");*/
+        }
+      });
+  };
+
+  function EnviarDatos(text, type) {
+    if(text && type === "succ") {
+      Swal.fire({
+        title: 'Pagos registrados!',
+        icon: 'success',
+      }).then((value) => {
+        if (value.isConfirmed || value.isDismissed) {
+          linkExcel = "/cargarExcelPagos/"+file
+          window.location.href = linkExcel
+        }
+      })
+    } else {
+      Swal.fire({
+        title: 'Estimado Usuario!',
+        text: 'Hubo un error al realizar la acción',
+        icon: 'error',
+      })
+    }
+  }

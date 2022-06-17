@@ -56,26 +56,28 @@
                 <div class="col-12 col-lg-8">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-responsive dataTable usuarios" id="usuarios">
-                                <thead>
-                                    <tr role="row">
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                            style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                            style="width: 376px;" aria-label="Email: activate to sort column ascending">País</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                            style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Telefono</th>
-                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                            style="width: 376px;" aria-label="Email: activate to sort column ascending">Puesto</th>
+                            <div class="table-responsive">
+                                <table class="table dataTable usuarios" id="usuarios">
+                                    <thead>
+                                        <tr role="row">
                                             <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                                            style="width: 376px;" aria-label="Email: activate to sort column ascending">Estado</th>                                        
-                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 148.6px;padding-left: 2.5rem;" aria-label="Acciones">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
+                                                style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                style="width: 376px;" aria-label="Email: activate to sort column ascending">País</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Telefono</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                style="width: 376px;" aria-label="Email: activate to sort column ascending">Puesto</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                                style="width: 376px;" aria-label="Email: activate to sort column ascending">Estado</th>                                        
+                                            <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 148.6px;padding-left: 2.5rem;" aria-label="Acciones">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -95,12 +97,11 @@
                             </div>
 
                             <form class="" method="POST" id="regUsuarioForm" action="/reguserpy672">
-                            <div class="col-md-6 mb-1" id="id-user-edit">
-                                    </div>
+                                <div id="id-user-edit"></div>
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="nombre">Nombres y Apellido</label>
-                                        <input type="text" name="nombre" id="nombre-user" class="form-control" placeholder="Mosqueda">
+                                        <input type="text" name="nombre" id="nombre-user" class="form-control" placeholder="Mosqueda" required>
                                     </div>
                                     <div class="col-md-6 mb-1 d-none">
                                         <label class="form-label" for="apellidos">Apellidos</label>
@@ -108,54 +109,57 @@
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="dni">DNI</label>
-                                        <input type="text" name="dni" id="dni-user" class="form-control">
+                                        <input type="text" name="dni" id="dni-user" class="form-control" required>
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="email">Email</label>
-                                        <input type="email" name="email" id="email-user" class="form-control" placeholder="mosqueda.cordova@email.com">
+                                        <input type="email" name="email" id="email-user" class="form-control" placeholder="mosqueda.cordova@email.com" required>
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="pais">País</label>
-                                        <input type="text" class="form-control" name="pais" id="pais-user">
+                                        <input type="text" class="form-control" name="pais" id="pais-user" required>
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="fechaN">Fecha de Nacimiento</label>
-                                        <input type="text" name="fechaN" id="fechaN-user" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
+                                        <input type="text" name="fechaN" id="fechaN-user" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY" required>
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="fechaI">Fecha de Inicio</label>
-                                        <input type="text" name="fechaI" id="fechaI-user" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
+                                        <input type="text" name="fechaI" id="fechaI-user" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY" required>
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="">Puesto</label>
-                                        <select name="puesto" id="puesto-user" class="form-select select2">
+                                        <select name="puesto" id="puesto-user" class="form-select select2" required>
                                             <option value="">Seleccione un Puesto</option>
-                                            <option value="Profesor">Administrador</option>
+                                            <option value="Administrador">Administrador</option>
                                             <option value="Profesor">Profesor</option>
                                             <option value="Vendedor">Asesor (Vendedor)</option>
-                                            <option value="Vendedor">Gestor (Bienestar Estudiantil)</option>
-                                            <option value="Profesor">Cobrador</option>
+                                            <option value="Gestor">Gestor (Bienestar Estudiantil)</option>
+                                            <option value="Cobrador">Cobrador</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="telefono">Teléfono</label>
-                                        <input type="text" class="form-control" name="telefono" id="telefono-user">
+                                        <input type="text" class="form-control" name="telefono" id="telefono-user" required>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="password">Contraseña</label>
                                         <div class="input-group input-group-merge form-password-toggle">
-                                            <input type="password" name="password" id="password" class="form-control" placeholder="············">
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="············" required>
                                             <span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="confirm-password">Confirmar Contraseña</label>
                                         <div class="input-group input-group-merge form-password-toggle">
-                                            <input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="············">
+                                            <input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="············" required>
                                             <span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
                                         </div>
+                                    </div>
+                                    <div class="col-12 mb-1 d-none" id="text-passw">
+                                        <p class="mb-0 fw-bolder text-danger">*Las contraseñas ingresadas no coinciden</p>
                                     </div>
 
                                     <div class="col-12">

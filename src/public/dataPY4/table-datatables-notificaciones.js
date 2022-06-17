@@ -7,7 +7,6 @@ function cargaTablaNotif(editada) {
   let valor_notificaciones = $('#array_notif_').val()
   let array_notificaciones = ""
   if (editada) {
-    
     array_notificaciones = JSON.parse(valor_notificaciones)
 
   }else{

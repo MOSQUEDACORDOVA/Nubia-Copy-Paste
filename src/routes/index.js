@@ -89,22 +89,40 @@ router.get('/notificaciones_panel', authControllerPY4.authenticatedUser, dashboa
 router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
 
-//PYT-4 
 router.post('/upload-file', fileController4.subirArchivo);
-router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
+router.get('/errorpy4/:msg', dashboardControllerPY4.error);
+router.get('/errorpy4Cuponera/:msg', dashboardControllerPY4.errorCuponera);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/prestadospy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
-router.get('/prestados/:day', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
+router.get('/prestadospy4-2', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
-router.get('/reportes', dashboardControllerPY4.reportes);
+
+
+
+router.get('/historyobserpy4/:clienteId',authControllerPY4.authenticatedUser, dashboardControllerPY4.getHistorialObservaciones);
+router.post('/saveObservacionClientePy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.saveHistorialObservaciones);
+router.get('/delete_observacionpy4/:id',authControllerPY4.authenticatedUser, dashboardControllerPY4.delete_observacionpy4);
+router.get('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
+router.post('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
+router.get('/getPedidosbyDaypy4/:diainicio/:diafin', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidospordia);
+router.get('/obtenerPedidosReprogramados/:dia', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidosReprogramados);
+
+//PYT-4 
 //ZONAS
 router.get('/obtenerzonaspy4', dashboardControllerPY4.obtener_zonas);
-// OBTENER VENTAS POR ZONAS
+//**REPORTES */
+router.get('/reportes', dashboardControllerPY4.reportes);
 router.get('/obetenerdatosgeneralesreportes', dashboardControllerPY4.gerenalReportes);
+router.get('/getGastosLit', authControllerPY4.authenticatedUser, dashboardControllerPY4.getGastosLit);
+router.post('/createGasto', authControllerPY4.authenticatedUser, dashboardControllerPY4.createGasto);
+router.get('/delete_gasto/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.deleteGasto);
+router.post('/getGastobyId', authControllerPY4.authenticatedUser, dashboardControllerPY4.getGastobyId);
+
+
 
 //personal
 router.get('/personal_py4', authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
@@ -114,7 +132,7 @@ router.get('/delete_personal/:id', authControllerPY4.authenticatedUser, dashboar
 router.post('/editar_personal_id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_personal);
 
 router.post('/save_personal_py4_edit', authControllerPY4.authenticatedUser, dashboardControllerPY4.save_personal_py4);
-
+router.get('/enordesPersonal/:id/:estado', authControllerPY4.authenticatedUser,dashboardControllerPY4.newEstadoPersonal);
 
 router.get('/editar_usuario/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_usuarios);
 router.post('/editar_usuario', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_usuarios);
@@ -174,16 +192,24 @@ router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser, dashboardC
 router.post('/editar_pedido', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_pedido);
 
 
-router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.delete_cliente);
-router.post('/editar_cliente_id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_cliente);
-router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambiaS_pedido);
-router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambiaS_pedido);
-router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambiachofer_pedido);
+
+router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
+router.post('/editar_cliente_id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
+router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+router.post('/cambia_M_pago', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_M_pago);
+router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiachofer_pedido);
+router.get('/enordesClient/:id/:estado', authControllerPY4.authenticatedUser,dashboardControllerPY4.newEstadoCliente);
+router.post('/cambia_titulo_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_titulo_cliente);
 
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
 router.post('/cambia_S_pago', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser, dashboardControllerPY4.verifica_deuda_pedido);
 router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago_deudor);
+
+//CopyClipboard
+router.get('/ChangeshareStatusPY4/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.ChangeshareStatusPY4);
+router.get('/shareStatusPY4', authControllerPY4.authenticatedUser, dashboardControllerPY4.shareStatusPY4);
 
 router.get('/clientesBwater', authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 router.get('/clientesBwater/:mensaje', authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
@@ -225,9 +251,9 @@ router.post('/save-edit-pedido-maquila', authControllerPY4.authenticatedUser, ma
 router.get('/ventas-del-dia/:dia_select', authControllerPY4.authenticatedUser, maquilaControllerPY4.ventas_del_dia);
 
 
-router.get('/app-home/:id', dashboardControllerPY4.appHome);
-router.get('/app-login/:id', dashboardControllerPY4.appLogin);
-router.get('/app-pedido/:id', dashboardControllerPY4.appPedido);
+router.get('/app-home', dashboardControllerPY4.appHome);
+router.get('/app-login', dashboardControllerPY4.appLogin);
+router.get('/app-pedido', dashboardControllerPY4.appPedido);
 
 /* ---FIN PY4---  */
 
@@ -571,7 +597,7 @@ router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 
 /*------------ PYT-672-----------------*/
 // TODO: AUTH  
-router.get('/loginpy672/:id', dashboardControllerPY672.login);
+router.get('/loginpy672/:id/:err?', dashboardControllerPY672.login);
 router.get('/loginpy672E/:id/:msg', dashboardControllerPY672.login);
 router.get('/registerpy672/:id', dashboardControllerPY672.register);
 
@@ -587,32 +613,46 @@ router.post('/enabledDisUser', dashboardControllerPY672.enabledDisUser);
 router.get('/logout/PYT-672', userControllerPY672.closeSesion);
 
 // TODO: ADMIN
-router.get('/grupos/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.grupos);
-router.get('/verificargrupos/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.verificargrupos);
-router.get('/matriculas', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas);
-router.get('/matriculas/:msg', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas)
-router.get('/control/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.control);
-router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.controlgrupo);
-router.get('/historial/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.historial);
-router.get('/caja/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.caja);
-router.get('/usuarios672/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.usuarios);
-router.get('/obtenerusuariospy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerusuarios);
+router.get('/grupos/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.grupos);
+router.get('/verificargrupos/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.verificargrupos);
+router.get('/matriculas/:item?', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas);
+router.get('/control/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.control);
+router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedUser, dashboardControllerPY672.controlgrupo);
+router.get('/historial/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.historial);
+router.get('/caja/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.caja);
+router.get('/usuarios672/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.usuarios);
+router.get('/manag-user/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.managUsuarios);
+router.get('/obtenerusuariospy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerusuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
+router.get('/estadisticas/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.estadisticas);
 
-router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);
+// * GENERAR ID GRUPOS PRINCIPAL
+router.get('/obtenerGruposAll', dashboardControllerPY672.obtenerGruposAll);
+/*router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);
 router.get('/obtenergruposdesde0', dashboardControllerPY672.obtenergruposdesde0);
 router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposintensivos);
-router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);
+router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);*/
+
+// * OBTENER ESTUDIANTES ALL
+router.get('/obtenerMatriculasAll', dashboardControllerPY672.obtenerMatriculasAll);
+
+// * DISTINC GRUPOS CONTROL
+router.get('/gruposControl', dashboardControllerPY672.gruposControl);
+// * COMPROBAR CONTRASEÑA
+router.get('/validacionPassw/:passw', dashboardControllerPY672.validacionPassw)
 
 //COMENTARIOS
-router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.get_comments_alumno);
-router.post('/guardar_comentario_admin_academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guardar_comentario);
-router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.comentarios_admin_get);
+router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.get_comments_alumno);
+router.post('/guardar_comentario_admin_academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardar_comentario);
+router.get('/guardar_comentario_admin_academy/:id_alumno/:comentario', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardar_comentarioCaja);
+router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.comentarios_admin_get);
 //** ADMIN CAJA */
-router.post('/guardar-pago-academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guarda_pago);
+router.post('/guardar-pago-academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guarda_pago);
+router.post('/guardar-pago-reactivar', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardarPagoReactivar);
+router.get('/historialCompleto', dashboardControllerPY672.historialCompleto);
 router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
-router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_constancia);
-router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_titulo);
+router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_constancia);
+router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_titulo);
 
 
 
@@ -631,47 +671,70 @@ router.get('/error672/:id', dashboardControllerPY672.error);
 
 // ? POST -------------------------!
 // * CREAR GRUPOS
-router.post('/creargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.creargrupos);
+router.post('/creargrupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.creargrupos);
 // * OBTENER LECCION ACTUAL DE GRUPO
 //router.post('/obtenerGrupoLeccionActual', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerGrupoLeccionActual);
 
 // * ACTUALIZAR GRUPOS
-router.post('/actualizargrupospty672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.actualizargrupos);
+router.post('/actualizargrupospty672', authControllerPY672.authenticatedUser, dashboardControllerPY672.actualizargrupos);
 // * BORRAR GRUPOS
-router.post('/borrargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrargrupo);
+router.post('/borrargrupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.borrargrupo);
 // * REGISTRAR ESTUDIANTES
-router.post('/registrarestudiantepy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarmatricula);
+router.post('/registrarestudiantepy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarmatricula);
 // * EDITAR ESTUDIANTES
-router.post('/edit-estudiantepy627', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.editarmatricula);
+router.post('/edit-estudiantepy627', authControllerPY672.authenticatedUser, dashboardControllerPY672.editarmatricula);
 // * REASIGNA GRUPO ESTUDIANTES
-router.post('/reasignar-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo);
-router.post('/reasignar2-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo2);
+router.post('/reasignar-grupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.reasignarGrupo);
+router.post('/reasignar2-grupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.reasignarGrupo2);
 // * BORRAR ESTUDIANTES
-router.post('/borrarestudiantespy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrarestudiantes);
+router.post('/borrarestudiantespy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.borrarestudiantes);
 // * CONGELAR ESTUDIANTES
-router.post('/congelarestudiantepy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.congelarestudiante);
+router.post('/congelarestudiantepy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.congelarestudiante);
 // * ACTIVAR ESTUDIANTES CONGELADOS
-router.post('/activarestudiantecongeladopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.activarestudiantecongelado);
+router.post('/activarestudiantecongeladopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.activarestudiantecongelado);
 // * BORRAR ESTUDIANTES DE GRUPO
-router.post('/eliminarestudiantedegrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.eliminarestudiantegrupo);
+router.post('/eliminarestudiantedegrupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.eliminarestudiantegrupo);
 // * OBTENER MATRICULA DE GRUPO
-router.post('/obtenermatriculagrupo', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenermatriculagrupo);
+router.post('/obtenermatriculagrupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenermatriculagrupo);
 // * REGISTRAR MATRICULA AUSENTE
-router.post('/registrarMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarmatriculausente);
+router.post('/registrarMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarmatriculausente);
 // * ELIMINAR MATRICULA AUSENTE
-router.post('/eliminarMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.eliminarmatriculausente);
+router.post('/eliminarMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.eliminarmatriculausente);
 // * OBTENER MATRICULA AUSENTE
-router.post('/obtenerMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenermatriculausente);
+router.post('/obtenerMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenermatriculausente);
+
+
+// * OBTENER TODA MATRICULA AUSENTE
+router.get('/obtenerTodaMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerTodaMatriculAusente);
+// * OBTENER TODAS NOTAS
+router.get('/obtenerTodasNotas', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerTodasNotas);
+// * OBTENER TODAS PARTICIPACION
+router.get('/obtenerTodasParticipacion', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerTodasParticipaciones);
+
+
 // * REGISTRAR NOTAS
-router.post('/registrarNotas', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarnotas);
+router.post('/registrarNotas', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarnotas);
 // * REGISTRAR PARTICIPACION
-router.post('/registrarParticipacion', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarparticipacion);
+router.post('/registrarParticipacion', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarparticipacion);
 // * OBTENER PROVINCIAS, CANTON, DISTRITOS
-router.get('/obtenerdirecciones', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerdirecciones);
+router.get('/obtenerdirecciones', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerdirecciones);
 // * GUARDAR ARCHIVO EXCEL
 router.post('/subirExcel', fileController672.subirArchivo);
 // * REGISTRAR EXCEL DE ALUMNOS
-router.get('/cargarExcel/:grupoId/:fileName/:vendedor', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.cargarExcel);
+router.get('/cargarExcel/:grupoId/:fileName/:text', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarExcel);
+// * REGISTRAR EXCEL DE PAGOS
+router.get('/cargarExcelPagos/:fileName', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarPagosExcel);
+// *  DETALLES CONTROL EN CAJA
+router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.detallesControl);
+// * GENERAR COMPROBANTE PDF DE REGISTRO
+router.get('/comprobante/:id', dashboardControllerPY672.generarRegistroPDF);
+
+// * OBTENER CONTRASEÑA DE USUARIO
+//router.get('/getPasswordUser/:id', dashboardControllerPY672.getPasswordUser);
+// * CAMBIAR CONTRASEÑA DE USUARIO
+router.post('/changePasswordUser', dashboardControllerPY672.changePasswordUser);
+// * ACTUALIZAR INFORMACION DE USUARIO
+router.post('/changeInfoUser', dashboardControllerPY672.changeInfoUser);
 
 
 /*------------ PYT-672-----------------*/
