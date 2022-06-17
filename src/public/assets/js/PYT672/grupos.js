@@ -1113,7 +1113,7 @@ tablaGrupos.forEach(tabla => {
 });
 
 let hoy = moment()
-$('.fecha-inicio').on('change',(e)=>{
+/*$('.fecha-inicio').on('change',(e)=>{
     var dia,dia_fechaSelect,fecha_anterior,fecha_h
                 
     if($('#customOptionsCheckableRadios1').is(':checked')){
@@ -1200,10 +1200,3 @@ $('#date').on('change',(e)=>{
             swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
                             $('#date').val('')
                 return
-        }
-        if (fecha_anterior == true){
-            swal.fire('Debe seleccionar una fecha superior a la actual.')		
-                        $('#date').val('')
-            return
-        }
-})
