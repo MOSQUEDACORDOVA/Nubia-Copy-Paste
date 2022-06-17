@@ -110,7 +110,8 @@ router.get('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardCon
 router.post('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
 router.get('/getPedidosbyDaypy4/:diainicio/:diafin', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidospordia);
 router.get('/obtenerPedidosReprogramados/:dia', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidosReprogramados);
-
+router.get('/obtenerPedidosVentaRango/:diainicio/:diafin', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidosVentaRango);
+router.get('/obtenerPedidosReferidoEntregado/:id_', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidosReferidoEntregado);
 //PYT-4 
 //ZONAS
 router.get('/obtenerzonaspy4', dashboardControllerPY4.obtener_zonas);
@@ -121,9 +122,6 @@ router.get('/getGastosLit', authControllerPY4.authenticatedUser, dashboardContro
 router.post('/createGasto', authControllerPY4.authenticatedUser, dashboardControllerPY4.createGasto);
 router.get('/delete_gasto/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.deleteGasto);
 router.post('/getGastobyId', authControllerPY4.authenticatedUser, dashboardControllerPY4.getGastobyId);
-
-
-
 //personal
 router.get('/personal_py4', authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
 router.get('/personal_py4/:msg', authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);

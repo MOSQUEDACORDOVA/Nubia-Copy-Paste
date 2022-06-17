@@ -189,9 +189,60 @@ let diaFin =req.params.diafin;
          DataBase.PedidosbyDaybetween(diaInicio, diaFin)
             .then((pedidos_) => {
               let pedidos_let = JSON.parse(pedidos_);
-              res.send({pedidos_let})
-            })
+             return res.send({pedidos_let})
+            });
 }
+exports.obtenerPedidospordiaReportes = async (req, res)=>{
+  let diaInicio=req.params.diainicio;
+  let diaFin =req.params.diafin; 
+  let zona = req.params.zona;
+  let chofer = req.params.chofer;
+  console.log(zona)
+
+    if (zona != null && chofer == null) {
+      console.log('PedidosbyDaybetweenZona')
+      DataBase.PedidosbyDaybetweenZona(diaInicio, diaFin,zona)
+              .then((pedidos_) => {
+                let pedidos_let = JSON.parse(pedidos_);
+               return res.send({pedidos_let})
+              });
+    }
+    if (zona != null && chofer !== null) {
+      console.log('PedidosbyDaybetweenZonaChofer')
+      DataBase.PedidosbyDaybetweenZonaChofer(diaInicio, diaFin,zona, chofer)
+              .then((pedidos_) => {
+                let pedidos_let = JSON.parse(pedidos_);
+               return res.send({pedidos_let})
+              });
+    } 
+    if (zona == null && chofer !== null) {
+      console.log('PedidosbyDaybetweenChofer')
+      DataBase.PedidosbyDaybetweenChofer(diaInicio, diaFin,chofer)
+              .then((pedidos_) => {
+                let pedidos_let = JSON.parse(pedidos_);
+               return res.send({pedidos_let})
+              });
+    }       
+  }
+exports.obtenerPedidosVentaRango = async (req, res)=>{
+  let diaInicio=req.params.diainicio;
+  let diaFin =req.params.diafin;    
+    console.log(diaInicio);
+     console.log(diaFin);
+           DataBase.PedidosbyDaybetweenVentas(diaInicio, diaFin)
+              .then((pedidos_) => {
+                let pedidos_let = JSON.parse(pedidos_);
+                res.send({pedidos_let})
+              })
+  }
+  exports.obtenerPedidosReferidoEntregado = async (req, res)=>{
+    let id_=req.params.id_;
+             DataBase.PedidosReferidoEntregado(id_)
+                .then((pedidos_) => {
+                  let pedidos_let = JSON.parse(pedidos_);
+                  res.send({pedidos_let})
+                })
+    }
 exports.obtenerPedidosReprogramados = async (req, res)=>{
   let dia=req.params.dia
            DataBase.PedidosbyDay(dia)
@@ -764,56 +815,7 @@ exports.save_cliente_py4 = async (req, res) => {
     });
 };
 
-//general reportes
-exports.gerenalReportes = (req, res) => {
-  DataBase.ObtenerVentasDistinct()
-    .then(async (respuesta) => {
-      let ventasId = JSON.parse(respuesta);
-      let ventasGlobal = [],
-        ventasZonas = [],
-        ventasCanje = [],
-        ventasRefil = [],
-        ventasNuevo = [],
-        ventasObsequio = [];
 
-          DataBase.ClientesAll()
-        .then(async (respuesta2) => {
-          let clientes = JSON.parse(respuesta2);
-
-          DataBase.PedidosAll()
-            .then(async (respuesta3) => {
-              let pedidos = JSON.parse(respuesta3);
-              let found = pedidos.filter(
-                (pedido) =>
-                  pedido.status_pago === "Pagado" &&
-                  pedido.status_pedido === "Entregado"
-              );
-
-              ventasGlobal.push(found);
-              
-
-              // filtrar zonas
-              if (ventasId.length) {
-                //ventasZonas.push(found)
-              }
-
-              return res.send({ pedidos, ventasGlobal, clientes });
-            })
-            .catch((err) => {
-                      let msg = "Error en sistema";
-              return res.redirect("/errorpy4/" + msg);
-            });
-        })
-        .catch((err) => {
-              let msg = "Error en sistema";
-          return res.redirect("/errorpy4/" + msg);
-        });
-    })
-    .catch((err) => {
-      let msg = "Error en sistema";
-      return res.redirect("/errorpy4/" + msg);
-    });
-};
 
 exports.save_cliente_cuponera = (req, res) => {
   const {
@@ -4709,7 +4711,56 @@ exports.deleteGasto = async (req,res) => {
       let Log = await DataBase.SaveLogs(userId,'deleteGasto','deleteGasto',description);
   res.send({gastoBorrado});
 };
+//general reportes
+exports.gerenalReportes = (req, res) => {
+  DataBase.ObtenerVentasDistinct()
+    .then(async (respuesta) => {
+      let ventasId = JSON.parse(respuesta);
+      let ventasGlobal = [],
+        ventasZonas = [],
+        ventasCanje = [],
+        ventasRefil = [],
+        ventasNuevo = [],
+        ventasObsequio = [];
 
+          DataBase.ClientesAll()
+        .then(async (respuesta2) => {
+          let clientes = JSON.parse(respuesta2);
+
+          DataBase.PedidosAll()
+            .then(async (respuesta3) => {
+              let pedidos = JSON.parse(respuesta3);
+              let found = pedidos.filter(
+                (pedido) =>
+                  pedido.status_pago === "Pagado" &&
+                  pedido.status_pedido === "Entregado"
+              );
+
+              ventasGlobal.push(found);
+              
+
+              // filtrar zonas
+              if (ventasId.length) {
+                //ventasZonas.push(found)
+              }
+
+              return res.send({ pedidos, ventasGlobal, clientes });
+            })
+            .catch((err) => {
+                      let msg = "Error en sistema";
+              return res.redirect("/errorpy4/" + msg);
+            });
+        })
+        .catch((err) => {
+              let msg = "Error en sistema";
+          return res.redirect("/errorpy4/" + msg);
+        });
+    })
+    .catch((err) => {
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+};
 
 
 /**------------ */
