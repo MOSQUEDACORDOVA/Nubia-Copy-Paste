@@ -6,7 +6,7 @@ function FetchData (num) {
         .then(response => response.json())
         .then(data => {
             gruposTodos = data;
-            console.log(gruposTodos)
+            //console.log(gruposTodos)
             cargarTablaAperturas();
             cargarTablaDesde0();
             cargarTablaIntensivos();
@@ -72,7 +72,7 @@ function cargarTablaAperturas() {
                             <p class="d-none">${full.nombre}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-identificador="${full.identificador}" data-fecha="${full.fecha_inicio}">${identif}</a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-identificador="${full.identificador}" data-fecha="${full.fecha_inicio}" data-prof="${full.usuarioId}">${identif}</a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -218,7 +218,7 @@ function cargarTablaDesde0() {
             tableDesde0.search(this.value).draw();   
         });  
         $('#profesoresGrupo1').on('change', function(){
-            console.log(this.value)
+            //console.log(this.value)
             tableDesde0.search(this.value).draw();   
         });
 
@@ -241,7 +241,7 @@ function cargarTablaDesde0() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-primary">${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}" data-prof="${full.usuarioId}"><b class="text-primary">${full.identificador}</b></a>
                                 </div>
                                 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -412,7 +412,7 @@ function cargarTablaIntensivos() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-danger">${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}" data-prof="${full.usuarioId}"><b class="text-danger">${full.identificador}</b></a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -580,7 +580,7 @@ function cargarTablaKids() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-success">${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}" data-profesor="${full.usuarioId}"><b class="text-success">${full.identificador}</b></a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -746,14 +746,14 @@ desde0Form.addEventListener('submit', e => {
     e.preventDefault();
     let data = new FormData(desde0Form);
     if ($(`#desde0Form input[name="fechaInicio"]`).val() == "") {
-        console.log('hither')
+        //console.log('hither')
         Swal.fire('Debe seleccionar una fecha para poder continuar')
         
         return $(`#desde0Form input[name="fechaInicio"]`).focus()
     }
 
     if ($(`#desde0Form input[name="montoMensual"]`).val() == "") {
-        console.log('hi')
+        //console.log('hi')
         Swal.fire('Debe un monto mensual para poder continuar')
         
         return $(`#desde0Form input[name="montoMensual"]`).focus()
@@ -765,14 +765,14 @@ intensivoForm.addEventListener('submit', e => {
     e.preventDefault();
     let data = new FormData(intensivoForm);
     if ($(`#intensivoForm input[name="fechaInicio"]`).val() == "") {
-        console.log('hi')
+        //console.log('hi')
         Swal.fire('Debe seleccionar una fecha para poder continuar')
         
         return $(`#intensivoForm input[name="fechaInicio"]`).focus()
     }
 
     if ($(`#intensivoForm input[name="montoMensual"]`).val() == "") {
-        console.log('hi')
+        //console.log('hi')
         Swal.fire('Debe un monto mensual para poder continuar')
         
         return $(`#intensivoForm input[name="montoMensual"]`).focus()
@@ -785,14 +785,14 @@ kidsForm.addEventListener('submit', e => {
     
     let data = new FormData(kidsForm);
     if ($(`#kidsForm input[name="fechaInicio"]`).val() == "") {
-        console.log('hithere2')
+        //console.log('hithere2')
         Swal.fire('Debe seleccionar una fecha para poder continuar')
         
         return $(`input[name="fechaInicio"]`).focus()
     }
 
     if ($(`#kidsForm input[name="montoMensual"]`).val() == "") {
-        console.log('hi')
+        //console.log('hi')
         Swal.fire('Debe un monto mensual para poder continuar')
         
         return $(`#kidsForm input[name="montoMensual"]`).focus()
@@ -810,7 +810,7 @@ function CrearGruposFetch (data) {
             Toast("Error");
         })
         .then(response => {
-            console.log('Success:', response)
+            //console.log('Success:', response)
             Toast("Grupo Agregado");
            window.location.href ="/verificargrupos/PYT-672"
             //UpdateTables();
@@ -904,6 +904,11 @@ horarioIntensivo = document.getElementById('horarioIntensivo'),
 horarioKids = document.getElementById('horarioKids'),
 fechaIn = document.getElementById('date');
 
+function quitarAcentos(cadena){
+    const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+    return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
+}
+
 tituloIn.addEventListener('change', e => {
     horarioDesdeCero.classList.add('d-none')
     horarioIntensivo.classList.add('d-none')
@@ -929,9 +934,13 @@ tablaGrupos.forEach(tabla => {
         if(e.target.classList.contains('editar-grupo')) {
             tituloIn.value = e.target.getAttribute('data-nombre');
             fechaIn.value = e.target.getAttribute('data-fecha');
-            // * ESTA PENDIENTE MOSTRAR FECHA DE INICIO DE GRUPO SELECCIONADO EN MODAL EDITAR
+            $('#profesorEdit').val(e.target.getAttribute('data-prof').length ? e.target.getAttribute('data-prof') : "");
+            $('#profesorEdit').trigger('change');
             /*console.log(e.target.getAttribute('data-fecha'))
             console.log(e.target)*/
+            horarioDesdeCero.value = ""
+            horarioIntensivo.value = ""
+            horarioKids.value = ""
             
             idIn.forEach(inp => {
                 inp.value = e.target.getAttribute('data-id')
@@ -939,16 +948,17 @@ tablaGrupos.forEach(tabla => {
             
             horarioDesdeCero.classList.add('d-none')
             horarioIntensivo.classList.add('d-none')
+            horarioKids.classList.add('d-none')
             let horario = moment(e.target.getAttribute('data-horario'),'DD-MM-YYYY').format('YYYY-MM-DD')
-            if(e.target.getAttribute('data-nombre') === "Desde cero") {
+            if(e.target.getAttribute('data-nombre') == "Desde cero") {
                 horarioDesdeCero.classList.remove('d-none')
-                horarioDesdeCero.value = e.target.getAttribute('data-horario')
-            } else if (e.target.getAttribute('data-nombre') === "Intensivo") {
+                horarioDesdeCero.value = quitarAcentos(e.target.getAttribute('data-horario'))
+            } else if (e.target.getAttribute('data-nombre') == "Intensivo") {
                 horarioIntensivo.classList.remove('d-none')
-                horarioIntensivo.value = e.target.getAttribute('data-horario')
+                horarioIntensivo.value = quitarAcentos(e.target.getAttribute('data-horario'))
             } else {
                 horarioKids.classList.remove('d-none')
-                horarioKids.value = e.target.getAttribute('data-horario')
+                horarioKids.value = quitarAcentos(e.target.getAttribute('data-horario'))
             }
         }
     
@@ -968,8 +978,8 @@ tablaGrupos.forEach(tabla => {
             }).then(res => res.json())
                 .catch(error => console.error('Error:', error))
                 .then(response => {
-                    data = response.find,
-                    console.log(data)
+                    data = response.find
+                    //console.log(data)
         
                     if(data.length >= 1) {
                         if (consulta === "todos") {
@@ -1111,28 +1121,28 @@ let hoy = moment()
     }
     if($('#customOptionsCheckableRadios2').is(':checked')){
        dia = ($('#horario-intensivo').val()).split(':')  
-       console.log(dia)
+       //console.log(dia)
        dia = dia[0].toString()
        dia = dia.split('y')  
-       console.log(dia) 
+       //console.log(dia) 
     }
     if($('#customOptionsCheckableRadios3').is(':checked')){
        dia = ($('#horario-kids').val()).split(':')  
-       console.log(dia)
+       //console.log(dia)
     }
 
     
     dia_fechaSelect = moment(e.target.value,'DD-MM-YYYY').locale('es').format('dddd')
     fecha_h = e.target.value
-    console.log(dia[0].trim().toLowerCase())  
-    console.log('fecha_h')  
-    console.log(fecha_h)
+    //console.log(dia[0].trim().toLowerCase())  
+    //console.log('fecha_h')  
+    //console.log(fecha_h)
 
 	fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
     if($('#customOptionsCheckableRadios2').is(':checked')){
         
         if (dia_fechaSelect == dia[0].trim().toLowerCase() || dia_fechaSelect == dia[1].trim().toLowerCase()) {
-            console.log(dia[1].trim().toLowerCase())
+            //console.log(dia[1].trim().toLowerCase())
             if (fecha_anterior == true){
                 swal.fire('Debe seleccionar una fecha superior a la actual.')		
                             $('#date').val('')
@@ -1158,26 +1168,42 @@ let hoy = moment()
 								$('#date').val('')
 					return
 				}
-})
+})*/
 
-$('#date').on('change',(e)=>{
-    let dia = ($('.horario').val()).split(':')
+/*$('#date').on('change',(e)=>{
+    let dia = ""
+
+    if ($('#horarioDesdeCero').val() != "") {
+        dia = ($('#horarioDesdeCero').val()).split(':')
+
+    } else if ($('#horarioIntensivo').val() != "") {
+        //dia = ($('#horarioIntensivo').val()).split(':')
+        
+    } else {
+        //dia = ($('#horarioKids').val()).split(':')
+
+    }
+
+    console.log(dia)
     
     let dia_fechaSelect = moment(e.target.value).locale('es').format('dddd')
     fecha_h = e.target.value
-    console.log(dia[0].toLowerCase())
+    console.log(dia_fechaSelect)
     console.log(fecha_h)
-    console.log("fecha ")
+    console.log(dia[0])
+    //console.log(dia[0].toLowerCase())
+    //console.log(fecha_h)
+    //console.log("fecha ")
 
 	fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
-			if (dia_fechaSelect != dia[0].toLowerCase()) {
-                swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
-								$('#date').val('')
-					return
-            }
-            if (fecha_anterior == true){
-                swal.fire('Debe seleccionar una fecha superior a la actual.')		
+        if (dia_fechaSelect != dia[0].toLowerCase()) {
+            swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
                             $('#date').val('')
                 return
-            }
+        }
+        if (fecha_anterior == true){
+            swal.fire('Debe seleccionar una fecha superior a la actual.')		
+                        $('#date').val('')
+            return
+        }
 })*/
