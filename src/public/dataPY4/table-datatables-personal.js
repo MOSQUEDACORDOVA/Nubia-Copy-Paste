@@ -52,7 +52,7 @@ function cargaTablaPersonal(editada) {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item d-none '+full['id']+'">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_personal("'+full['id']+'")\'>' +
