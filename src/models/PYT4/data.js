@@ -376,6 +376,26 @@ module.exports = {
         });
     });
   },
+  update_cliente_nuevo(id) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          nuevo:'NO'},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   CambiarEstadoCliente(id,estado) {
     return new Promise((resolve, reject) => {
       Clientes.update(
@@ -1272,6 +1292,23 @@ console.log(hoy)
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
     ],order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ['fecha_pedido', 'DESC'],]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PedidosClienteNuevo(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{clienteId:id},order: [
       // Will escape title and validate DESC against a list of valid direction parameters
       ['fecha_pedido', 'DESC'],]
       },)

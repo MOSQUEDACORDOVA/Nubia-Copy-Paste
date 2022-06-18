@@ -209,8 +209,8 @@ router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser, dashbo
 router.get('/ChangeshareStatusPY4/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.ChangeshareStatusPY4);
 router.get('/shareStatusPY4', authControllerPY4.authenticatedUser, dashboardControllerPY4.shareStatusPY4);
 
-router.get('/clientesBwater', authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
-router.get('/clientesBwater/:mensaje', authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+router.get('/clientesBwater', authControllerPY4.authenticatedUser, dashboardControllerPY4.clientesPage);
+router.get('/clientesBwater/:mensaje', authControllerPY4.authenticatedUser, dashboardControllerPY4.clientesPage);
 // Etiquetas
 router.post('/save_etiqueta', authControllerPY4.authenticatedUser, dashboardControllerPY4.save_etiquetas);
 router.get('/delete_etiqueta/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.delete_etiqueta);

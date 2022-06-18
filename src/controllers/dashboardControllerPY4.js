@@ -318,7 +318,7 @@ exports.dashboard = (req, res) => {
       let cp_arr = JSON.parse(cp_);
       ClientesDB(id_sucursal)
         .then((clientes_d) => {
-          let clientes_arr = JSON.parse(clientes_d);
+          let clientes_arr0 = JSON.parse(clientes_d);
               //COLOCAR AQUI QUE CUANDO EL PEDIDO TENGA EL STATUS REPROGRAMADO,Y SU FECHA SEA MAYOR A LA DE HOY, NO SE CARGE EN EL ARRAY pedidos_
               LastPedidosAll(id_sucursal)
                 .then((pedidos_g) => {
@@ -445,7 +445,17 @@ exports.dashboard = (req, res) => {
                                       }
                                      let verifica_pedidos_referido = JSON.parse(await DataBase.verificaPedidosReferido());                                     
                                      cont_not = cont_not + parseInt(verifica_pedidos_referido.length);
-                                     console.log('renderingpage');
+                                     for (let i = 0; i < clientes_arr0.length; i++) {
+                                      if (clientes_arr0[i]['nuevo'] == 'SI') {
+                                        let checkPedido = JSON.parse(await DataBase.PedidosClienteNuevo(clientes_arr0[i]['id']));                            
+                                        if (checkPedido.length > 1) {
+                                         let updateNuevo = JSON.parse(await DataBase.update_cliente_nuevo(clientes_arr0[i]['id']));
+                                      }
+                                      }                            
+                                    }
+                                    
+                          let clientes_arr = JSON.parse(await ClientesDB(id_sucursal));
+                          clientes_d = JSON.stringify(clientes_arr)
                                       res.render("PYT-4/home", {
                                         pageName: "Bwater",
                                         dashboardPage: true,
@@ -577,7 +587,7 @@ exports.sesionstart = (req, res) => {
 };
 
 //clientes
-exports.usuariosTable = (req, res) => {
+exports.clientesPage = (req, res) => {
   let msg = false;
 
   if (req.params.mensaje) {
@@ -614,7 +624,7 @@ exports.usuariosTable = (req, res) => {
   //DATA-COMUNES
   ClientesDB2(id_sucursal)
     .then((clientes_d) => {
-      //let clientes_arr = JSON.parse(clientes_d);
+      let clientes_arr0 = JSON.parse(clientes_d);
       PedidosDB(id_sucursal)
         .then((pedidos_) => {
           let pedidos_let = JSON.parse(pedidos_);
@@ -644,7 +654,16 @@ exports.usuariosTable = (req, res) => {
                       DataBase.CodigosP()
                         .then(async (cp_) => {
                           let cp_arr = JSON.parse(cp_);
+                          for (let i = 0; i < clientes_arr0.length; i++) {
+                            if (clientes_arr0[i]['nuevo'] == 'SI') {
+                              let checkPedido = JSON.parse(await DataBase.PedidosClienteNuevo(clientes_arr0[i]['id']));                            
+                              if (checkPedido.length > 1) {
+                               let updateNuevo = JSON.parse(await DataBase.update_cliente_nuevo(clientes_arr0[i]['id']));
+                            }
+                            }                            
+                          }
                           let clientes_arr = JSON.parse(await ClientesDB(id_sucursal));
+                          clientes_d = JSON.stringify(clientes_arr)
                           res.render("PYT-4/usersTable", {
                             pageName: "Bwater",
                             dashboardPage: true,
@@ -4453,8 +4472,7 @@ exports.reportes = (req, res) => {
       let cp_arr = JSON.parse(cp_);
       ClientesDB(id_sucursal)
         .then((clientes_d) => {
-          let clientes_arr = JSON.parse(clientes_d);
-          let count = clientes_arr.length;
+          let clientes_arr0 = JSON.parse(clientes_d);
           PedidosDB(id_sucursal)
             .then((pedidos_) => {
               let pedidos_let = JSON.parse(pedidos_);
@@ -4604,7 +4622,17 @@ exports.reportes = (req, res) => {
                                   });
                                   let personalList = JSON.parse(await DataBase.PersonalAll());
                                   let count_clientes_cuponera = notifi_g.length;
-
+                                  for (let i = 0; i < clientes_arr0.length; i++) {
+                                    if (clientes_arr0[i]['nuevo'] == 'SI') {
+                                      let checkPedido = JSON.parse(await DataBase.PedidosClienteNuevo(clientes_arr0[i]['id']));                            
+                                      if (checkPedido.length > 1) {
+                                       let updateNuevo = JSON.parse(await DataBase.update_cliente_nuevo(clientes_arr0[i]['id']));
+                                    }
+                                    }                            
+                                  }
+                                  
+                        let clientes_arr = JSON.parse(await ClientesDB(id_sucursal));
+                        clientes_d = JSON.stringify(clientes_arr)
                                   res.render("PYT-4/reportes", {
                                     pageName: "Bwater",
                                     dashboardPage: true,
