@@ -228,7 +228,7 @@ exports.cargarExcel = (req, res) => {
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
-      return res.redirect("/matriculas/"+text);    
+      return res.redirect("/matriculas");    
     })
 
   } catch (error) {
@@ -2823,7 +2823,7 @@ exports.detallesControl = (req, res) => {
         if (moment().isBefore(nivel2)) {
           console.log("Estas en nivel 1")
           nivelActual = 1
-          diff = moment().diff(moment(nivel1, "DD-MM-YYYY"), 'days')
+          diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
           
         } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
           console.log("Estas en nivel 2")
@@ -3129,7 +3129,7 @@ exports.validacionPassw = async (req, res) => {
   const userId = res.locals.user.id
   console.log(passw)
   
-  const usuario = JSON.parse(await DataBase.ObtenerUsuario(userId))
+  const usuario = JSON.parse(await DataBase.ObtenerUsuario(userId));
   console.log(usuario)
   
   let passHash = await bcrypt.hashSync(passw, bcrypt.genSaltSync(10));
@@ -3348,7 +3348,7 @@ exports.usuarios = (req, res) => {
 };
 
 // * GESTIONAR CONTRASEÑAS DE USUARIOS
-exports.managUsuarios = (req, res) => {
+exports.managUsuarios = async (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -3364,8 +3364,7 @@ exports.managUsuarios = (req, res) => {
     roleProf = true
   }
 
-  let { nombre, email, dni, fecha_nacimiento, fecha_inicio, pais, telefono, puesto } = res.locals.user
-  console.log(res.locals.user)
+  let usuario = res.locals.user, nombre = res.locals.user.nombre;
     
   res.render(proyecto+"/admin/changeuser-password", {
     pageName: "Academia Americana - Perfil de Usuario",
@@ -3374,7 +3373,8 @@ exports.managUsuarios = (req, res) => {
     py672:true,
     managUsuarios: true,
     roleAdmin, roleProf,
-    nombre, email, dni, fecha_nacimiento, fecha_inicio, pais, telefono, puesto
+    usuario,
+    nombre
   });
 };
 
@@ -3410,6 +3410,26 @@ exports.changePasswordUser = (req, res) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.send({error: 'Error al realizar la tarea'});
+  });
+};
+
+// * CAMBIAR INFORMACIÓN DE USUARIO
+exports.changeInfoUser = (req, res) => {
+  let { nombre, dni, email, pais, fechaN, fechaI, telefono } = req.body;
+
+  let idUser = res.locals.user.id
+  console.log(res.locals)
+  console.log(req.body)
+
+  DataBase.EditInfoUserProfile(nombre, dni, email, pais, fechaN, fechaI, telefono, idUser).then((response) => {
+    console.log(response)
+
+    return res.redirect('/manag-user/PYT-672');
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect('error672/PYT-672');
   });
 };
 
@@ -4394,7 +4414,7 @@ exports.registrarmatricula = async(req, res) => {
 // * EDITAR ESTUDIANTES ADMIN
 exports.editarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante,vendedor } = req.body;
+  let { grupoId, nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, id_estudiante,vendedor } = req.body;
   console.log(req.body)
   console.log("REQ BODY")
   let msg = false;
@@ -4409,6 +4429,9 @@ exports.editarmatricula = async(req, res) => {
       telefono2 = '-'
     } 
     let tipo = 1
+    if (vendedor === "") {
+      vendedor = null
+    }
   
     DataBase.EditMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante, vendedor).then((resp) => {
     console.log(resp)

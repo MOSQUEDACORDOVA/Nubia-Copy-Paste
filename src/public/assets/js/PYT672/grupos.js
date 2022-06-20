@@ -1188,9 +1188,12 @@ let hoy = moment()
     
     let dia_fechaSelect = moment(e.target.value).locale('es').format('dddd')
     fecha_h = e.target.value
+<<<<<<< HEAD
     console.log(dia_fechaSelect)
     console.log(fecha_h)
     console.log(dia[0])
+=======
+>>>>>>> eec25a452e21dbcf22bb50d5dda4caa46b945c71
     //console.log(dia[0].toLowerCase())
     //console.log(fecha_h)
     //console.log("fecha ")

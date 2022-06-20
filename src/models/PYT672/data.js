@@ -44,6 +44,20 @@ module.exports = {
         });
       });
     }, 
+    // * EDITAR INFORMACION DE USUARIOS - PERFIL
+    EditInfoUserProfile(nombre, dni, email, pais, fechaN, fechaI, telefono, id_usuario) {
+
+      return new Promise((resolve, reject) => {
+      Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, fecha_nacimiento: fechaN, fecha_inicio: fechaI, telefono:telefono },{where:{id:id_usuario}})
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data);
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    }, 
     // * EDIT DE USUARIOS
     EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono, passw) {
       let passHash = bcrypt.hashSync(passw, bcrypt.genSaltSync(10));

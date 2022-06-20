@@ -1,8 +1,11 @@
+const DataBase = require("../../models/PYT672/data");
 // Comprobar si el usuario esta logueado
-exports.authenticatedUser = (req, res, next) => {
+exports.authenticatedUser = async (req, res, next) => {
 	// Autenticado
 	if(req.isAuthenticated()) {
-		res.locals.user = req.user || {};
+		let idUser = res.locals.user.id;
+  		const usuario = JSON.parse(await DataBase.ObtenerUsuario(idUser))[0];
+		res.locals.user = usuario || {};
 		return next();
 	} 
 	// Si no esta autenticado

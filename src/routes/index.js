@@ -732,6 +732,8 @@ router.get('/comprobante/:id', dashboardControllerPY672.generarRegistroPDF);
 //router.get('/getPasswordUser/:id', dashboardControllerPY672.getPasswordUser);
 // * CAMBIAR CONTRASEÑA DE USUARIO
 router.post('/changePasswordUser', dashboardControllerPY672.changePasswordUser);
+// * ACTUALIZAR INFORMACION DE USUARIO
+router.post('/changeInfoUser', dashboardControllerPY672.changeInfoUser);
 
 
 /*------------ PYT-672-----------------*/
