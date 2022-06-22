@@ -113,9 +113,10 @@ function cargarTablaMatricula(editada) {
             }
             var arrData = encodeURIComponent(JSON.stringify(full));
             let prof = "No asignado"
-
-            if (full.usuario) {
-              prof = full.usuario.nombre
+            /*console.log(full)
+            console.log("full")*/
+            if (full.grupo.usuario) {
+              prof = full.grupo.usuario.nombre
             }
 
             let nombreEst = `
@@ -247,27 +248,31 @@ function cargarTablaMatricula(editada) {
 
             totalNotas = total
 
-            if(full['leccActual'] != 32 && full['leccActual'] != 0 && full['grupo']['nombre'] != "Kids") {
-              info = `<span class="badge badge-light-primary">En Curso</span>`
-            } else if (full['leccActual'] === 0) {
-              info = `<span class="badge badge-light-info">Por Iniciar</span>`
-            } else {
-              if (full['grupo']['nombre'] === "Kids" && full['leccActual'] === 16) {
-                if (totalAsistencias >= 80 && totalNotas >= 70) {
-                  info = `<span class="badge badge-light-success">Aprobado</span>`
-                } else {
-                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
-                }
-                
+            info = `<span class="badge badge-light-primary">En Curso</span>`
+            if (full.grupo.nombre != "Kids") {
+              if(full.leccActual != 32) {
               } else {
                 if (totalAsistencias >= 80 && totalNotas >= 70) {
                   info = `<span class="badge badge-light-success">Aprobado</span>`
                 } else {
                   info = `<span class="badge badge-light-secondary">Reprobado</span>`
                 }
+              }
 
+            } else {
+              if (full.leccActual === 16) {
+                if (totalAsistencias >= 80 && totalNotas >= 70) {
+                  info = `<span class="badge badge-light-success">Aprobado</span>`
+                } else {
+                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
+                }
               }
             }
+
+            if (full.leccActual === 0) {
+              info = `<span class="badge badge-light-info">Por Iniciar</span>`
+            }
+
             return info;
           }
         },

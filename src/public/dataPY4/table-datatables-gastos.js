@@ -24,7 +24,7 @@ async function pedidosbyDay(diaFin,diainicio) {
       return data.pedidos_let;
   });
   pedidos.forEach(element => {
-    if (element.status_pedido=="Entregado") {
+    if (element.status_pedido=="Entregado" && element.status_pago == "Pagado") {
       TotalIngresos += parseFloat(element.monto_total);
     }    
   });
@@ -70,7 +70,7 @@ async function pedidosbyDay(diaFin,diainicio) {
           { data: 'personalId' },//2
           { data: 'monto' },
           { data: 'fecha' },
-          { data: 'sucursaleId' },
+          { data: 'observacion' },
           {   // Actions
             targets: -1,
             title: '',
@@ -86,10 +86,10 @@ async function pedidosbyDay(diaFin,diainicio) {
                       <a href="javascript:;" class="${full['id']} dropdown-item delete-record${full['id']}" onclick=\'delete_gasto("${full['id']}")\'>
                      ${feather.icons['trash-2'].toSvg()} 
                       </a>
-                      <a href="javascript:;" class="${full['id']} dropdown-item" onclick=\'edit_gasto("${full['id']}")\'>
+                      <a href="javascript:;" class="${full['id']} dropdown-item d-none" onclick=\'edit_gasto("${full['id']}")\'>
                       ${feather.icons['file-text'].toSvg()}
                       </a>
-                      <a href="javascript:;" class="${full['id']} dropdown-item share_record ${full['id']}" onclick=\'share_record("${full['id']}")\'>
+                      <a href="javascript:;" class="${full['id']} dropdown-item d-none share_record ${full['id']}" onclick=\'share_record("${full['id']}")\'>
                       ${feather.icons['share-2'].toSvg()}
                       </a>
                       <a id="copyG${full['id']}" class="d-none"></a>
@@ -138,15 +138,8 @@ async function pedidosbyDay(diaFin,diainicio) {
           {
             targets: 4,
             render: function (data, type, full, meta) {
-             
-              return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY');
-            },
-          },
-          {
-            targets: 5,
-            render: function (data, type, full, meta) {
-              let zona = full['sucursale']['nombre'];
-              return zona;
+              let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}-</span>${moment(data).format('DD/MM/YYYY')}`
+              return fecha;
             },
           },
 

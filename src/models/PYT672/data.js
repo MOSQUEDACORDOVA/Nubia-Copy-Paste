@@ -319,10 +319,11 @@ module.exports = {
       });
     },
     // ACTUALIZAR GRUPOS
-    ActualizarGrupos(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin,nivel,profesor) {
+    ActualizarGrupos(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel, profesor) {
+      console.log(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel, profesor)
       return new Promise((resolve, reject) => {
         Grupos.update({
-          usuarioId:profesor, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin,nivel:nivel
+          identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel, estadosGrupoId: 1, usuarioId: profesor
         }, { where: {
           id: id
         }})
