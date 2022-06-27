@@ -8,6 +8,11 @@
 <label id="msgs">{{msg}}</label>
 {{/if}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
+{{!--
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css"> --}}
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
 <script>
   $(document).ready(function () {
 
@@ -246,7 +251,7 @@
                   <button type="button" class="btn btn-primary  d-none" data-bs-toggle="collapse"
                     data-bs-target="#transferenciasGrap" id="btnTransferenciasCol">Transferencias</button>
                   <button type="button" class="btn btn-primary  d-none" data-bs-toggle="collapse"
-                    data-bs-target="#globalGrap" id="btnGlobalCol">Global</button>
+                    data-bs-target="#globalGrap" id="VerPedidos">Ver Pedidos</button>
                 </div>
               </div>
 
@@ -412,7 +417,54 @@
   </div>
 </div>
 </div>
-
+ <div class="modal fade" id="modal_pedidos" tabindex="-1" aria-labelledby="modal_pedidos"
+      style="display: none;" aria-hidden="corte_modal">
+      <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            {{!-- <h5 class="modal-title" id="corte_modalTitle"><button class="btn btn-primary" id="printButtonGral">Imprimir</button></h5> --}}
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="corte_modalBody">
+                            <div class="table-responsive">
+                                <div class="card">
+                                    <table class="datatables-basic2 table dt-column-search2"
+                                        id="ventas-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th></th>
+                                                <th>Cliente</th>
+                                                <th>Total garrafones</th>
+                                                <th>Monto Total</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Metodo de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                                <th>oculto asentamiento </th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" style="text-align:right"> Total</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 
@@ -546,6 +598,7 @@
     }
 
     console.log(pedidosTotalizado)
+createTable (pedidosTotalizado)
     let garrafon19L;
     totalPedidos = pedidosTotalizado.length;
     pedidosTotalizado.forEach(venta => {
@@ -730,5 +783,439 @@ console.log('diainicio:' + diainicio + ',diaFin:' + diaFin);
     newChart.render();
   }
 
+async function createTable (pedidosTotalizado){
+  console.log('pedidosTotalizado')
+  $('#ventas-table').DataTable().destroy();
+  $('.datatables-basic2').empty();
+        $('.datatables-basic2').html(`                                        <thead>
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th></th>
+                                                <th>Cliente</th>
+                                                <th>Total garrafones</th>
+                                                <th>Monto Total</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Metodo de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                                <th>oculto asentamiento </th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2" style="text-align:right"> Total</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>`);
+ var zonas =await  fetch('/obtenerzonaspy4')
+.then(response => response.json())
+.then(data => {
+    return data.zonas
+});
+ let codigosP = $('#array_cp').val();
+ $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
+    $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="P'+title+i+'"/>');
+      $('input', this).on('keyup', function () {
+        let valor = this.value
+        if (dt_basic2.column(i).search() !== this.value) {          
+          dt_basic2.column(i).search(this.value).draw();
+        }else{          
+          dt_basic2.column(i).search(valor).draw();          
+        }
+      });
+    });
+    
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+      dt_basic2 = $('#ventas-table').DataTable({
+      data: pedidosTotalizado,
+      columns: [
+        { data: 'id' },
+        { data: 'sucursaleId', visible:false },
+        { data: 'cliente.firstName' },
+        { data: 'total_garrafones_pedido' },
+        { data: 'monto_total'}, // used for sorting so will hide this column
+        { data: 'status_pedido' },
+        { data: 'status_pago' },
+        { data: 'metodo_pago' },
+        { data: 'fecha_pedido'},
+        {   // Actions
+          targets: -1,
+          title: 'Opciones',
+          visible: false,
+          render: function (data, type, full, meta) {
+            if ($('#otro_rol').length>0) {
+              
+                
+            let Hoy = moment().format('DD/MM/YYYY'); 
+            
+            let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
+            
+                var fecha_final= moment(Hoy).isAfter(fecha); // true
+                    
+            } 
+            let modif = ""
+            
+            if (fecha_final == true) {
+              modif = "d-none"
+            }
+            return (
+              '<div class="d-inline-flex">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic2")\'>' +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'+
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'", "'+meta.row+'","datatables-basic2")\'>' +
+              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'              
+            );
+          } },
 
+          { data: 'cliente.cpId' },
+        ], columnDefs: [
+         /* { visible: false, targets: groupColumn2,
+           
+          },*/
+          { visible: false, targets: 10,
+            render: function (data, type, full) {
+              let asentamiento = ""
+              for (let i = 0; i < codigosP_arr.length; i++) {
+                if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                  asentamiento = codigosP_arr[i]['asentamiento']
+                }
+                
+              }
+              return asentamiento
+            }
+          },
+          {
+            // Label
+            targets: 0,
+            render: function (data, type, full, meta) {
+            //  let fecha_creado = full['fecha_pedido'], modificado = full['updatedAt']
+            //  let modificacion = moment(fecha_creado).isSame(modificado)
+            //   if (modificacion == false) {
+            //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
+            //   }
+              var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+              var color_tag ="", color_text="", nombre;
+              if (full['cliente']['etiqueta'] ==null) {
+                color_tag =0
+                color_text="black"
+                nombre=""
+              }else{
+                color_tag =full['cliente']['etiqueta']['color']
+                color_text="white"
+                nombre=full['cliente']['etiqueta']['etiquetas']
+              }
+  
+              return (`<span class="d-none">${nombre}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
+            }
+          },
+          {
+            // Label
+            targets: 1,
+            render: function (data, type, full, meta) {
+              for (let i = 0; i < zonas.length; i++) {
+                if (zonas[i].id == data) {
+                  var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+                }                     
+              }
+              return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${data}</span>`);
+            }
+          },
+          {
+            // Label
+            targets: 2,
+            render: function (data, type, full, meta) {
+              let asentamiento = ""
+              for (let i = 0; i < codigosP_arr.length; i++) {
+                if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                  asentamiento = codigosP_arr[i]['asentamiento']
+                }
+                
+              }
+              var $status_number = full['cliente']['tipo'];
+              var $status = {
+                "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+                "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+                "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
+              };
+              if (typeof $status[$status_number] === 'undefined') {
+                return data;
+              }
+          var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+          var color_tag ="", color_text=""
+          if (full['cliente']['etiqueta'] ==null) {
+            color_tag =0
+            color_text="black"
+          }else{
+            color_tag =full['cliente']['etiqueta']['color']
+            color_text="white"
+          }
+          return (
+            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
+          );
+            }
+          },
+        {
+          // Label
+          targets: 3,className:'to_garra2',
+          render: function (data, type, full, meta) {
+            let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
+            return (
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad"  data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"   style="cursor:pointer;" >' +
+              total +
+              '</span>'
+            );
+          }
+        
+        
+        },
+        {
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
+            let montoRefill= 38, montoCanje= 65,monto_nuevo= 115;
+            if (moment(full['fecha_pedido'], 'YYYY-MM-DD').isSameOrBefore(moment('2022-05-15','YYYY-MM-DD'))) {
+              montoRefill= 35, montoCanje= 55,monto_nuevo= 105;
+            }
+            detailRefill = parseFloat(full['total_refill_pedido'])*montoRefill;
+            detailCanje = parseFloat(full['total_canje_pedido'])*montoCanje;
+            detailNuevo = parseFloat(full['total_nv_pedido'])*monto_nuevo;
+            desc = full['descuento']
+            sindesc = data
+            condesc =parseFloat(data)- parseFloat(desc) 
+           return (
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" style="cursor:pointer;" >$' +
+            condesc +
+            '</span>'
+          );
+        }
+      },
+        {
+          // Label
+          targets: 5,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pedido'];
+            var $status = {
+              "Reasignado": { title: 'Reasignado', class: 'badge-light-primary' },
+              "Entregado": { title: 'Entregado', class: ' badge-light-success' },
+              "Cancelado": { title: 'Devuelto', class: ' badge-light-danger' , motivo: ' motivo_hover'},
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill' +
+              $status[$status_number].class +" "+ $status[$status_number].motivo +
+              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-motivo="'+full['motivo'] +'" data-id="'+full['id']+'" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Label
+          targets: 6,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pago'];
+            var $status = {
+              "Pagado": { title: 'Pagado', class: 'badge-light-success' },
+              "Por verificar": { title: 'Por verificar', class: ' badge-light-yellow' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            let span = `<span id="sPago${full['id']}" class="badge rounded-pill ${$status[$status_number].class}" style="cursor:pointer" onclick=\'cambioPago("${full['id']}","${full['status_pago']}","${full['fecha_pedido']}","${full['monto_total']}","${meta.row}","datatables-basic2")\'>${$status[$status_number].title}</span>`
+            return span;
+          }
+        },
+        {
+          // Label
+          targets: 7,
+          render: function (data, type, full, meta) {
+            let span = `<span id="mPago${full['id']}" class="badge rounded-pill badge-light-info" style="cursor:pointer" onclick=\'cambioMetodoPago("${full['id']}","${data}","${meta.row}","datatables-basic2")\'>${data}</span>`;
+            return span;
+          }
+        },
+        {
+          targets: 8,
+          render:function(data){
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
+            return fecha;
+          }
+        },
+      ],
+     
+      order: [[8,'desc'],[10,'asc'],[2,'asc']],
+      dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      orderCellsTop: true,
+      displayLength: 10,
+      lengthMenu: [7, 10, 25, 50, 75, 100], initComplete: function(settings, json) {
+        var api = this.api();
+      if ($('#otro_rol').length>0) {
+        api.column(1).visible( false );
+      }
+        
+      },
+      drawCallback: function (settings) {
+        let sumaG = 0;
+        $('.datatables-basic2').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#ventas-table_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+
+        var api = this.api();
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+        let sumaT = 0;
+    /*    api
+          .column(groupColumn2, { page: 'current' })
+          .data()
+          .each(function (group, i) {
+            let icono =`<i class="fas fa-truck"></i>`
+            if (last !== group) {
+              $(rows)
+                .eq(i)
+
+                .before('<tr class="group"><td colspan="9"><i class="fas fa-truck me-1"></i>' + group + '</td></tr>');
+
+
+              last = group;
+            }
+          });*/
+          api.column(3, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+        $('tfoot .to_garra2').text(sumaT)
+      },
+      language: {
+        "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Total _TOTAL_ registros",
+      "infoEmpty": "Total _TOTAL_ registros",
+      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
+        paginate: {
+          // remove previous & next text from pagination
+          previous: '&nbsp;',
+          next: '&nbsp;'
+        }
+      }
+    });
+
+ $('#VerPedidos').removeClass('d-none');
+   $.contextMenu({
+    selector: '.modal_detail_garrafones',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      var title = e.currentTarget['dataset']["title"];
+      var rfeill = e.currentTarget['dataset']["rfeill"];
+      var canje = e.currentTarget['dataset']["canje"];
+     var Env = e.currentTarget['dataset']["env"] 
+     var obsequio = e.currentTarget['dataset']["obsequio"];
+     var total = e.currentTarget['dataset']["total"] 
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+            },
+            items: {
+                "Refill": { name: `Refill: ${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Canje": { name: `Canje: ${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Envase Nuevo": { name: `Envase Nuevo: ${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Total": { name: `Total: ${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+            }
+        };
+    }
+  });
+
+$.contextMenu({
+  selector: '.detail_monto',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    
+    var title = e.currentTarget['dataset']["title"];
+    var rfeill = e.currentTarget['dataset']["rfeill"];
+    var canje = e.currentTarget['dataset']["canje"];
+   var Env = e.currentTarget['dataset']["env"] 
+   var desc = e.currentTarget['dataset']["descuento"] 
+   var sindesc = e.currentTarget['dataset']["sindesc"] 
+   var condesc = e.currentTarget['dataset']["condesc"] 
+   var adeudo = e.currentTarget['dataset']["adeudo"] 
+   var obsequio = e.currentTarget['dataset']["obsequio"];
+   //var total = e.currentTarget['dataset']["total"] 
+   var total = (parseInt(sindesc) +parseInt(adeudo))-parseInt(desc)
+
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+          },
+          items: {
+              "Refill": { name: `Refill: $${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Canje": { name: `Canje: $${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Envase Nuevo": { name: `Envase Nuevo: $${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Sub-Total": { name: `Sub-Total: $${sindesc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Adeudo": { name: `Adeudo: $${adeudo}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Desc.": { name: `Desc.: $${desc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Total": { name: `Total: $${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
+  }
+});
+$.contextMenu({
+  selector: '.hover_cliente',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    var title = e.currentTarget['dataset']["title"];
+    var Array = e.currentTarget['dataset']["arraycliente"];
+     var my_object = JSON.parse(decodeURIComponent(Array));
+   //  $("#home_modalBody").append(txt2);
+   let asentamiento =""
+   for (let i = 0; i < codigosP_arr.length; i++) {
+   if (my_object['cpId'] == codigosP_arr[i]['id']) {
+     asentamiento = codigosP_arr[i]['asentamiento']
+   }
+   }
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+          },
+          items: {
+              "Asentamiento": { name: `Asentamiento: ${asentamiento}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Coto": { name: `Coto: ${my_object['coto']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Casa": { name: `Casa: ${my_object['casa']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Tel": { name: `Tel: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
+  }
+});  
+}
+$('#VerPedidos').click(()=>{
+  $('#modal_pedidos').modal('show')
+})
 </script>
