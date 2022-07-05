@@ -18,7 +18,7 @@ async function getGastos(again) {
 }
 async function pedidosbyDay(diaFin,diainicio) {
   let TotalIngresos=0, GastosbyDay=0, gananciasT=0;
-  pedidos = await fetch(`/getPedidosbyDaypy4/${moment(diainicio,'DD-MM-YYYY').format('YYYY-MM-DD')}/${moment(diaFin,'DD-MM-YYYY').format('YYYY-MM-DD')}`)
+  pedidos = await fetch(`/getPedidosbyDaypy4/${moment(diainicio,'YYYY-MM-DD').format('YYYY-MM-DD')}/${moment(diaFin,'YYYY-MM-DD').format('YYYY-MM-DD')}`)
   .then(response => response.json())
   .then(data => {
       return data.pedidos_let;
@@ -28,8 +28,8 @@ async function pedidosbyDay(diaFin,diainicio) {
       TotalIngresos += parseFloat(element.monto_total);
     }    
   });
-  let inicio = moment(diainicio,'DD-MM-YYYY').format('YYYY-MM-DD');
-  let fin = moment(diaFin,'DD-MM-YYYY').format('YYYY-MM-DD');
+  let inicio = moment(diainicio,'YYYY-MM-DD').format('YYYY-MM-DD');
+  let fin = moment(diaFin,'YYYY-MM-DD').format('YYYY-MM-DD');
   GastosList.forEach(element => {
     if (moment(element.fecha).isBetween(inicio,fin, undefined, '[]')) {
       GastosbyDay += parseFloat(element.monto);
@@ -86,7 +86,7 @@ async function pedidosbyDay(diaFin,diainicio) {
                       <a href="javascript:;" class="${full['id']} dropdown-item delete-record${full['id']}" onclick=\'delete_gasto("${full['id']}")\'>
                      ${feather.icons['trash-2'].toSvg()} 
                       </a>
-                      <a href="javascript:;" class="${full['id']} dropdown-item d-none" onclick=\'edit_gasto("${full['id']}")\'>
+                      <a href="javascript:;" class="${full['id']} dropdown-item" onclick=\'edit_gasto("${full['id']}")\'>
                       ${feather.icons['file-text'].toSvg()}
                       </a>
                       <a href="javascript:;" class="${full['id']} dropdown-item d-none share_record ${full['id']}" onclick=\'share_record("${full['id']}")\'>
@@ -221,60 +221,18 @@ $('#saveGasto').click(()=>{
     processData: false,
     success: function (data, textStatus, jqXHR) {
   console.log(data)
-  $('#descuento-edit-cliente').addClass('d-none');
-  $('#cliente_nuevo_edited').attr('checked', false);  
-  $('#id_cliente_edited').val(data['cliente_let']['id'])
-  $('#firstName_edited').val(data['cliente_let']['firstName'])
-  $('#lastName_edited').val(data['cliente_let']['lastName'])
-  $('#cp_select_edited').val(data['cliente_let']['estado'])
-  $('#municipio_edited').val(data['cliente_let']['municipio'])
-  
-  if ( $("#select_asentamiento_edited option[value='" + data['cliente_let']['cp']['id']+ "']").length == 0 ){
-  console.log(data['cliente_let']['tipo'])
-  $('#select_asentamiento_edited').prepend('<option selected value="' + data['cliente_let']['cp']['id'] + '">' + data['cliente_let']['cp']['asentamiento'] + '</option>');  
-  }else{
-  //  $('#tipo_edit').find('option:selected').remove().end();
-    $("#select_asentamiento_edited option[value='" + data['cliente_let']['cp']['id'] + "']").attr("selected", true);
-  }
-  
-  $('#coto_edited').val(data['cliente_let']['coto'])
-  $('#casa_edited').val(data['cliente_let']['casa'])
-  $('#calle_edited').val(data['cliente_let']['calle'])
-  $('#avenida_edited').val(data['cliente_let']['avenida'])
-  $('#referencia_edited').val(data['cliente_let']['referencia'])
-  $('#telefono_edited').val(data['cliente_let']['telefono'])
-  
-  $('#nombre_familiar_1_edited').val(data['cliente_let']['nombre_familiar_1'])
-  $('#apellido_familiar_1_edited').val(data['cliente_let']['apellido_familiar_1'])
-  $('#telefono_familiar_1_edited').val(data['cliente_let']['telefono_familiar_1'])
-  $('#nombre_familiar_2_edited').val(data['cliente_let']['nombre_familiar_2'])
-  $('#apellido_familiar_2_edited').val(data['cliente_let']['apellido_familiar_2'])
-  $('#telefono_familiar_2_edited').val(data['cliente_let']['telefono_familiar_2'])
-  
-  if ( $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").length == 0 ){
-    $('#tipo_cliente_edited').prepend('<option selected value="' + data['cliente_let']['tipo'] + '">' + data['cliente_let']['tipo'] + '</option>');  
-    }else{
-    //  $('#metodo_pago_edit').find('option:selected').remove().end();
-      $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").attr("selected", true);
-    }
-    if (data['cliente_let']['tipo']=="Negocio" || data['cliente_let']['tipo'] =="Punto de venta") {
-      $('#descuento-edit-cliente').removeClass('d-none');
-      $('#descuento_edit_gasto1').val(data['cliente_let']['monto_nuevo']);
-    }
-    if ( data['cliente_let']['nuevo']=="SI" ){
-      $('#cliente_nuevo_edited').attr('checked', true);  
-      }
-  $('#fecha_ultimo_pedido').val(data['cliente_let']['fecha_ultimo_pedido'])
-  $('#utimos_botellones_edited').val(data['cliente_let']['ultimos_botellones'])
-  
-  if ( $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").length == 0 ){
-    $('#zona_clientes_edited').prepend('<option selected value="' + data['cliente_let']['sucursaleId'] + '">' + data['cliente_let']['sucursaleId'] + '</option>');  
-    }else{
-    //  $('#metodo_pago_edit').find('option:selected').remove().end();
-      $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").attr("selected", true);
-    }
-    $('#correo_edit_gasto_edited').val(data['cliente_let']['email'])
-  $('#edit_gasto').modal('show')
+
+$('#idGasto').val(data.listaGastos.id);
+$('#categoria').val(data.listaGastos.tipo).trigger('change');
+if (data.listaGastos.tipo == 'NOMINA') {
+  $('#personal_gastos').removeClass('d-none');
+}
+$('#personal_gastos').val(data.listaGastos.personalId).trigger('change');
+$('#fecha_gastos').val(data.listaGastos.fecha);
+$('#monto_gastos').val(data.listaGastos.monto);
+$('#observacion_gastos').val(data.listaGastos.observacion);
+
+  $('#addGasto_modal').modal('show');
     },
     error: function (jqXHR, textStatus) {
       console.log('error:' + jqXHR)
@@ -373,13 +331,17 @@ $('#saveGasto').click(()=>{
             $('#addGasto_modal').modal('hide');
             return
           }
-          if (data.updateCompany == 1) {
+          if (data.updateGasto) {
+            gastosDT.DataTable().row($(`#gastosTableDt tbody .delete-record${data.gastoActualizado.id}`).parents('tr')).remove().draw();
+            gastosDT.DataTable().row.add(data.gastoActualizado).draw();
             Swal.fire({
               icon: 'success',
               title: 'Gasto actualizado con éxito',
               showConfirmButton: false,
               timer: 1500
             })
+            $('#addGasto_modal').modal('hide');
+            return
           }
           if(data.verificaGastoRepeat){
             Swal.fire({

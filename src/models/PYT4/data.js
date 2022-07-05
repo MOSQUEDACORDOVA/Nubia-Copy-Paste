@@ -3138,9 +3138,21 @@ getGastobyId(id){
     });
   });
 },
-verificaGasto(categoria, fecha,personalId,zona){
+verificaGasto(idGasto){
   return new Promise((resolve, reject) => {
-    Gastos.findOne({where:{tipo:categoria, fecha:fecha,personalId:personalId,sucursaleId: zona},include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+    Gastos.findOne({where:{id:idGasto},include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+updateGastos(idGasto,tipo, monto,fecha,observacion,usuarioId,personalId,zona){
+  return new Promise((resolve, reject) => {
+    Gastos.update({tipo: tipo, monto: monto, fecha: fecha, observacion: observacion,usuarioId:usuarioId,personalId:personalId}, {where:{id: idGasto}}).then((data)=>{
       let data_set = JSON.stringify(data);
       resolve(data_set);      
     })

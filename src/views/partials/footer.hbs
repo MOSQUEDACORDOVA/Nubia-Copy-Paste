@@ -23,6 +23,7 @@
 
 <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
 <script src="../../../app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
+
 {{!--
 <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script> --}}
 <!-- END: DASHBOARD ECOMMERCE GRAPIHCS JS-->
@@ -49,11 +50,13 @@
 {{#if py4}}
 <script src="../../../app-assets/js/core/app-menu.js"></script>
 <script src="../../../app-assets/js/core/app.js"></script>
-<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+{{!-- <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
 <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
 <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
 <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
-<script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
+<script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script> --}}
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.min.js"></script>
 <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
 <script src="../../../app-assets/js/scripts/forms/form-select2.js"></script>
 <script src="../../../app-assets/vendors/js/extensions/polyfill.min.js"></script>
@@ -71,11 +74,11 @@
 <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
 <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
 <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
-<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
 <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
 <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+
 {{#if reg_pedido}}
 <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
 <script src="../../../dataPY4/editar_pedido.js"></script>

@@ -184,8 +184,8 @@ exports.obtenerPedidos = async (req, res)=>{
 exports.obtenerPedidospordia = async (req, res)=>{
 let diaInicio=req.params.diainicio;
 let diaFin =req.params.diafin;    
-  console.log(diaInicio);
-   console.log(diaFin);
+  ;
+   ;
          DataBase.PedidosbyDaybetween(diaInicio, diaFin)
             .then((pedidos_) => {
               let pedidos_let = JSON.parse(pedidos_);
@@ -197,10 +197,10 @@ exports.obtenerPedidospordiaReportes = async (req, res)=>{
   let diaFin =req.params.diafin; 
   let zona = req.params.zona;
   let chofer = req.params.chofer;
-  console.log(zona)
+  
 
     if (zona != null && chofer == null) {
-      console.log('PedidosbyDaybetweenZona')
+      
       DataBase.PedidosbyDaybetweenZona(diaInicio, diaFin,zona)
               .then((pedidos_) => {
                 let pedidos_let = JSON.parse(pedidos_);
@@ -208,7 +208,7 @@ exports.obtenerPedidospordiaReportes = async (req, res)=>{
               });
     }
     if (zona != null && chofer !== null) {
-      console.log('PedidosbyDaybetweenZonaChofer')
+      
       DataBase.PedidosbyDaybetweenZonaChofer(diaInicio, diaFin,zona, chofer)
               .then((pedidos_) => {
                 let pedidos_let = JSON.parse(pedidos_);
@@ -216,7 +216,7 @@ exports.obtenerPedidospordiaReportes = async (req, res)=>{
               });
     } 
     if (zona == null && chofer !== null) {
-      console.log('PedidosbyDaybetweenChofer')
+      
       DataBase.PedidosbyDaybetweenChofer(diaInicio, diaFin,chofer)
               .then((pedidos_) => {
                 let pedidos_let = JSON.parse(pedidos_);
@@ -227,8 +227,8 @@ exports.obtenerPedidospordiaReportes = async (req, res)=>{
 exports.obtenerPedidosVentaRango = async (req, res)=>{
   let diaInicio=req.params.diainicio;
   let diaFin =req.params.diafin;    
-    console.log(diaInicio);
-     console.log(diaFin);
+    ;
+     ;
            DataBase.PedidosbyDaybetweenVentas(diaInicio, diaFin)
               .then((pedidos_) => {
                 let pedidos_let = JSON.parse(pedidos_);
@@ -481,49 +481,49 @@ exports.dashboard = (req, res) => {
                                       });
                                 })
                                 .catch((err) => {
-                                  console.log(err)
+                                  
                                                               let msg = "Error en sistema";
                                   return res.redirect("/errorpy4/" + msg);
                                 });
                             })
                             .catch((err) => {
-                              console.log(err)
+                              
                                                       let msg = "Error en sistema";
                               return res.redirect("/errorpy4/" + msg);
                             });
                         })
                         .catch((err) => {
-                          console.log(err)
+                          
                                               let msg = "Error en sistema";
                           return res.redirect("/errorpy4/" + msg);
                         });
                     })
                     .catch((err) => {
-                      console.log(err)
+                      
                                       let msg = "Error en sistema";
                       return res.redirect("/errorpy4/" + msg);
                     });
                 })
                 .catch((err) => {
-                  console.log(err)
+                  
                               let msg = "Error en sistema";
                   return res.redirect("/errorpy4/" + msg);
                 });
             })
             .catch((err) => {
-              console.log(err)
+              
                       let msg = "Error en sistema";
               return res.redirect("/errorpy4/" + msg);
             });
         })
         .catch((err) => {
-          console.log(err)
+          
               let msg = "Error en sistema";
           return res.redirect("/errorpy4/" + msg);
         });
     })
     .catch((err) => {
-      console.log(err)
+      
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
@@ -578,7 +578,7 @@ exports.sesionstart = (req, res) => {
       }
 
       req.session.sucursal_select = user.dataValues.sucursaleId;
-      console.log('Sucursal ID: ' + user.dataValues.sucursaleId)
+      
       req.session.tipo = user.dataValues.tipo;
 
       return res.redirect("/homepy4");
@@ -602,7 +602,7 @@ exports.clientesPage = (req, res) => {
     gerente = true;
   }
   let id_sucursal = req.session.sucursal_select;
-  console.log('UserLog:' + id_sucursal)
+  
   let ClientesDB = "",ClientesDB2 = "",
     PedidosDB = "",
     ChoferesDB = "";
@@ -688,34 +688,34 @@ exports.clientesPage = (req, res) => {
                           });
                         })
                         .catch((err) => {
-                          console.log('600')
-                          console.log(err)
+                          
+                          
                                               let msg = "Error en sistema";
                           return res.redirect("/errorpy4/" + msg);
                         });
                     })
                     .catch((err) => {
-                      console.log('608')
-                      console.log(err)
+                      
+                      
                                       let msg = "Error en sistema";
                       return res.redirect("/errorpy4/" + msg);
                     });
                 })
                 .catch((err) => {
-                  console.log(err)
+                  
                               let msg = "Error en sistema";
                   return res.redirect("/errorpy4/" + msg);
                 });
             })
             .catch((err) => {
 
-              console.log(err)
+              
                       let msg = "Error en sistema";
               return res.redirect("/errorpy4/" + msg);
             });
         })
         .catch((err) => {
-          console.log(err)
+          
               let msg = "Error en sistema";
           return res.redirect("/errorpy4/" + msg);
         });
@@ -857,7 +857,7 @@ exports.save_cliente_cuponera = (req, res) => {
     color,
   } = req.body;
   let msg = false;
-console.log(req.body);
+;
   DataBase.registrar_clienteCuponera(
     firstName,
     cp,
@@ -895,7 +895,7 @@ console.log(req.body);
       }
     })
     .catch((err) => {
-      console.log(err)
+      
       let msg = "Error en sistema";
       return res.redirect("/errorpy4Cuponera/" + msg);
     });
@@ -1285,7 +1285,7 @@ exports.regPedidoPy4 = async (req, res) => {
   var verificaPedido = JSON.parse(
     await DataBase.VerificaDuplicado(fecha_pedido, id_cliente)
   );
-  console.log(verificaPedido)
+  
   
    if (verificaPedido != null) {
     msg = "El cliente ya cuenta con un pedido, del día: " + verificaPedido.fecha_pedido;
@@ -1342,10 +1342,10 @@ if (desc_referido > 0) {
     fecha_pedido,descuento,asentamiento,descuento_reg_cliente,modifica_cliente_input
   )
     .then(async (respuesta) => {
-      console.log(respuesta)
+      
       let pedidoGuardado = JSON.parse(respuesta)
       let id_user = user.id;
-      console.log(pedidoGuardado['id'])
+      
       let description =`Registró el pedido ${pedidoGuardado['id']} al cliente ${id_cliente} en la zona ${sucursal}`;
       let Log = await DataBase.SaveLogs(id_user,'PedidosReg','regPedidoPy4',description);
       let id_sucursal = req.session.sucursal_select;
@@ -1369,7 +1369,7 @@ if (desc_referido > 0) {
       //   })
         let msg = respuesta;
           let pedido = JSON.parse(await DataBase.PedidoById(pedidoGuardado['id']));
-              console.log(pedido)
+              
           return res.send({ msg: msg, pedido });
     })
     .catch((err) => {
@@ -1548,11 +1548,11 @@ exports.Save_editPedidoPy4 = (req, res) => {
     let Log = await DataBase.SaveLogs(id_user,'PedidosUpd','Save_editPedidoPy4',description);
       
           let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
-              console.log(pedido)
+              
           return res.send({ pedido });
     })
     .catch((err) => {
-      console.log(err)
+      
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
@@ -1599,17 +1599,17 @@ exports.cambiaS_pedido = (req, res) => {
 
               let msg = respuesta;
               let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
-              console.log(pedido)
+              
               return res.send({ msg: msg, carga_let,pedido });
               // res.redirect('/homepy4/'+msg)
             })
             .catch((err) => {
-              console.log(err)
+              
               return res.send({ err });
             });
         })
         .catch((err) => {
-          console.log(err)
+          
               let msg = "Error en sistema";
               return res.send({ err });
         });
@@ -1643,18 +1643,18 @@ exports.cambia_M_pago = (req, res) => {
 
           //     let msg = respuesta;
           //     let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
-          //     console.log(pedido)
+
               
           //     // res.redirect('/homepy4/'+msg)
           //   })
           //   .catch((err) => {
-          //     console.log(err)
+
           //     return res.send({ err });
           //   });
             return res.send({ msg: 'Done'});
         })
         .catch((err) => {
-          console.log(err)
+          
               let msg = "Error en sistema";
               return res.send({ err });
         });
@@ -1671,7 +1671,7 @@ exports.cambia_titulo_cliente = (req, res) => {
             return res.send({ msg: 'Done'});
         })
         .catch((err) => {
-          console.log(err)
+          
               let msg = "Error en sistema";
               return res.send({ err });
         });
@@ -2459,7 +2459,7 @@ exports.corte_table = (req, res) => {
                                   ptoVenta_cont++;
                                   break;
                                 default:
-                                  console.log("chek");
+                                  ;
                                   break;
                               }
                             }
@@ -4714,27 +4714,43 @@ exports.getGastobyId = async (req,res) => {
 exports.createGasto = async (req,res) => {
   const { categoria, personal,  fecha,  monto_gastos,  observacion,zona } = req.body;
   const userId = res.locals.user.id;
-  console.log(req.body)
+  
   let personalId = null;
   if (personal!='') {
     personalId = personal
   }
-  const verificaGastoRepeat = JSON.parse(await DataBase.verificaGasto(categoria, fecha,personalId,zona));
-  console.log(verificaGastoRepeat)
-  if (verificaGastoRepeat) {
-    return res.send({verificaGastoRepeat});
-  }
+  // const verificaGastoRepeat = JSON.parse(await DataBase.verificaGasto(categoria, fecha,personalId,zona));
+  // if (verificaGastoRepeat) {
+  //   return res.send({verificaGastoRepeat});
+  // }
   let listaGastos = JSON.parse(await DataBase.createGasto(categoria, monto_gastos,fecha,observacion,userId,personalId,zona));
   listaGastos = JSON.parse(await DataBase.verificaGasto(categoria, fecha,personalId,zona));
-  console.log(listaGastos)
+  
   res.send({listaGastos});
 };
+exports.updategasto = async (req,res) => {
+  const {idGasto, categoria, personal,  fecha,  monto_gastos,  observacion,zona } = req.body;
+  const userId = res.locals.user.id;
+  
+  let personalId = null;
+  if (personal!='') {
+    personalId = personal
+  }
+  let updateGasto = JSON.parse(await DataBase.updateGastos(idGasto,categoria, monto_gastos,fecha,observacion,userId,personalId,zona));
+  console.log("🚀 ~ file: dashboardControllerPY4.js ~ line 4740 ~ exports.updategasto= ~ listaGastos", updateGasto)
+  gastoActualizado = JSON.parse(await DataBase.verificaGasto(idGasto));
+  console.log("🚀 ~ file: dashboardControllerPY4.js ~ line 4742 ~ exports.updategasto= ~ gastoActualizado", gastoActualizado)
+  
+  res.send({updateGasto,gastoActualizado});
+};
+
+
 exports.deleteGasto = async (req,res) => {
   const id = req.params.id;
   const userId = res.locals.user.id;
   
   let gastoBorrado = JSON.parse(await DataBase.deleteGasto(id));
-  console.log(gastoBorrado)
+  
   let description =`Gasto ${id} eliminado`;
       let Log = await DataBase.SaveLogs(userId,'deleteGasto','deleteGasto',description);
   res.send({gastoBorrado});
@@ -4811,7 +4827,7 @@ exports.save_cliente_edit_cupon = (req, res) => {
 exports.getHistorialObservaciones = async (req, res) => {
   let clienteId = req.params.clienteId
 let hystory = await DataBase.findhistorialObservacionesAll(clienteId);
-console.log(hystory)
+
 return res.send({hystory});
 }
 // * SAVE HISTORIAL OBSERVACIONES CLIENTES
@@ -4821,7 +4837,7 @@ exports.saveHistorialObservaciones = async (req, res) => {
   let fecha = moment().format('DD/MM/YYYY');
   let tipo_origen = 'Tabla cliente'
 let hystory = await DataBase.savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen);
-console.log(hystory)
+
 let description =`Guardó observación al cliente ${clienteID} desde tabla cliente`;
       let Log = await DataBase.SaveLogs(userId,'saveHistorialObservaciones','savehistorialObservacionesAll',description);
 return res.send({hystory});
@@ -4831,7 +4847,7 @@ exports.delete_observacionpy4 = async (req, res) => {
   const id = req.params.id;
   let userId = res.locals.user.id;
 let hystory = await DataBase.deletehistorialObservacionesAll(id);
-console.log(hystory)
+
 let description =`Elimino observación ${id}`;
       let Log = await DataBase.SaveLogs(userId,'saveHistorialObservaciones','savehistorialObservacionesAll',description);
 return res.send({hystory});

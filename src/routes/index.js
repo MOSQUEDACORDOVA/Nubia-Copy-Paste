@@ -122,6 +122,7 @@ router.get('/getGastosLit', authControllerPY4.authenticatedUser, dashboardContro
 router.post('/createGasto', authControllerPY4.authenticatedUser, dashboardControllerPY4.createGasto);
 router.get('/delete_gasto/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.deleteGasto);
 router.post('/getGastobyId', authControllerPY4.authenticatedUser, dashboardControllerPY4.getGastobyId);
+router.post('/updategasto', authControllerPY4.authenticatedUser, dashboardControllerPY4.updategasto);
 //personal
 router.get('/personal_py4', authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
 router.get('/personal_py4/:msg', authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
