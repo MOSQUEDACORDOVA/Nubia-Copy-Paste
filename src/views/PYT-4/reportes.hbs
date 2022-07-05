@@ -19,18 +19,6 @@
     $('.odd').addClass('dt-head-center');
     $('.even').addClass('dt-head-center');
 
-    $('#fecha_inicio,#fDesde').flatpickr({
-      mode: 'single',
-      format: 'YYYY-MM-DD',
-      //defaultDate: "today",
-    });
-    $('#fecha_fin,#dHasta').flatpickr({
-      mode: 'single',
-      format: 'YYYY-MM-DD',
-      //defaultDate: "today",
-    });
-
-
     $('#btnGraficos').on('click', (e) => {
       Reset(1)
     });
@@ -149,10 +137,10 @@
                   <div class="col">
                     <label class="card-text mt-2 text-white w-100">Fecha: <strong id="fechaT"></strong></label>
                     <div class="mb-0 d-flex">
-                      <input type="text" class="form-control mx-auto flatpickr-range dt-input" name="start_date"
+                      <input type="date" class="form-control mx-auto" name="start_date"
                         placeholder="Cambiar fecha" id="fecha_inicio"
                         onchange="pedidosbyDay($('#fecha_fin').val(), this.value)" />
-                      <input type="text" class="form-control mx-auto flatpickr-range dt-input" name="end_date"
+                      <input type="date" class="form-control mx-auto" name="end_date"
                         placeholder="Cambiar fecha" id="fecha_fin"
                         onchange="pedidosbyDay(this.value,$('#fecha_inicio').val())" />
                     </div>
@@ -182,13 +170,13 @@
             <div class="row">
               <div class="col-6 col-md-3 mb-1">
                 <label class="form-label">Fecha desde</label>
-                <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
-                  id="fDesde" value="">
+                <input type="date" class="form-control " placeholder="YYYY-MM-DD"
+                  id="fDesde">
               </div>
               <div class="col-6 col-md-3 mb-1">
                 <label class="form-label">Fecha hasta</label>
-                <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD"
-                  id="dHasta" value="">
+                <input type="date" class="form-control " placeholder="YYYY-MM-DD"
+                  id="dHasta">
               </div>
               <div class="col-6 col-md-3 mb-1">
                 <label class="form-label">Zona</label>
@@ -537,11 +525,12 @@
 
 
   async function ventasXfecha(diainicio, diaFin, zona, chofer, tipoCliente) {
+    console.log("🚀 ~ file: reportes.hbs ~ line 528 ~ ventasXfecha ~ diainicio", diainicio)
     console.log('zona:' + zona + ',chofer:' + chofer + ',tipoCliente:' + tipoCliente)
     console.log(GastosList);
       let TotalIngresos=0, GastosbyDay=0, gananciasT=0;
-  let inicio = moment(diainicio,'DD-MM-YYYY').format('YYYY-MM-DD');
-  let fin = moment(diaFin,'DD-MM-YYYY').format('YYYY-MM-DD');
+  let inicio = moment(diainicio,'YYYY-MM-DD').format('YYYY-MM-DD');
+  let fin = moment(diaFin,'YYYY-MM-DD').format('YYYY-MM-DD');
   GastosList.forEach(element => {
     if (moment(element.fecha).isBetween(inicio,fin, undefined, '[]')) {
       GastosbyDay += parseFloat(element.monto);
@@ -554,7 +543,7 @@
     let pedidosTotalizado = [];
     let transferencias = 0, deudores = 0, totalVentas = 0, totalCanje = 0, totalRefil = 0, totalEnvNuevo = 0, totalObsequio = 0, totalGarraf = 0, totalPedidos = 0;
     let cantidadCanje = 0, cantidadRefil = 0, cantidadEnvNuevo = 0;
-    pedidos = await fetch(`/getPedidosbyDaypy4/${moment(diainicio, 'DD-MM-YYYY').format('YYYY-MM-DD')}/${moment(diaFin, 'DD-MM-YYYY').format('YYYY-MM-DD')}`)
+    pedidos = await fetch(`/getPedidosbyDaypy4/${moment(diainicio, 'YYYY-MM-DD').format('YYYY-MM-DD')}/${moment(diaFin, 'YYYY-MM-DD').format('YYYY-MM-DD')}`)
       .then(response => response.json())
       .then(data => {
         return data.pedidos_let;

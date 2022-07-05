@@ -18,7 +18,7 @@ async function getGastos(again) {
 }
 async function pedidosbyDay(diaFin,diainicio) {
   let TotalIngresos=0, GastosbyDay=0, gananciasT=0;
-  pedidos = await fetch(`/getPedidosbyDaypy4/${moment(diainicio,'DD-MM-YYYY').format('YYYY-MM-DD')}/${moment(diaFin,'DD-MM-YYYY').format('YYYY-MM-DD')}`)
+  pedidos = await fetch(`/getPedidosbyDaypy4/${moment(diainicio,'YYYY-MM-DD').format('YYYY-MM-DD')}/${moment(diaFin,'YYYY-MM-DD').format('YYYY-MM-DD')}`)
   .then(response => response.json())
   .then(data => {
       return data.pedidos_let;
@@ -28,8 +28,8 @@ async function pedidosbyDay(diaFin,diainicio) {
       TotalIngresos += parseFloat(element.monto_total);
     }    
   });
-  let inicio = moment(diainicio,'DD-MM-YYYY').format('YYYY-MM-DD');
-  let fin = moment(diaFin,'DD-MM-YYYY').format('YYYY-MM-DD');
+  let inicio = moment(diainicio,'YYYY-MM-DD').format('YYYY-MM-DD');
+  let fin = moment(diaFin,'YYYY-MM-DD').format('YYYY-MM-DD');
   GastosList.forEach(element => {
     if (moment(element.fecha).isBetween(inicio,fin, undefined, '[]')) {
       GastosbyDay += parseFloat(element.monto);
