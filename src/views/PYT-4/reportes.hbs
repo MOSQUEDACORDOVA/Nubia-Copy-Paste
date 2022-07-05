@@ -385,7 +385,7 @@
                 <div class="form-group d-none" id="personalList">
                   <label for="register-ciudad" class="form-label">Seleccione un personal</label>
                   <select name="personal" placeholder="personal" aria-describedby="register-ciudad" tabindex="3"
-                    class="form-control mb-2 personal_reg_modal_pedido" id='personal'>
+                    class="form-control mb-2 personal_reg_modal_pedido" id='personal_gastos'>
                     <option selected value="">Seleccione un personal</option>
                     {{#each personalList as |personal i |}}
                     <option value="{{id}}">{{name}} {{lastName}}</option>
@@ -394,14 +394,14 @@
                 </div>
                 <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
                   <input type="date" name="fecha" tabindex="1" class="form-control flatpickr-basic flatpickr-input mb-2"
-                    id="fecha">
+                    id="fecha_gastos">
                 </div>
                 <div class="form-group"><label for="register-firstName" class="form-label">Monto:</label>
                   <input type="number" name="monto_gastos" class="form-control mb-2" id="monto_gastos">
                 </div>
                 <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
                   <input type="text" name="observacion" placeholder="Observación" class="form-control mb-2"
-                    id="observacion">
+                    id="observacion_gastos">
                 </div>
                 <div class="modal-footer">
                   <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light"
@@ -436,6 +436,10 @@
                                                 <th></th>
                                                 <th>Cliente</th>
                                                 <th>Total garrafones</th>
+                                                <th>Refill</th>
+                                                <th>Canje</th>
+                                                <th>Nuevo</th>
+                                                <th>Obsequio</th>
                                                 <th>Monto Total</th>
                                                 <th>Status del Pedido</th>
                                                 <th>Status de Pago</th>
@@ -495,6 +499,10 @@
     }
     if ($('#ventasChk').is(':checked') && $('#selectChofer').val() == 0 &&  $('#tipoCliente').val() !== 0) {
       ventasXfecha($('#fDesde').val(), $('#dHasta').val(), null, null, $('#tipoCliente').val());//clientesNuevosChk
+      return
+    }
+    if ($('#ventasChk').is(':checked') && $('#selectChofer').val() != 0 &&  $('#tipoCliente').val() !== 0) {
+      ventasXfecha($('#fDesde').val(), $('#dHasta').val(), null, $('#selectChofer').val(), $('#tipoCliente').val());//clientesNuevosChk
       return
     }
 
@@ -588,9 +596,23 @@
           }
         });
         break;
+      case zona == null && chofer != null && tipoCliente == 'Nuevos': //tipoCliente
+     pedidos.forEach(element => {
+          if (element.status_pedido == "Entregado" && element.status_pago == "Pagado" && element.personalId == chofer && element.cliente.nuevo == 'SI') {
+            pedidosTotalizado.push(element)
+          }
+        });
+        break;
               case zona == null && chofer == null && tipoCliente !== 'Nuevos': //tipoCliente
      pedidos.forEach(element => {
           if (element.status_pedido == "Entregado" && element.status_pago == "Pagado" && element.cliente.tipo == tipoCliente) {
+            pedidosTotalizado.push(element)
+          }
+        });
+        break;
+              case zona == null && chofer != null && tipoCliente !== 'Nuevos': //tipoCliente
+     pedidos.forEach(element => {
+          if (element.status_pedido == "Entregado" && element.status_pago == "Pagado"&& element.personalId == chofer && element.cliente.tipo == tipoCliente) {
             pedidosTotalizado.push(element)
           }
         });
@@ -793,6 +815,10 @@ async function createTable (pedidosTotalizado){
                                                 <th></th>
                                                 <th>Cliente</th>
                                                 <th>Total garrafones</th>
+                                                <th>Refill</th>
+                                                <th>Canje</th>
+                                                <th>Nuevo</th>
+                                                <th>Obsequio</th>
                                                 <th>Monto Total</th>
                                                 <th>Status del Pedido</th>
                                                 <th>Status de Pago</th>
@@ -843,6 +869,10 @@ async function createTable (pedidosTotalizado){
         { data: 'sucursaleId', visible:false },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
+        { data: 'total_refill_pedido' },
+        { data: 'total_canje_pedido' },
+        { data: 'total_nv_pedido' },
+        { data: 'total_obsequio_pedido' },///7
         { data: 'monto_total'}, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
@@ -884,7 +914,7 @@ async function createTable (pedidosTotalizado){
          /* { visible: false, targets: groupColumn2,
            
           },*/
-          { visible: false, targets: 10,
+          { visible: false, targets: 14,
             render: function (data, type, full) {
               let asentamiento = ""
               for (let i = 0; i < codigosP_arr.length; i++) {
@@ -982,7 +1012,7 @@ async function createTable (pedidosTotalizado){
         },
         {
           // Label
-          targets: 4,
+          targets: 8,
           render: function (data, type, full, meta) {
             
             let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
@@ -1005,7 +1035,7 @@ async function createTable (pedidosTotalizado){
       },
         {
           // Label
-          targets: 5,
+          targets: 9,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
@@ -1027,7 +1057,7 @@ async function createTable (pedidosTotalizado){
         },
         {
           // Label
-          targets: 6,
+          targets: 10,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -1043,14 +1073,14 @@ async function createTable (pedidosTotalizado){
         },
         {
           // Label
-          targets: 7,
+          targets: 11,
           render: function (data, type, full, meta) {
             let span = `<span id="mPago${full['id']}" class="badge rounded-pill badge-light-info" style="cursor:pointer" onclick=\'cambioMetodoPago("${full['id']}","${data}","${meta.row}","datatables-basic2")\'>${data}</span>`;
             return span;
           }
         },
         {
-          targets: 8,
+          targets: 12,
           render:function(data){
             let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
             return fecha;

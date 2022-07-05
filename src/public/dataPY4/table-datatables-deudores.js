@@ -78,8 +78,12 @@
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
- function tablaDeudores(rechar) {
-    
+ async function tablaDeudores(rechar) {
+  let zonas =await  fetch('/obtenerzonaspy4')
+  .then(response => response.json())
+  .then(data => {
+      return data.zonas
+  });
   let valor = $('#pedidos_deudores').val()
   let array2 = ""
   if (rechar) {
@@ -145,6 +149,7 @@ maxDate2 = new DateTime($('#max1'), {
       columns: [
         { data: 'id' },
         { data: 'id' },
+        { data: 'sucursaleId' },
         { data: 'cliente.firstName' },
         { data: 'status_pago' },
         { data: 'monto_total' },
@@ -222,14 +227,27 @@ Env: ${Env}.</p>`
               '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
           }
         },
-        { targets: 4,className:'to_total2',
+        {
+          // Label
+          targets: 2,
+          render: function (data, type, full, meta) { 
+                   var zona_arr ;   
+            for (let i = 0; i < zonas.length; i++) {
+              if (zonas[i].id == full['cliente']['sucursaleId']) {
+                zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+              }                     
+            }
+            return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${full['cliente']['sucursaleId']}</span>`);
+          }
+        },
+        { targets: 5,className:'to_total2',
           render: function (data, type, full) {
             
             return `<span class="d-none cantidad">${data}</span>$${data}`
           }
           
         },
-        { visible: false, targets: 7,
+        { visible: false, targets: 8,
           render: function (data, type, full) {
             
             if (full['cliente']['etiqueta'] == null) {
@@ -265,7 +283,7 @@ Env: ${Env}.</p>`
         },
         {
           // Label
-          targets: 2,
+          targets: 3,
           render: function (data, type, full, meta) {
             let asentamiento = ""
             for (let i = 0; i < codigosP_arr.length; i++) {
@@ -304,7 +322,7 @@ Env: ${Env}.</p>`
         },
         {
           // Label
-          targets: 3,
+          targets: 4,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -325,7 +343,7 @@ Env: ${Env}.</p>`
           }
         },
         {
-          targets: 5,className:'fecha_pedido',
+          targets: 6,className:'fecha_pedido',
           render:function(data, type, full){
             
            // return moment.tz(data, 'America/Mexico_City').format('DD/MM/YYYY');
@@ -336,7 +354,7 @@ Env: ${Env}.</p>`
         
       ],
           
-      order: [[3, 'desc']],
+      order: [[4, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -399,6 +417,25 @@ Env: ${Env}.</p>`
       dt_basic.draw();
       });
   }
+  $.contextMenu({
+    selector: '.zona',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      var Array = e.currentTarget['dataset']["arrzona"];
+       var zona = JSON.parse(decodeURIComponent(Array));
+     console.log(zona)
+     
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+            },
+            items: {
+                "Zona": { name: `Zona: ${zona.nombre}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+            }
+        };
+    }
+  });
 }
 
  // Advanced Search Functions Ends
