@@ -13,7 +13,7 @@ $(function () {
     let count_bwaters_garrafon = $('#count_bwaters_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_bwaters_garrafon)
 
-    let monto = parseInt(cant) * 5.50
+    let monto = parseInt(cant) * 7
 
     $('#relleno_garrafon_mont').val(monto)
   //  $('#total_garrafon').val(suma)
@@ -31,7 +31,7 @@ $(function () {
     let cant = e.target.value
     let count_relleno_garrafon = $('#count_relleno_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_relleno_garrafon)
-    let monto = parseInt(cant) * 15
+    let monto = parseInt(cant) * 25
    
     $('#bwaters_garrafon_mont').val(monto)
    // $('#total_garrafon').val(suma)
