@@ -4724,7 +4724,9 @@ exports.createGasto = async (req,res) => {
   //   return res.send({verificaGastoRepeat});
   // }
   let listaGastos = JSON.parse(await DataBase.createGasto(categoria, monto_gastos,fecha,observacion,userId,personalId,zona));
-  listaGastos = JSON.parse(await DataBase.verificaGasto(categoria, fecha,personalId,zona));
+  console.log("🚀 ~ file: dashboardControllerPY4.js ~ line 4727 ~ exports.createGasto= ~ listaGastos", listaGastos)
+  // listaGastos = JSON.parse(await DataBase.verificaGasto(categoria, fecha,personalId,zona));
+  console.log("🚀 ~ file: dashboardControllerPY4.js ~ line 4728 ~ exports.createGasto= ~ listaGastos", listaGastos)
   
   res.send({listaGastos});
 };
