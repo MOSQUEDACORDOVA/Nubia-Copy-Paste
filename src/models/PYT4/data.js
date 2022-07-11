@@ -1385,6 +1385,51 @@ console.log(hoy)
         });
     });
   },
+  Verf_deuda_pedidoTNull(id_sucursal){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {
+        status_pago:'Por verificar',
+        status_pedido:'Entregado',
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ]})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  Verf_deuda_pedidoT(id_sucursal){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {
+        status_pago:'Por verificar',
+        status_pedido:'Entregado',
+        sucursaleId: id_sucursal
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ]})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   Verf_deuda_pedido(id,id_sucursal){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
