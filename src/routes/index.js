@@ -204,6 +204,7 @@ router.post('/cambia_titulo_cliente', authControllerPY4.authenticatedUser,dashbo
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
 router.post('/cambia_S_pago', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser, dashboardControllerPY4.verifica_deuda_pedido);
+router.get('/verificar_deudaT', authControllerPY4.authenticatedUser, dashboardControllerPY4.verifica_deudores);
 router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago_deudor);
 
 //CopyClipboard

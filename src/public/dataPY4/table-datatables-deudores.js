@@ -84,21 +84,17 @@
   .then(data => {
       return data.zonas
   });
-  let valor = $('#pedidos_deudores').val()
-  let array2 = ""
-  if (rechar) {
-    
-    array2 = JSON.parse(valor)
-
-  }else{
-    array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
-  }
+  let deudores =await  fetch('/verificar_deudaT')
+  .then(response => response.json())
+  .then(data => {
+    return data.deuda
+  });
+  console.log("🚀 ~ file: table-datatables-deudores.js ~ line 88 ~ tablaDeudores ~ valor", deudores)
+  //let valor = $('#pedidos_deudores').val()
+  
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
-  console.log(array2)
-  //let stproductos = JSON.parse(array.productos)
-  let status_pedido = array2.filter(status => status.status_pedido == "Entregado" && status.status_pago == "Por verificar" ); // return implicito
-  console.log(status_pedido)
+
   var dt_basic_table = $('.datatables-deudores'),
     assetPath = '../../dataPY4/';
 
@@ -145,7 +141,7 @@ maxDate2 = new DateTime($('#max1'), {
     dt_basic.search(this.value).draw();   
  });
     var dt_basic = dt_basic_table.DataTable({
-      data: status_pedido,
+      data: deudores,
       columns: [
         { data: 'id' },
         { data: 'id' },
@@ -395,7 +391,7 @@ Env: ${Env}.</p>`
         var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
         let sumaT = 0;
-          api.column(4, { page: 'current' }).data().each(function(group, i){
+          api.column(5, { page: 'current' }).data().each(function(group, i){
             sumaT +=parseInt(group)
            
         });

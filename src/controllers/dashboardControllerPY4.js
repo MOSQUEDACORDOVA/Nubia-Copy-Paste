@@ -2606,7 +2606,28 @@ exports.verifica_deuda_pedido = (req, res) => {
     return res.status(200).send({ deuda: deuda_monto, prestados: prestados });
   });
 };
+exports.verifica_deudores = (req, res) => {
+  let id_cliente = req.body.id_cliente;
+  let Verf_deuda_pedido;
+  if (req.session.sucursal_select == null) {
+    Verf_deuda_pedidoT = DataBase.Verf_deuda_pedidoTNull;
+  } else {
+    Verf_deuda_pedidoT = DataBase.Verf_deuda_pedidoT;
+  }
+  Verf_deuda_pedidoT(id_cliente).then((desc_) => {
+    let deuda = JSON.parse(desc_);
+    console.log("🚀 ~ file: dashboardControllerPY4.js ~ line 2619 ~ Verf_deuda_pedidoT ~ deuda", deuda)
+    let deuda_monto = 0,
+      prestados = 0;
+    for (let i = 0; i < deuda.length; i++) {
+      deuda_monto = parseFloat(deuda_monto) + parseFloat(deuda[i].monto_total);
+      prestados =
+        parseFloat(prestados) + parseFloat(deuda[i].garrafones_prestamos);
+    }
 
+    return res.status(200).send({ deuda, prestados: prestados });
+  });
+};
 //CP
 exports.consultaCP = (req, res) => {
   let cp = req.body.cp;
