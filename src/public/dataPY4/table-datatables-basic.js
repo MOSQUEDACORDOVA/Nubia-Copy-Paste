@@ -971,8 +971,9 @@ async function cargaPedidos() {
     });
     console.log(codigo_referido)
     $(`#CopyPedido${id_edit}`).text(`
-    Toma B•Water Alcalina y siente el cambio. Registra tu pedido 💦
-    ¡REFIERE Y GANA! $$: 
+    Toma B•Water Alcalina y siente la diferencia...😏
+ 📲Registra tu pedido💧
+🫶 ¡REFIERE Y GANA!💰💰 
     https://alcalina.bwater.mx/referido-bwater/${codigo_referido}`)
     copyToClipboard(`#CopyPedido${id_edit}`)
   }
