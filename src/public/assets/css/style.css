@@ -429,6 +429,12 @@ table.dataTable>thead .sorting_desc_disabled:after {
 }
 
 
+.py4 .social-links .social-icons {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
 /*--------------------------- PYT-21 ---------------------------*/
 
 .py21 .btn-primary,
