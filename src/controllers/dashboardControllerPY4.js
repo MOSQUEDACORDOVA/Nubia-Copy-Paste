@@ -2609,12 +2609,13 @@ exports.verifica_deuda_pedido = (req, res) => {
 exports.verifica_deudores = (req, res) => {
   let id_cliente = req.body.id_cliente;
   let Verf_deuda_pedido;
-  if (req.session.sucursal_select == null) {
+  let user = res.locals.user;
+  if (req.session.sucursal_select == null || user.tipo == "Director") {
     Verf_deuda_pedidoT = DataBase.Verf_deuda_pedidoTNull;
   } else {
     Verf_deuda_pedidoT = DataBase.Verf_deuda_pedidoT;
   }
-  Verf_deuda_pedidoT(id_cliente).then((desc_) => {
+  Verf_deuda_pedidoT(req.session.sucursal_select).then((desc_) => {
     let deuda = JSON.parse(desc_);
     console.log("🚀 ~ file: dashboardControllerPY4.js ~ line 2619 ~ Verf_deuda_pedidoT ~ deuda", deuda)
     let deuda_monto = 0,
