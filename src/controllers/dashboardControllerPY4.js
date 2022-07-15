@@ -250,7 +250,7 @@ exports.obtenerPedidosReprogramados = async (req, res)=>{
                 let pedidos_let = JSON.parse(pedidos_);
                 let reprogramados = [];
                 pedidos_let.forEach(element => {
-                  if (element.status_pedido == 'Reprogramado') {
+                  if (element.status_pedido == 'Reprogramado' || element.status_pedido == 'Por entregar') {
                     reprogramados.push(element)
                   }
                 });
