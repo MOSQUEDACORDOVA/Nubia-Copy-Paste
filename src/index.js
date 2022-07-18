@@ -27,43 +27,43 @@ db.sync()
  		console.log('Error: ', err);
  	});
 // Conectar con la base de datos PYT21
-db21.sync()
- 	.then(() => {
- 		console.log('Base de datos conectada PY21');
- 	})
- 	.catch(err => {
- 		console.log('Error: ', err);
- 	});
+// db21.sync()
+//  	.then(() => {
+//  		console.log('Base de datos conectada PY21');
+//  	})
+//  	.catch(err => {
+//  		console.log('Error: ', err);
+//  	});
 
-// Conectar con la base de datos PYT24
-db24.sync()
-.then(() => {
-	console.log('Base de datos conectada PY24');
-})
-.catch(err => {
-	console.log('Error: ', err);
-});
-require('./models/PYT24/Usuarios');
+// // Conectar con la base de datos PYT24
+// db24.sync()
+// .then(() => {
+// 	console.log('Base de datos conectada PY24');
+// })
+// .catch(err => {
+// 	console.log('Error: ', err);
+// });
+// require('./models/PYT24/Usuarios');
 
-// Conectar con la base de datos PYT27
-db27.sync()
-.then(() => {
-	console.log('Base de datos conectada PY27');
-})
-// Conectar con la base de datos PYT672
-db672.sync()
-.then(() => {
-	console.log('Base de datos conectada PY672');
-})
-// Conectar con la base de datos PASARELA
+// // Conectar con la base de datos PYT27
+// db27.sync()
+// .then(() => {
+// 	console.log('Base de datos conectada PY27');
+// })
+// // Conectar con la base de datos PYT672
+// db672.sync()
+// .then(() => {
+// 	console.log('Base de datos conectada PY672');
+// })
+// // Conectar con la base de datos PASARELA
 
-dbPasarela.sync()
-.then(() => {
-	console.log('Base de datos conectada PASARELA');
-})
-.catch(err => {
-	console.log('Error: ', err);
-});
+// dbPasarela.sync()
+// .then(() => {
+// 	console.log('Base de datos conectada PASARELA');
+// })
+// .catch(err => {
+// 	console.log('Error: ', err);
+// });
 // Crear el servidor de express
 const app = express();
 // Habilitar body parser

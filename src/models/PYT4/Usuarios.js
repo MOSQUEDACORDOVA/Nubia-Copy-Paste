@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 const bcrypt = require('bcrypt-nodejs');
-//const Sucursales = require("../../models/PYT4/Sucursales");
+const Personal = require("../../models/PYT4/Personal");
 const Usuarios = db.define('usuarios', {
 	id: {
 		type: DataTypes.INTEGER,
@@ -60,8 +60,7 @@ Usuarios.prototype.verifyPassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 }
 
-///Usuarios.Sucursales= Usuarios.belongsTo(Sucursales);
-
+Usuarios.Personal= Usuarios.belongsTo(Personal);
 
 module.exports = Usuarios;
 

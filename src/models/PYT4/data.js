@@ -3232,4 +3232,28 @@ deleteGasto(id){
   });
 },
 
+
+/**API-APP MOVIL */
+PedidosChoferbyDia(dia, personalId){
+  return new Promise((resolve, reject) => {
+    Pedidos.findAll({where: {fecha_pedido: dia, personalId:personalId, status_pedido:'Por entregar'},include:[
+      {association:Pedidos.Usuarios },
+      {association:Pedidos.Clientes, include:[
+        {association:Clientes.Etiquetas },] },
+      {association:Pedidos.Personal },
+  ], limit: 800 ,order: [
+    // Will escape title and validate DESC against a list of valid direction parameters
+    ['fecha_pedido', 'DESC'],]
+    },)
+      .then((data) => {
+        let data_p = JSON.stringify(data);
+        //console.log(data)
+        resolve(data_p);
+        ////console.log(id_usuario);
+      })
+      .catch((err) => {
+        reject(err)
+      });
+  });
+},
 /**END OF EXPORT */};
