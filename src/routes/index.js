@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 const authControllerPY4 = require('../controllers/authControllerpy4');
 const dashboardController = require('../controllers/dashboardController');
 const dashboardControllerPY4 = require('../controllers/dashboardControllerPY4');
+const apiControllerPY4 = require('../controllers/apiPY4');
 const maquilaControllerPY4 = require('../controllers/maquilaControllerPY4');
 const landingController = require('../controllers/landingController');
 const passport = require('passport');
@@ -250,10 +251,14 @@ router.post('/save-edit-pedido-maquila', authControllerPY4.authenticatedUser, ma
 
 router.get('/ventas-del-dia/:dia_select', authControllerPY4.authenticatedUser, maquilaControllerPY4.ventas_del_dia);
 
-
+/**API - APP MOVIL */
 router.get('/app-home', dashboardControllerPY4.appHome);
 router.get('/app-login', dashboardControllerPY4.appLogin);
 router.get('/app-pedido', dashboardControllerPY4.appPedido);
+
+router.get('/api/obtenerPedidos/:personalId', apiControllerPY4.obtenerPedidos);
+router.get('/api/obtenerPedidos/:personalId/:day', apiControllerPY4.obtenerPedidos);
+router.post('/app-loginpyt4', apiControllerPY4.sesionstart);
 
 /* ---FIN PY4---  */
 
