@@ -17,15 +17,21 @@ async function getGastos(again) {
     pedidosbyDay(moment().format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'));
 }
 async function pedidosbyDay(diaFin,diainicio) {
-  let TotalIngresos=0, GastosbyDay=0, gananciasT=0;
+  let ventaBruta=0, porVerificar=0,GastosbyDay=0, gananciasT=0, pagados = 0;
   pedidos = await fetch(`/getPedidosbyDaypy4/${moment(diainicio,'YYYY-MM-DD').format('YYYY-MM-DD')}/${moment(diaFin,'YYYY-MM-DD').format('YYYY-MM-DD')}`)
   .then(response => response.json())
   .then(data => {
       return data.pedidos_let;
   });
   pedidos.forEach(element => {
+    if (element.status_pedido=="Entregado") {
+      ventaBruta += parseFloat(element.monto_total);
+    }    
+    if (element.status_pedido=="Entregado" && element.status_pago == "Por verificar") {
+      porVerificar += parseFloat(element.monto_total);
+    }    
     if (element.status_pedido=="Entregado" && element.status_pago == "Pagado") {
-      TotalIngresos += parseFloat(element.monto_total);
+      pagados += parseFloat(element.monto_total);
     }    
   });
   let inicio = moment(diainicio,'YYYY-MM-DD').format('YYYY-MM-DD');
@@ -35,12 +41,15 @@ async function pedidosbyDay(diaFin,diainicio) {
       GastosbyDay += parseFloat(element.monto);
     }    
   });
-  gananciasT = TotalIngresos -GastosbyDay; 
+  gananciasT = ventaBruta -porVerificar- GastosbyDay; 
+  console.log("🚀 ~ file: table-datatables-gastos.js ~ line 35 ~ pedidosbyDay ~ pagados", pagados)
   $('#fechaT').text(diaFin + ' hasta '+ diainicio);
-  $('#ingresosT').text('$'+TotalIngresos);
-  $('#gastosT').text('$'+GastosbyDay);
-  $('#gananciasT').text('$'+gananciasT);
-  gananciasChart(gananciasT, TotalIngresos, GastosbyDay);
+
+  $('#ventasBruta').text('$'+ventaBruta);
+  $('#porVerificar').text('$'+porVerificar);
+  $('#gastosGrafica').text('$'+GastosbyDay);
+  $('#gananciaNeta').text('$'+gananciasT);
+  gananciasChart(gananciasT, ventaBruta,porVerificar, GastosbyDay);
 }
  function cargaTabla() {  
   
@@ -359,60 +368,63 @@ $('#observacion_gastos').val(data.listaGastos.observacion);
       }
     });
   }
-  async function gananciasChart(gananciasT, TotalIngresos, GastosbyDay) {
+  async function  gananciasChart(gananciasT, ventaBruta,porVerificar, GastosbyDay){
+    console.log("🚀 ~ file: table-datatables-gastos.js ~ line 372 ~ gananciasChart ~ GastosbyDay", GastosbyDay)
+    console.log("🚀 ~ file: table-datatables-gastos.js ~ line 372 ~ gananciasChart ~ porVerificar", porVerificar)
+    console.log("🚀 ~ file: table-datatables-gastos.js ~ line 372 ~ gananciasChart ~ ventaBruta", ventaBruta)
+    console.log("🚀 ~ file: table-datatables-gastos.js ~ line 372 ~ gananciasChart ~ gananciasT", gananciasT)
     let gananciasCharts
-    console.log(gananciasT)
-    console.log(TotalIngresos)
-    console.log(GastosbyDay)
 let optionsC
 optionsC = {
-            series: [gananciasT, TotalIngresos, GastosbyDay],
+            series: [{
+              data: [ventaBruta,porVerificar,GastosbyDay,gananciasT ]
+            }],
             chart: {
               width: '100%',
-              type: 'donut',
+              height: '350',
+              type: 'bar',
             },
-            labels: ['Ganancias','Ingresos','Gastos'],
+            // labels: ['Ganancias','Ingresos','Gastos'],
+            xaxis: {
+              categories: ['Venta bruta', 'Por verificar', 'Gastos', 'Ganancia neta'],
+            },
             dataLabels: {
               enabled: false,
-              textAnchor: 'middle'
+              // textAnchor: 'middle'
             },
-            responsive: [{
-              breakpoint: 568,
-              options: {
-                chart: {
-                  width: '100%'
-                },
-                /*plotOptions: {
-                  pie: {
-                    donut: {
-                      labels: {
-                        show: false,
-                      }
-                    },
-                  }
-                }*/
-              },
-            }],
+            // responsive: [{
+            //   breakpoint: 568,
+            //   options: {
+            //     chart: {
+            //       width: '100%'
+            //     },
+            //     /*plotOptions: {
+            //       pie: {
+            //         donut: {
+            //           labels: {
+            //             show: false,
+            //           }
+            //         },
+            //       }
+            //     }*/
+            //   },
+            // }],
+            plotOptions: {
+              bar: {
+                borderRadius: 4,
+                horizontal: true,
+              }
+            },
             legend: {
               position: 'top',
               offsetY: 0,
               height: 50,
             },
-            plotOptions: {
-              pie: {
-                donut: {
-                  labels: {
-                    show: true,
-                  }
-                },
-              
-              }
-            }
           };
           
           gananciasCharts = new ApexCharts(document.querySelector("#chart5"), optionsC);
           gananciasCharts.render();
           gananciasCharts.updateOptions([{
-            series: [gananciasT, TotalIngresos, GastosbyDay]
+            series: [gananciasT, ventaBruta,porVerificar, GastosbyDay]
           }])
   }

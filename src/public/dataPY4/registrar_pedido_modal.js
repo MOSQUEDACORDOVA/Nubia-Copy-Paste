@@ -59,7 +59,7 @@
      let monto = parseInt(cant) * 65
  
      if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
-       monto = parseInt(cant) * 30
+       monto = parseInt(cant) * 65
      }
      $('#canje_garrafon_mont').val(monto)
      $('#total_garrafon').val(suma)
